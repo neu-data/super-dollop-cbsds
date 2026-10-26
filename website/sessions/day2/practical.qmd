@@ -1,0 +1,189 @@
+---
+title: "Day 2 practical · Regression and an introduction to data science"
+---
+
+```{r}
+#| include: false
+library(dplyr)
+library(ggplot2)
+library(broom)
+source("../../../R/theme_neudata.R")
+hearts <- readRDS("../../../data/hearts.rds") |>
+  mutate(age10 = age / 10, bmi5 = bmi / 5, activity_hr = activity_min / 60)
+```
+
+Part A is the main modelling practical. Parts B and C are guided demonstrations: run the code, read the output and answer the questions. The aim is to understand what the models say, not to master them in one afternoon.
+
+## Part A · Correlation and linear regression (50 min)
+
+Script: `R/05_correlation_regression.R`
+
+::: {.callout-note .exercise}
+## Exercise 2.1 · Scatterplot and correlation
+Plot `sbp_0` against `bmi`, then calculate Pearson's and Spearman's correlations. Describe the direction, form and strength. Does this show that BMI raises blood pressure?
+
+```r
+ggplot(hearts, aes(x = bmi, y = sbp_0)) + geom_point(alpha = 0.4)
+cor.test(~ sbp_0 + bmi, data = hearts)
+cor.test(~ sbp_0 + bmi, data = hearts, method = "spearman", exact = FALSE)
+```
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+#| fig-height: 3.4
+#| warning: false
+ggplot(hearts, aes(bmi, sbp_0)) + geom_point(alpha = 0.4, colour = neudata_cols[["teal"]])
+cor.test(~ sbp_0 + bmi, data = hearts)$estimate
+cor.test(~ sbp_0 + bmi, data = hearts)$conf.int
+```
+Moderate positive, roughly linear association: r = 0.48 (95% CI 0.40 to 0.54). Correlation alone does not show causation; age and lifestyle could affect both.
+:::
+:::
+
+::: {.callout-note .exercise}
+## Exercise 2.2 · Simple linear regression
+Fit `lm(sbp_0 ~ bmi)` and the same model with `bmi5 = bmi / 5`. Interpret the slope per 1 and per 5 kg/m² with 95% CIs, and R². Check the residual plots.
+
+```r
+fit_bmi <- lm(sbp_0 ~ bmi, data = hearts)
+tidy(fit_bmi, conf.int = TRUE); glance(fit_bmi)
+par(mfrow = c(2, 2)); plot(fit_bmi); par(mfrow = c(1, 1))
+```
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+fit_bmi <- lm(sbp_0 ~ bmi, data = hearts)
+tidy(fit_bmi, conf.int = TRUE)
+tidy(lm(sbp_0 ~ bmi5, data = hearts), conf.int = TRUE)[2, ]
+glance(fit_bmi)[, c("r.squared", "sigma", "nobs")]
+```
+Each 5 kg/m² higher BMI is associated with mean SBP about 9.4 mmHg higher (7.8 to 10.9). R² = 0.23. Residual plots show no curve or funnel; independence comes from the design.
+:::
+:::
+
+::: {.callout-note .exercise}
+## Exercise 2.3 · Confounding
+Is smoking associated with SBP? Fit a crude model and one adjusted for age and sex. Why does the estimate change? Interpret the adjusted coefficient in a sentence starting "Among people of the same ...". Is CRP a confounder or more like a mediator here?
+
+```r
+tidy(lm(sbp_0 ~ smoker, data = hearts), conf.int = TRUE)
+tidy(lm(sbp_0 ~ smoker + age + sex, data = hearts), conf.int = TRUE)
+```
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+bind_rows(tidy(lm(sbp_0 ~ smoker, data = hearts), conf.int = TRUE) |> mutate(model = "crude"),
+          tidy(lm(sbp_0 ~ smoker + age + sex, data = hearts), conf.int = TRUE) |> mutate(model = "adjusted")) |>
+  filter(term == "smokerYes") |> select(model, estimate, conf.low, conf.high)
+```
+Crude 12.5 mmHg, adjusted 7.0 (3.7 to 10.3). Smokers are older and more often male, and both raise SBP. "Among people of the same age and sex, smokers had a mean SBP about 7 mmHg higher." CRP is raised by smoking and does not cause smoking, so it is not a confounder; do not adjust for it when estimating the total association.
+:::
+:::
+
+::: {.callout-note .exercise}
+## Exercise 2.4 · Plot a fitted relationship
+Fit `lm(sbp_0 ~ bmi + age + sex)` and plot predicted SBP against BMI for women and men aged 50 (section E of the script). What does the model assume about the BMI slope in women and men?
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+#| fig-height: 3.4
+fit_b2 <- lm(sbp_0 ~ bmi + age + sex, data = hearts)
+new <- expand.grid(bmi = seq(18, 37, 0.5), age = 50, sex = factor(c("Female", "Male"), levels = c("Female", "Male")))
+new <- cbind(new, predict(fit_b2, newdata = new, interval = "confidence"))
+ggplot(new, aes(bmi, fit, colour = sex, fill = sex)) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.2, colour = NA) + geom_line(linewidth = 1) +
+  scale_colour_neudata() + scale_fill_neudata() +
+  labs(x = "BMI (kg/m²)", y = "Predicted mean SBP (mmHg)", colour = NULL, fill = NULL)
+```
+Parallel lines: the model assumes the same BMI slope in both sexes (no interaction).
+:::
+:::
+
+## Part B · Logistic and Poisson regression (20 min, guided)
+
+Script: `R/06_logistic_poisson.R`
+
+::: {.callout-note .exercise}
+## Exercise 2.5 · Logistic regression
+Model high BP at baseline using BMI (per 5 kg/m²), age (per 10 years) and sex. Interpret the aOR for `bmi5`. Why should it not be described as "times the risk"?
+
+```r
+fit_lb <- glm(high_bp_0 ~ bmi5 + age10 + sex, family = binomial, data = hearts)
+tidy(fit_lb, conf.int = TRUE, exponentiate = TRUE)
+```
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+fit_lb <- glm(high_bp_0 ~ bmi5 + age10 + sex, family = binomial, data = hearts)
+tidy(fit_lb, conf.int = TRUE, exponentiate = TRUE)
+```
+Among people of the same age and sex, each 5 kg/m² higher BMI goes with about 2.9 times the odds of high BP (2.1 to 4.2). High BP is common (26%), so the ratio of probabilities is smaller than the OR.
+:::
+:::
+
+::: {.callout-note .exercise}
+## Exercise 2.6 · Poisson regression
+Compare the rate of unplanned clinic visits between smokers and non-smokers, adjusting for age, with an offset for follow-up time. Interpret the IRR, check the dispersion ratio, and compare with quasi-Poisson.
+
+```r
+fit_ps <- glm(clinic_visits ~ smoker + age10 + offset(log(followup_months)),
+              family = poisson, data = hearts)
+tidy(fit_ps, conf.int = TRUE, exponentiate = TRUE)
+sum(residuals(fit_ps, type = "pearson")^2) / df.residual(fit_ps)
+```
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+fit_ps <- glm(clinic_visits ~ smoker + age10 + offset(log(followup_months)), family = poisson, data = hearts)
+tidy(fit_ps, conf.int = TRUE, exponentiate = TRUE)[2, ]
+sum(residuals(fit_ps, type = "pearson")^2) / df.residual(fit_ps)
+tidy(update(fit_ps, family = quasipoisson), conf.int = TRUE, exponentiate = TRUE)[2, ]
+```
+Smokers had about 24% more visits per month of follow-up. The offset is needed because follow-up ranged from 2 to 12 months. The dispersion ratio of about 2 means Poisson CIs are too narrow; quasi-Poisson keeps the IRR and widens the CI.
+:::
+:::
+
+## Part C · Clustering (20 min, guided)
+
+Script: `R/07_clustering.R`
+
+::: {.callout-note .exercise}
+## Exercise 2.7 · k-means: two or three clusters?
+Run the script, then fit k-means with k = 2 on the same scaled variables. Give each cluster a short descriptive name. Why were the variables scaled? Give two reasons to be cautious before reporting these clusters as real groups.
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+life <- hearts |> select(id, activity_min, diet_score, bmi) |> filter(!is.na(activity_min), !is.na(bmi))
+z <- scale(life[, 2:4])
+set.seed(2024); km2 <- kmeans(z, 2, nstart = 25)
+life |> mutate(k2 = factor(km2$cluster)) |> group_by(k2) |>
+  summarise(n = n(), activity = median(activity_min), diet = mean(diet_score), bmi = mean(bmi))
+```
+"More active, healthier diet, lower BMI" and "less active, higher BMI". Scaling stops activity minutes (hundreds) dominating the distances. Cautions: low silhouette widths (weak structure); results change with k, variables, scaling and method; clustering always returns clusters; no external validation yet.
+:::
+:::
+
+## Extensions (optional)
+
+| | Extension |
+|:--|:--|
+| E2.1 | Analysing a randomised trial: change scores vs baseline-adjusted (ANCOVA) estimate |
+| E2.2 | Train and test: compare training and test RMSE, and give an example of data leakage |
+| E2.3 | Negative binomial regression for the clinic visits |
+| E2.4 | Hierarchical clustering: average linkage vs Ward's method |
+
+Then go to the [final exercise](../final-exercise.qmd).

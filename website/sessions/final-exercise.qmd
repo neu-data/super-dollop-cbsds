@@ -1,0 +1,42 @@
+---
+title: "Final exercise · Choose, plot, conclude"
+---
+
+**25 minutes, alone or in pairs.** Pick one question, choose an analysis, produce one plot and write a plain-language conclusion. Use the [cheat sheet and decision diagrams](../resources.qmd) and the template script `R/08_final_exercise.R`. There is more than one defensible analysis for each question; what matters is that you can justify yours.
+
+[Final exercise sheet (PDF)](../downloads/workbook/Final_exercise.pdf) · [Word](../downloads/workbook/Final_exercise.docx)
+
+## Questions
+
+| | Question |
+|:--:|:--|
+| **F1** | Were participants in the lifestyle programme more satisfied with their care at 12 months than those given standard advice? |
+| **F2** | Do men and women differ in C-reactive protein (CRP) at baseline? |
+| **F3** | Is a healthier diet score associated with lower baseline systolic blood pressure, after allowing for age and sex? |
+| **F4** | Was high blood pressure at 12 months less common in the lifestyle programme group than in the standard advice group? |
+
+## Steps
+
+1. Write your question, the outcome and its type, the groups or exposure, and the design (independent or paired; any confounders).
+2. Choose an analysis and say why. Name one alternative and why you did not choose it.
+3. Describe the data: the numbers you will report, with denominators or n.
+4. Produce one plot that shows the answer.
+5. Report the effect estimate with its 95% CI, and say what you checked.
+6. Write a conclusion of 3 to 5 sentences for a reader with no statistical training: the size of the effect, the uncertainty, whether it matters in practice, and one limitation.
+
+::: {.key-findings}
+**What a strong answer looks like.** The method is linked to the question, outcome type and design, not to "the data are not normal". The result is an estimate with a 95% CI and n, not a p-value alone. Causal language is used only for the randomised comparison (programme), never for observational associations.
+:::
+
+::: {.content-visible when-profile="instructor"}
+## Model answers (instructor only)
+
+| | Suggested analysis | Key result |
+|:--:|:--|:--|
+| F1 | Percentages at each level; Wilcoxon rank-sum (ordinal outcome) | Satisfied (4 or 5): 54.9% vs 33.0%; p < 0.001 |
+| F2 | Median (IQR) by sex; t-test on log(CRP) or Wilcoxon | Geometric mean ratio men/women 1.08 (0.92 to 1.27): no clear difference |
+| F3 | Multiple linear regression adjusted for age and sex | -1.54 mmHg per diet point (-2.21 to -0.87); crude -2.32 |
+| F4 | 2 x 2 table, risk ratio; logistic adjusted for baseline high BP | 15.6% vs 23.3%, RR 0.67 (0.46 to 0.99); adjusted OR 0.46 (0.25 to 0.85) |
+
+Full model answers and a marking guide are in the instructor answer key.
+:::

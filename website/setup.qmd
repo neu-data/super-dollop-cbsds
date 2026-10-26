@@ -1,0 +1,48 @@
+---
+title: "Setup"
+---
+
+Please complete these steps **before Day 1**. They take about 30 minutes.
+
+## 1 · Install R
+
+Download and install R (version 4.1 or later) for your computer from <https://cran.r-project.org/>. Accept the default options. R is the program that does the calculations.
+
+## 2 · Install RStudio
+
+Download and install **RStudio Desktop** (free, open source) from <https://docs.posit.co/ide/user/download.html>. RStudio is the window you work in: script, console, plots and data side by side. Install R first.
+
+## 3 · Download the participant pack
+
+[Download the participant pack (zip)](downloads/Concepts-of-Biostatistics-and-Data-Science-participant-pack.zip){.btn .btn-primary role="button"}
+
+Unzip it somewhere you can find, for example your Documents folder. It contains the R scripts, the data, the workbook and the reference pack.
+
+## 4 · Open the project and check your computer
+
+1. Double-click `Concepts-of-Biostatistics-and-Data-Science.Rproj`. RStudio opens with the course folder as the working folder, so paths such as `data/hearts.csv` work.
+2. Open `R/00_install_and_check.R` and click **Source**. It installs the four course packages (readr, dplyr, ggplot2, broom) and checks that the data can be read.
+3. The last line in the Console should say:
+
+```
+Your computer is ready for the course.
+```
+
+::: {.callout-tip}
+## Running code in RStudio
+Put the cursor on a line and press **Ctrl+Enter** (Cmd+Enter on a Mac). Results appear in the Console, plots in the Plots pane. Run lines in order from the top of each script.
+:::
+
+## If something goes wrong
+
+| Message | What to do |
+|:--|:--|
+| `there is no package called ...` | Run `install.packages("name")` and try again |
+| `cannot open file 'data/...'` | You did not open the `.Rproj` file first, so R is looking in the wrong folder |
+| No internet during the course | The cleaned data are in `data/hearts.csv` and `data/hearts.rds`; nothing needs downloading |
+| Data files missing or damaged | Run `source("data/make_hearts_data.R")`; it rebuilds them using base R only |
+
+::: {.callout-note}
+## Can't install software on your computer?
+Bring your laptop anyway: the trainer will help at the start of Day 1, or you can pair with a neighbour. As a last resort, [Posit Cloud](https://posit.cloud) runs RStudio in a web browser; check its current account options before the course.
+:::

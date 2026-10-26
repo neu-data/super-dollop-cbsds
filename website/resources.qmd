@@ -1,0 +1,65 @@
+---
+title: "Resources"
+---
+
+## Downloads
+
+| Material | Files |
+|:--|:--|
+| Participant pack (scripts, data, workbook, reference pack) | [zip](downloads/Concepts-of-Biostatistics-and-Data-Science-participant-pack.zip) |
+| Course overview and timetable | [PDF](downloads/course/Course_overview_and_timetable.pdf) · [Word](downloads/course/Course_overview_and_timetable.docx) |
+| Participant workbook | [PDF](downloads/workbook/Participant_workbook.pdf) · [Word](downloads/workbook/Participant_workbook.docx) |
+| Slides, Day 1 | [PDF](downloads/slides/Day1_Understanding_data_and_comparisons.pdf) · [PowerPoint](downloads/slides/Day1_Understanding_data_and_comparisons.pptx) |
+| Slides, Day 2 | [PDF](downloads/slides/Day2_Regression_and_data_science.pdf) · [PowerPoint](downloads/slides/Day2_Regression_and_data_science.pptx) |
+| Statistics and R cheat sheet | [PDF](downloads/reference/cheat_sheet.pdf) |
+| Decision diagrams for choosing an analysis | [PDF](downloads/reference/decision_diagrams.pdf) |
+| Method-selection guide | [PDF](downloads/reference/method_selection_guide.pdf) |
+| Course data | [hearts_raw.csv](downloads/data/hearts_raw.csv) · [hearts.csv](downloads/data/hearts.csv) · [data dictionary](downloads/data/data_dictionary.csv) |
+
+## Choosing an analysis
+
+Start with the question, then the outcome type, then the design. These diagrams are starting points, not automatic rules. Click a diagram to open it full size.
+
+::: {.panel-tabset}
+
+### Start here
+[![](downloads/diagrams/D0_start_here.png){fig-alt="Decision diagram: the four starting questions"}](downloads/diagrams/D0_start_here.png)
+
+### Describe
+[![](downloads/diagrams/D1_describe.png){fig-alt="Decision diagram: summaries and plots by variable type"}](downloads/diagrams/D1_describe.png)
+
+### Compare groups
+[![](downloads/diagrams/D2_compare_continuous.png){fig-alt="Decision diagram: comparing a continuous or ordinal outcome between groups"}](downloads/diagrams/D2_compare_continuous.png)
+
+### Categorical
+[![](downloads/diagrams/D3_categorical.png){fig-alt="Decision diagram: categorical outcomes, tables and effect measures"}](downloads/diagrams/D3_categorical.png)
+
+### Regression
+[![](downloads/diagrams/D4_association_regression.png){fig-alt="Decision diagram: association and regression models"}](downloads/diagrams/D4_association_regression.png)
+
+### Clustering
+[![](downloads/diagrams/D5_clustering.png){fig-alt="Decision diagram: discovering groups with clustering"}](downloads/diagrams/D5_clustering.png)
+
+### Design check
+[![](downloads/diagrams/D6_design_check.png){fig-alt="Decision diagram: when basic independent-observation methods are inappropriate"}](downloads/diagrams/D6_design_check.png)
+
+:::
+
+## The course dataset
+
+The Healthy Hearts District Study is **simulated**: 480 adults aged 30 to 74 from four districts, measured at baseline and randomly allocated to standard advice or a lifestyle programme, with 12-month follow-up. It contains continuous, categorical, ordinal and count variables, realistic missing values and a `-99` code to clean. Results are for teaching only. The [data dictionary](downloads/data/data_dictionary.csv) describes every variable.
+
+## Further reading
+
+- Kirkwood BR, Sterne JAC. *Essential Medical Statistics*. 2nd ed. Blackwell Science; 2003.
+- Agresti A. *An Introduction to Categorical Data Analysis*. 3rd ed. Wiley; 2019.
+- Wickham H, Çetinkaya-Rundel M, Grolemund G. *R for Data Science*. 2nd ed. Free online: <https://r4ds.hadley.nz>
+
+## Getting help
+
+- During the course: ask the trainer or your neighbour.
+- After the course: email [contact@neu-data.com](mailto:contact@neu-data.com).
+
+## About Neudata
+
+Neudata Consulting Ltd provides data science, biostatistics and research analytics consulting and training. Visit [www.neu-data.com](https://www.neu-data.com) for more courses.

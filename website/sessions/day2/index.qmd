@@ -1,0 +1,51 @@
+---
+title: "Day 2 · Regression and an introduction to data science"
+---
+
+Two hours of theory followed by two hours of guided practical work in R, ending with the final exercise.
+
+## Learning objectives
+
+By the end of Day 2 you will be able to:
+
+- Explain the difference between describing, estimating associations, predicting and discovering groups
+- Use a scatterplot and correlation to describe a relationship, and explain why association is not causation
+- Fit and interpret simple and multiple linear regression models in R
+- Explain confounding and mediation, and interpret an adjusted association
+- Check a linear regression model using residual plots, and plot fitted relationships
+- Read the output of a logistic and a Poisson regression (OR, aOR, IRR) at an introductory level
+- Describe what k-means clustering does, why scaling matters, and why clusters need checking
+
+Linear regression is practised in full. Logistic regression, Poisson regression and clustering are introductions with guided code: the aim is to read and question the output, not to master the methods in one afternoon.
+
+## Materials
+
+| | |
+|:--|:--|
+| **Slides** | [PDF](../../downloads/slides/Day2_Regression_and_data_science.pdf) · [PowerPoint with speaker notes](../../downloads/slides/Day2_Regression_and_data_science.pptx) |
+| **Practical** | [Day 2 practical](practical.qmd) (exercises 2.1 to 2.7 and extensions) |
+| **Final exercise** | [Final exercise](../final-exercise.qmd) |
+| **R scripts** | `05_correlation_regression.R`, `06_logistic_poisson.R`, `07_clustering.R`, `08_final_exercise.R` (in the [participant pack](../../downloads/Concepts-of-Biostatistics-and-Data-Science-participant-pack.zip)) |
+
+## Theory sessions
+
+| Part | Topic | Minutes |
+|:--|:--|:--:|
+| | Recap and the four purposes of analysis | 10 |
+| 1 | Scatterplots, correlation, association and causation | 15 |
+| 2 | Simple linear regression | 20 |
+| 3 | Multiple regression, confounders and mediators, fitted plots | 35 |
+| 4 | Introduction to logistic and Poisson regression | 20 |
+| 5 | Prediction, train/test separation, leakage and clustering | 20 |
+
+## Slides
+
+<iframe src="../../downloads/slides/Day2_Regression_and_data_science.pdf" width="100%" height="560" style="border: 1px solid #EAF2F5;" title="Day 2 slides"></iframe>
+
+## Confounding at a glance
+
+![Activity coefficient for systolic blood pressure, crude, adjusted for age and sex (confounders) and also adjusted for BMI (a mediator). Simulated teaching data.](../../downloads/figures/f_crude_adjusted.png){fig-alt="Point estimates with 95% confidence intervals for the activity coefficient in three regression models."}
+
+::: {.key-findings}
+**Key messages of Day 2.** Choose adjustment variables from a causal diagram, not from p-values. Adjust for confounders; do not adjust for mediators when you want the total effect. An odds ratio is not a risk ratio when the outcome is common. Clusters are a description to be checked, not a discovery to be believed.
+:::

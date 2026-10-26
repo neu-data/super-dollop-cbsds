@@ -1,0 +1,54 @@
+# Neudata · publish the course website (website/) to GitHub Pages
+# One-time setup: Settings → Pages → Build and deployment → Source: GitHub Actions
+# Code results come from the committed website/_freeze/ folder, so R is not needed here.
+# Only the PARTICIPANT site is published; solutions (instructor profile) never are.
+name: Publish course site
+
+on:
+  push:
+    branches: [main]
+    paths: ["website/**", "slides/**", "workbook/**", "reference/**", "course/**", "data/**",
+            "figures/**", "R/**", "Concepts-of-Biostatistics-and-Data-Science.Rproj",
+            ".github/workflows/publish-site.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: quarto-dev/quarto-actions/setup@v2
+      - name: Render participant site
+        working-directory: website
+        run: quarto render
+      - name: Make sure no solutions are published
+        working-directory: website
+        run: |
+          if grep -rlE 'class="[^"]*\bsolution\b|Model answers \(instructor only\)' _site --include=*.html; then
+            echo "::error::Solutions found in the participant site"; exit 1
+          fi
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: website/_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

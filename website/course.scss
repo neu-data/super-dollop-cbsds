@@ -1,0 +1,125 @@
+/*-- scss:defaults --*/
+
+$neudata-teal: #055F56;
+$neudata-ppt-teal: #0D7377;
+$neudata-navy: #04242F;
+$neudata-blue: #0B376C;
+$neudata-note-blue: #0070C0;
+$neudata-mist: #EAF2F5;
+$neudata-grey: #8A99A3;
+
+$primary: $neudata-teal;
+$secondary: $neudata-blue;
+$info: $neudata-note-blue;
+$success: $neudata-teal;
+$body-color: #1F2D33;
+$link-color: $neudata-blue;
+$headings-color: $neudata-navy;
+$headings-font-weight: 700;
+$font-family-sans-serif: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$headings-font-family: "Century Gothic", "URW Gothic", "Avenir Next", "Segoe UI", Arial, sans-serif;
+$font-family-monospace: Consolas, "SFMono-Regular", Menlo, monospace;
+$code-color: $neudata-blue;
+$navbar-bg: $neudata-navy;
+$footer-bg: $neudata-navy;
+$footer-fg: #FFFFFF;
+$toc-active-border: $neudata-teal;
+
+/*-- scss:rules --*/
+
+.navbar {
+  border-bottom: 4px solid $neudata-teal;
+  .navbar-logo {
+    background: #fff;
+    border-radius: 6px;
+    padding: 2px 6px;
+    max-height: 40px;
+  }
+}
+
+h2 {
+  border-bottom: 2px solid $neudata-teal;
+  padding-bottom: 0.3rem;
+  margin-top: 2rem;
+}
+h3 { color: $neudata-blue; }
+
+// Home page hero banner
+.course-hero {
+  background: linear-gradient(120deg, $neudata-navy 0%, $neudata-blue 70%, $neudata-teal 100%);
+  color: #fff;
+  border-radius: 10px;
+  padding: 2.2rem 2rem;
+  margin: 0.5rem 0 2rem;
+
+  h1, .h1 { color: #fff; margin: 0 0 0.4rem; border: none; font-size: 2.2rem; }
+  p { color: #dbeeea; margin: 0.2rem 0; font-size: 1.1rem; }
+  .badges span {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 999px;
+    padding: 0.15rem 0.75rem;
+    margin: 0.8rem 0.35rem 0 0;
+    font-size: 0.85rem;
+  }
+  .btn { margin-top: 1.2rem; }
+}
+
+// Fact cards (Format / When / Duration / Where)
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.9rem;
+  margin: 1rem 0 1.5rem;
+  > div {
+    background: $neudata-mist;
+    border-left: 5px solid $neudata-teal;
+    border-radius: 0 8px 8px 0;
+    padding: 0.7rem 0.9rem;
+  }
+  strong { display: block; color: $neudata-navy; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  span { font-size: 1.05rem; }
+}
+
+// Session cards on the schedule
+.session-card {
+  border: 1px solid rgba($neudata-navy, 0.12);
+  border-left: 6px solid $neudata-teal;
+  border-radius: 0 10px 10px 0;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1rem;
+  h3 { margin-top: 0; }
+}
+
+// Tables
+.table thead th, table thead th {
+  background: $neudata-navy;
+  color: #fff;
+  border-bottom: none;
+}
+.table tbody tr:nth-child(even), table tbody tr:nth-child(even) { background: rgba($neudata-mist, 0.7); }
+
+// Exercises and solutions
+.callout.exercise, .callout-note.exercise { border-left-color: $neudata-blue !important; }
+.solution {
+  border-left: 5px solid $neudata-teal;
+  background: $neudata-mist;
+  padding: 0.6rem 1rem;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 1rem;
+}
+
+.key-findings {
+  background: $neudata-mist;
+  border-left: 6px solid $neudata-teal;
+  padding: 1rem 1.25rem;
+  border-radius: 0 6px 6px 0;
+  margin: 1.5rem 0;
+  > :last-child { margin-bottom: 0; }
+}
+
+.nav-footer {
+  border-top: 4px solid $neudata-teal;
+  a { color: #9FD3CB; }
+}

@@ -1,0 +1,48 @@
+---
+title: "Schedule"
+---
+
+Each day has **240 minutes of teaching**: 120 minutes of theory followed by 120 minutes of practical work in R. The break is listed separately and is not counted in teaching time. Clock times are an example and can be shifted.
+
+## Day 1 · Understanding data and making comparisons
+
+| Time | Min | Session | Content |
+|:--|:--:|:--|:--|
+| 09:00 | 10 | Theory | Welcome, aims, the course dataset |
+| 09:10 | 20 | Theory | Questions, observations, variables and types; data quality and missing values |
+| 09:30 | 25 | Theory | Counts and proportions; mean, SD, median, IQR; skewness; bar charts, histograms, boxplots |
+| 09:55 | 25 | Theory | Samples and populations; SE and confidence intervals; effect sizes; p-values; significance and importance |
+| 10:20 | 22 | Theory | Independent vs paired; Welch t-test; skewed outcomes; paired t-test; ANOVA and pairwise comparisons; Kruskal-Wallis |
+| 10:42 | 18 | Theory | Contingency tables; risks, odds, RR, OR; study design and measures; chi-square, Fisher; first look at confounding |
+| 11:00 | (30) | Break | Not counted in teaching time |
+| 11:30 | 25 | Practical A | Import, inspect, recode missing values |
+| 11:55 | 30 | Practical B | Frequencies, summaries and plots |
+| 12:25 | 35 | Practical C1 | Comparing groups, paired data |
+| 13:00 | 20 | Practical C2 | 2 x 2 tables, RR and OR, chi-square, Fisher |
+| 13:20 | 10 | Review | Questions and common mistakes |
+
+[Day 1 session page](sessions/day1/index.qmd) · [Day 1 practical](sessions/day1/practical.qmd)
+
+## Day 2 · Regression and an introduction to data science
+
+| Time | Min | Session | Content |
+|:--|:--:|:--|:--|
+| 09:00 | 10 | Theory | Recap; describing, estimating associations, predicting, discovering groups |
+| 09:10 | 15 | Theory | Scatterplots; Pearson and Spearman correlation; association and causation |
+| 09:25 | 20 | Theory | Simple linear regression: output, assumptions, residuals, categorical predictors |
+| 09:45 | 25 | Theory | Multiple regression; confounders and mediators; choosing adjustment variables |
+| 10:10 | 10 | Theory | Plotting fitted relationships; effect modification |
+| 10:20 | 20 | Theory | Logistic regression (OR, aOR); Poisson regression (rates, offsets, overdispersion) |
+| 10:40 | 20 | Theory | Explaining vs predicting; train/test and leakage; k-means and hierarchical clustering |
+| 11:00 | (30) | Break | Not counted in teaching time |
+| 11:30 | 50 | Practical A | Correlation, simple and multiple regression, model checks |
+| 12:20 | 20 | Practical B | Guided: logistic and Poisson regression |
+| 12:40 | 20 | Practical C | Guided: k-means clustering |
+| 13:00 | 25 | Final exercise | Choose an analysis, plot, write a conclusion |
+| 13:25 | 5 | Close | Reporting checklist and further learning |
+
+[Day 2 session page](sessions/day2/index.qmd) · [Day 2 practical](sessions/day2/practical.qmd) · [Final exercise](sessions/final-exercise.qmd)
+
+## Before Day 1
+
+Complete the [setup](setup.qmd) so that R, RStudio and the course packages are ready. Installation problems are the most common way to lose teaching time.

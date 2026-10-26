@@ -1,0 +1,71 @@
+---
+pagetitle: "Concepts of Biostatistics and Data Science"
+toc: false
+page-layout: full
+---
+
+::: {.course-hero}
+# Concepts of Biostatistics and Data Science
+A two-day crash course: *from describing data to regression, confounding and a first look at data science, with practical analysis in R.*
+
+::: {.badges}
+[2 days]{} [8 teaching hours]{} [Beginner-friendly]{} [R and RStudio]{} [Simulated teaching data]{}
+:::
+
+[Download the participant pack](downloads/Concepts-of-Biostatistics-and-Data-Science-participant-pack.zip){.btn .btn-light role="button"}
+[Contact Neudata](mailto:contact@neu-data.com){.btn .btn-outline-light role="button"}
+:::
+
+## About this crash course
+
+This crash course teaches the core concepts of biostatistics and the first steps of data science in two days. Each day has two hours of explanation and two hours of guided analysis in R. The emphasis is on choosing a method for a stated question, checking its assumptions and interpreting the result in plain language. R commands are taught as the means to that end, not as a list to memorise.
+
+As a crash course it covers the essentials and points the way to further learning. Participants practise the core methods themselves; more advanced models are introduced through guided demonstrations.
+
+::: {.facts}
+<div><strong>Format</strong><span>2 days, in person or online</span></div>
+<div><strong>Teaching time</strong><span>4 hours per day</span></div>
+<div><strong>Each day</strong><span>2 h theory + 2 h practical</span></div>
+<div><strong>Software</strong><span>R and RStudio (free)</span></div>
+<div><strong>Data</strong><span>One simulated health study</span></div>
+:::
+
+## What you will learn
+
+**Day 1 · Understanding data and making comparisons**
+
+- Describe a dataset: observations, variables, variable types and data quality
+- Summarise and plot data with counts, proportions, mean (SD), median (IQR), bar charts, histograms and boxplots
+- Explain what confidence intervals, effect sizes and p-values do and do not tell you
+- Compare groups with Welch's t-test, the paired t-test, ANOVA, Wilcoxon and Kruskal-Wallis tests
+- Analyse contingency tables: proportions, risks, odds, risk and odds ratios, chi-square and Fisher's exact tests
+
+**Day 2 · Regression and an introduction to data science**
+
+- Describe relationships with scatterplots and correlation, and separate association from causation
+- Fit, check and interpret simple and multiple linear regression
+- Explain confounders and mediators, and interpret adjusted associations (including the adjusted odds ratio, aOR)
+- Read the output of logistic and Poisson regression at an introductory level
+- Understand prediction, train/test separation and data leakage
+- Run and question a k-means clustering
+
+## Who should join
+
+People with little statistical background who need to understand or carry out basic analyses, data enthusiasts who want a sound statistical footing, and participants with some working knowledge who want to strengthen their understanding. A guided core pathway supports beginners; optional extension exercises stretch those with more experience. No previous R experience is needed.
+
+## How the crash course works
+
+| | Practised in R | Guided demonstration | Signposted for further learning |
+|:--|:--|:--|:--|
+| **Day 1** | Importing and checking data, descriptive statistics and plots, t-tests, ANOVA, chi-square and Fisher's tests, RR and OR | Wilcoxon and Kruskal-Wallis tests, Mantel-Haenszel adjustment, McNemar's test | Repeated or clustered data |
+| **Day 2** | Correlation, simple and multiple linear regression, residual checks, plots of fitted values | Logistic regression (aOR), Poisson regression with offsets, k-means clustering | Ordinal and multinomial regression, survival analysis, mixed models |
+
+::: {.key-findings}
+**Simulated data.** Every example uses the Healthy Hearts District Study, a simulated dataset of 480 adults built with known rules so that results can be checked. Its findings are for teaching only and say nothing about real people.
+:::
+
+## Start here
+
+1. Complete the [setup](setup.qmd) before Day 1 (about 30 minutes).
+2. Look at the [schedule](schedule.qmd).
+3. Keep the [cheat sheet and decision diagrams](resources.qmd) open during the practicals.

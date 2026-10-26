@@ -1,0 +1,247 @@
+---
+title: "Day 1 practical · Understanding data and making comparisons"
+---
+
+```{r}
+#| include: false
+library(readr)
+library(dplyr)
+library(ggplot2)
+source("../../../R/theme_neudata.R")
+hearts <- readRDS("../../../data/hearts.rds")
+summ <- function(x) round(c(n = sum(!is.na(x)), mean = mean(x, na.rm = TRUE), sd = sd(x, na.rm = TRUE),
+                            median = median(x, na.rm = TRUE), q1 = unname(quantile(x, 0.25, na.rm = TRUE)),
+                            q3 = unname(quantile(x, 0.75, na.rm = TRUE))), 2)
+```
+
+Open `Concepts-of-Biostatistics-and-Data-Science.Rproj`, then work through the scripts in order. Each script contains worked examples with comments; the exercises below ask you to adapt that code and **interpret the result in words**. Write your answers in the [workbook](../../downloads/workbook/Participant_workbook.pdf).
+
+::: {.callout-tip}
+## A good answer
+Gives the estimate, its 95% confidence interval, the number of observations used, and one or two sentences on what it means. Before any test, write down the question, the outcome type, the groups, and whether the data are independent or paired.
+:::
+
+## Part A · Import and inspect (25 min)
+
+Script: `R/01_import_and_inspect.R`
+
+::: {.callout-note .exercise}
+## Exercise 1.1 · Import the raw data
+Import `data/hearts_raw.csv`. How many participants and variables are there? What does one row represent? Which two variables measure the same thing on the same person at different times?
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+raw <- read_csv("../../../data/hearts_raw.csv", show_col_types = FALSE)
+dim(raw)
+```
+One row is one participant. `sbp_0` and `sbp_12` (and `high_bp_0`, `high_bp_12`) are baseline and 12-month measurements on the same person, so they are paired.
+:::
+:::
+
+::: {.callout-note .exercise}
+## Exercise 1.2 · Missing values
+Use `summary(raw)` and `colSums(is.na(raw))`. Which variables have missing values? What problem do you see in `activity_min`, and how does the script fix it? Why might the 41 missing 12-month blood pressures matter?
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+colSums(is.na(raw))[colSums(is.na(raw)) > 0]
+sum(raw$activity_min == -99, na.rm = TRUE)
+```
+`-99` is a data-entry code for "not recorded"; `na_if(activity_min, -99)` turns it into a missing value (7 NAs). The 41 people without 12-month data left early: if leavers differ from stayers, complete-case results can be biased. Never replace missing values with the mean.
+:::
+:::
+
+::: {.callout-note .exercise}
+## Exercise 1.3 · Variable types
+Classify `district`, `age`, `education`, `smoker`, `sbp_0`, `satisfaction`, `clinic_visits`, `crp`, `high_bp_0` and `followup_months` as continuous, count, binary, nominal or ordinal.
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+Nominal: district. Continuous: age, sbp_0, crp (right-skewed), followup_months (exposure time). Ordinal: education, satisfaction (stored as numbers but ordered). Binary: smoker, high_bp_0. Count: clinic_visits.
+:::
+:::
+
+## Part B · Describe and plot (30 min)
+
+Script: `R/02_describe_and_plot.R`
+
+::: {.callout-note .exercise}
+## Exercise 1.4 · Counts and proportions
+What number and percentage of participants smoke? Write it as n / N (%). What percentage have tertiary education? State your denominator and why.
+
+```r
+count(hearts, smoker) |> mutate(percent = round(100 * n / sum(n), 1))
+```
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+count(hearts, smoker) |> mutate(percent = round(100 * n / sum(n), 1))
+hearts |> filter(!is.na(education)) |> count(education) |> mutate(percent = round(100 * n / sum(n), 1))
+```
+79 / 480 (16.5%) smoke. Tertiary: 134 / 474 (28.3%) of those with education recorded, or 134 / 480 (27.9%) of all. Either denominator is defensible if it is stated.
+:::
+:::
+
+::: {.callout-note .exercise}
+## Exercise 1.5 · Centre and spread
+Calculate the mean, SD, median and IQR of `sbp_0` and of `crp` (remember `na.rm = TRUE`). Which summary would you report for each, and why?
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+rbind(sbp_0 = summ(hearts$sbp_0), crp = summ(hearts$crp))
+```
+SBP is roughly symmetric (mean 129.3, median 129): report mean (SD). CRP is right-skewed (mean 3.0 > median 1.9, SD larger than the mean): report median (IQR), 1.9 (1.2 to 3.7) mg/L, or analyse log(CRP).
+:::
+:::
+
+::: {.callout-note .exercise}
+## Exercise 1.6 · Plots
+Make a histogram of `bmi` and a boxplot of `crp` by `smoker`, then add `scale_y_log10()` to the boxplot. Describe what you see. Why is the log scale helpful?
+
+```r
+ggplot(hearts, aes(x = bmi)) + geom_histogram(binwidth = 1)
+ggplot(hearts, aes(x = smoker, y = crp)) + geom_boxplot() + scale_y_log10()
+```
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+#| fig-height: 3.2
+#| warning: false
+ggplot(hearts, aes(bmi)) + geom_histogram(binwidth = 1, fill = neudata_cols[["teal"]], colour = "white")
+ggplot(hearts, aes(smoker, crp)) + geom_boxplot(fill = neudata_mist) + scale_y_log10()
+```
+BMI is unimodal and roughly symmetric. CRP is higher in smokers (medians 2.8 and 1.8 mg/L); the log scale spreads out the many low values so the comparison is easier to see.
+:::
+:::
+
+## Part C1 · Compare groups (35 min)
+
+Script: `R/03_compare_groups.R`
+
+::: {.callout-note .exercise}
+## Exercise 1.7 · Two independent groups
+Does mean BMI differ between women and men? Report each mean, the difference and its 95% CI, and interpret it. Does a p-value above 0.05 show the means are equal?
+
+```r
+t.test(bmi ~ sex, data = hearts)
+```
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+t.test(bmi ~ sex, data = hearts)
+```
+Difference (women minus men) -0.10 kg/m², 95% CI -0.83 to 0.62. No evidence of a difference, and the narrow CI rules out differences larger than about 0.8 kg/m². A p-value above 0.05 alone does not show equality; the CI is what tells us the difference is small.
+:::
+:::
+
+::: {.callout-note .exercise}
+## Exercise 1.8 · Paired data
+Did systolic blood pressure change between baseline and 12 months in the Standard advice group? Compare with the Lifestyle group (-6.0 mmHg). Why can we not judge the programme from within-group change alone?
+
+```r
+std <- hearts |> filter(programme == "Standard advice", !is.na(sbp_12))
+t.test(std$sbp_12, std$sbp_0, paired = TRUE)
+```
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+std <- hearts |> filter(programme == "Standard advice", !is.na(sbp_12))
+t.test(std$sbp_12, std$sbp_0, paired = TRUE)
+t.test(I(sbp_12 - sbp_0) ~ programme, data = hearts)$conf.int
+```
+SBP also fell by about 2 mmHg with standard advice (n = 215). Only the randomised comparison of changes estimates the programme effect: 4.0 mmHg (95% CI 2.3 to 5.6) greater fall with the programme.
+:::
+:::
+
+::: {.callout-note .exercise}
+## Exercise 1.9 · More than two groups
+Does mean BMI differ between the four districts? Use Welch's ANOVA and Holm-adjusted pairwise comparisons. What does the overall test tell you, and what does it not?
+
+```r
+oneway.test(bmi ~ district, data = hearts)
+pairwise.t.test(hearts$bmi, hearts$district, pool.sd = FALSE, p.adjust.method = "holm")
+```
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+oneway.test(bmi ~ district, data = hearts)
+pairwise.t.test(hearts$bmi, hearts$district, pool.sd = FALSE, p.adjust.method = "holm")
+```
+Mean BMI is not the same in all districts (p = 0.004), but the overall test does not say where. Pairwise comparisons suggest South is higher than North and West. Six comparisons are made, so p-values are adjusted.
+:::
+:::
+
+## Part C2 · Categorical associations (20 min)
+
+Script: `R/04_categorical.R`
+
+::: {.callout-note .exercise}
+## Exercise 1.10 · A 2 x 2 table
+Is high blood pressure at baseline associated with sex? Give each proportion as n / N (%), the prevalence ratio and odds ratio (men vs women), and interpret the chi-square test. Should you say "risk" or "prevalence"?
+
+```r
+tab_sex <- table(hearts$sex, hearts$high_bp_0)
+addmargins(tab_sex)
+prop.table(tab_sex, margin = 1)
+chisq.test(tab_sex)
+```
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+tab_sex <- table(hearts$sex, hearts$high_bp_0)
+addmargins(tab_sex)
+p <- prop.table(tab_sex, 1)[, "Yes"]
+c(PR = p[["Male"]] / p[["Female"]], OR = (p[["Male"]] / (1 - p[["Male"]])) / (p[["Female"]] / (1 - p[["Female"]])))
+chisq.test(tab_sex)
+```
+Women 47 / 248 (19.0%), men 77 / 232 (33.2%): PR 1.75, OR 2.12. The OR is larger because high BP is common. Use "prevalence": BP was measured at one time point (cross-sectional), not as new cases over follow-up.
+:::
+:::
+
+::: {.callout-note .exercise}
+## Exercise 1.11 · A larger table
+Does the prevalence of high BP differ between districts? Make a 4 x 2 table with row proportions and a chi-square test. What does the test tell you, and what does it not?
+:::
+
+::: {.content-visible when-profile="instructor"}
+::: {.solution}
+```{r}
+tab_d <- table(hearts$district, hearts$high_bp_0)
+round(prop.table(tab_d, 1), 3)
+chisq.test(tab_d)
+```
+Highest in South (37.7%), lowest in North (16.8%). The test shows the prevalence is not the same in all districts but not which differ. These are crude differences; districts also differ in age and BMI.
+:::
+:::
+
+## Extensions (optional)
+
+For participants who finish early. Details are in the workbook; model answers are in the instructor answer key.
+
+| | Extension |
+|:--|:--|
+| E1.1 | Kruskal-Wallis: activity by education. What does the test compare? |
+| E1.2 | An ordinal outcome: satisfaction by sex with `wilcox.test()` |
+| E1.3 | Student or Welch? Compare `aov()` and `oneway.test()` |
+| E1.4 | McNemar's test in the Standard advice group |
+| E1.5 | Confounding by age: stratified and Mantel-Haenszel odds ratios for smoking and high BP |
+| E1.6 | Small counts: adverse events in participants aged 65 and over |

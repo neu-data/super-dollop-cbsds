@@ -1,0 +1,45 @@
+---
+title: "Day 1 · Understanding data and making comparisons"
+---
+
+Two hours of theory followed by two hours of guided practical work in R.
+
+## Learning objectives
+
+By the end of Day 1 you will be able to:
+
+- Describe a dataset in terms of observations, variables and variable types
+- Check a dataset for missing values, impossible values and coding problems
+- Choose and calculate suitable summaries: counts, proportions, mean (SD), median (IQR)
+- Choose a suitable plot: bar chart, histogram or boxplot
+- Explain what a confidence interval and a p-value do and do not tell you
+- Compare two or more groups with a t-test, ANOVA or a rank-based test, and say why
+- Analyse a contingency table and explain proportions, risks, odds, RR and OR
+- Recognise paired data and avoid analysing it as independent groups
+
+## Materials
+
+| | |
+|:--|:--|
+| **Slides** | [PDF](../../downloads/slides/Day1_Understanding_data_and_comparisons.pdf) · [PowerPoint with speaker notes](../../downloads/slides/Day1_Understanding_data_and_comparisons.pptx) |
+| **Practical** | [Day 1 practical](practical.qmd) (exercises 1.1 to 1.11 and extensions) |
+| **R scripts** | `01_import_and_inspect.R`, `02_describe_and_plot.R`, `03_compare_groups.R`, `04_categorical.R` (in the [participant pack](../../downloads/Concepts-of-Biostatistics-and-Data-Science-participant-pack.zip)) |
+| **Workbook** | [PDF](../../downloads/workbook/Participant_workbook.pdf) · [Word](../../downloads/workbook/Participant_workbook.docx) |
+
+## Theory sessions
+
+| Part | Topic | Minutes |
+|:--|:--|:--:|
+| 1 | Questions, observations, variables, data quality | 20 |
+| 2 | Describing data: summaries and plots | 25 |
+| 3 | From a sample to a population: variability, effect sizes, CIs, tests | 25 |
+| 4 | Comparing groups: continuous outcomes, paired data | 22 |
+| 5 | Associations between categorical variables; first look at confounding | 18 |
+
+## Slides
+
+<iframe src="../../downloads/slides/Day1_Understanding_data_and_comparisons.pdf" width="100%" height="560" style="border: 1px solid #EAF2F5;" title="Day 1 slides"></iframe>
+
+::: {.key-findings}
+**Key messages of Day 1.** Start from the question, the outcome type and the design (independent or paired). Describe the data before testing. Report an effect size with a 95% confidence interval; a p-value alone is not enough. Proportions, risks and odds differ, and the study design decides which you can interpret.
+:::

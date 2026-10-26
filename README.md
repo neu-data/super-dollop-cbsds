@@ -32,6 +32,19 @@ It is written for people with little statistical background, data enthusiasts, a
 
 All examples use one **simulated** dataset, the Healthy Hearts District Study (480 adults, 19 variables). Its results are for teaching only.
 
+## Course website
+
+**<https://neu-data.github.io/super-dollop-cbsds/>**: home page, schedule, setup, session pages with embedded slides, practicals, the final exercise, decision diagrams and all downloads, including a participant pack that leaves out the instructor folder.
+
+The site is a Quarto project in [`website/`](website), built from the [Neudata course template](https://github.com/neu-data/quarto-course-template) and published by the `Publish course site` workflow. Solutions are written into the practical pages but appear only in the instructor build:
+
+| Build | Command (inside `website/`) | Output | Published? |
+|---|---|---|---|
+| Participant site | `quarto render` | `_site/` | Yes, automatically to GitHub Pages |
+| Instructor site (with solutions) | `quarto render --profile instructor` | `_site-instructor/` | Never; keep it local |
+
+Render locally once after changing R code on a page, and commit `website/_freeze/` so the site builds without R.
+
 ## Getting started
 
 1. Install R (4.1 or later) from <https://cran.r-project.org/> and RStudio Desktop from <https://docs.posit.co/ide/user/download.html>.

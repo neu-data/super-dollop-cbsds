@@ -1,0 +1,64 @@
+project:
+  type: website
+  output-dir: _site
+  pre-render: prepare_downloads.py   # copies slides, workbook, reference pack and the participant pack into downloads/
+  resources:
+    - downloads/**
+
+execute:
+  freeze: auto          # results are stored in _freeze/ so the website builds without re-running R
+
+website:
+  title: "Concepts of Biostatistics and Data Science"
+  description: "A two-day crash course for teaching the concepts of biostatistics and data science, with practical analysis in R."
+  site-url: "https://neu-data.github.io/super-dollop-cbsds/"
+  repo-url: "https://github.com/neu-data/super-dollop-cbsds"
+  favicon: images/neudata-logo.png
+  search: true
+  page-navigation: true
+  navbar:
+    logo: images/neudata-logo.png
+    logo-alt: "Neudata Consulting Ltd"
+    title: "Biostatistics & Data Science"
+    background: "#04242F"
+    foreground: "#FFFFFF"
+    left:
+      - href: index.qmd
+        text: Home
+      - href: schedule.qmd
+        text: Schedule
+      - href: setup.qmd
+        text: Setup
+      - text: Sessions
+        menu:
+          - href: sessions/day1/index.qmd
+            text: "Day 1 · Understanding data and making comparisons"
+          - href: sessions/day1/practical.qmd
+            text: "Day 1 · Practical"
+          - href: sessions/day2/index.qmd
+            text: "Day 2 · Regression and data science"
+          - href: sessions/day2/practical.qmd
+            text: "Day 2 · Practical"
+          - href: sessions/final-exercise.qmd
+            text: "Final exercise"
+      - href: resources.qmd
+        text: Resources
+    right:
+      - icon: globe
+        href: https://www.neu-data.com
+        aria-label: Neudata website
+      - icon: github
+        href: https://github.com/neu-data/super-dollop-cbsds
+        aria-label: Course repository on GitHub
+  page-footer:
+    left: "**Neudata Consulting Ltd** · *Insight. Impact. Innovation.*"
+    center: "Neudata | #ClearDataClearImpact"
+    right: "[www.neu-data.com](https://www.neu-data.com) · [contact@neu-data.com](mailto:contact@neu-data.com)"
+
+format:
+  html:
+    theme: [cosmo, course.scss]
+    toc: true
+    code-copy: true
+    code-overflow: wrap
+    link-external-newwindow: true
