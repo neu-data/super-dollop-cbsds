@@ -1,0 +1,190 @@
+
+> library(readr)
+
+> library(dplyr)
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+> raw <- read_csv("data/hearts_raw.csv")
+Rows: 480 Columns: 19
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (9): id, district, sex, education, smoker, high_bp_0, programme, high_bp_12, adverse_event
+dbl (10): age, activity_min, diet_score, bmi, sbp_0, crp, sbp_12, satisfaction, clinic_visits, followup_mo...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+> dim(raw)
+[1] 480  19
+
+> glimpse(raw)
+Rows: 480
+Columns: 19
+$ id              <chr> "HH001", "HH002", "HH003", "HH004", "HH005", "HH006", "HH007", "HH008", "HH009", "HH…
+$ district        <chr> "South", "North", "West", "South", "East", "West", "West", "North", "South", "West",…
+$ sex             <chr> "Female", "Male", "Female", "Male", "Male", "Male", "Female", "Female", "Female", "F…
+$ age             <dbl> 72, 56, 43, 58, 51, 54, 66, 33, 47, 74, 61, 53, 60, 57, 58, 39, 34, 36, 49, 57, 33, …
+$ education       <chr> "Primary or less", "Tertiary", "Primary or less", "Secondary", "Secondary", "Seconda…
+$ smoker          <chr> "No", "No", "No", "No", "Yes", "No", "No", "No", "No", "No", "No", "No", "No", "Yes"…
+$ activity_min    <dbl> 80, 375, 115, 530, 35, 760, 35, 240, 145, 585, 510, 90, 80, 45, 55, 100, 40, 250, 11…
+$ diet_score      <dbl> 3, 8, 8, 6, 6, 8, 5, 2, 5, 4, 6, 5, 4, 3, 4, 6, 4, 6, 7, 5, 4, 7, 7, 3, 9, 2, 7, 3, …
+$ bmi             <dbl> 29.6, 23.4, 23.7, 21.4, 27.7, 26.4, 31.1, 27.7, 22.3, 23.1, 19.8, 25.4, 32.2, 36.9, …
+$ sbp_0           <dbl> 128, 130, 116, 133, 134, 96, 135, 113, 109, 116, 143, 127, 134, 154, 129, 144, 119, …
+$ high_bp_0       <chr> "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "Yes", "No", "No", "Yes"…
+$ crp             <dbl> 5.2, 4.1, 1.0, 2.0, 3.8, 1.9, 1.4, 2.0, 1.4, 1.5, 1.6, 5.9, 3.8, 5.4, 4.8, 0.9, 1.2,…
+$ programme       <chr> "Lifestyle programme", "Lifestyle programme", "Standard advice", "Standard advice", …
+$ sbp_12          <dbl> 122, 122, 107, 125, 126, NA, 129, 106, 99, 101, 121, 128, 131, 153, 127, 127, 106, 1…
+$ high_bp_12      <chr> "No", "No", "No", "No", "No", NA, "No", "No", "No", "No", "No", "No", "No", "Yes", "…
+$ satisfaction    <dbl> 4, 4, 2, 1, 4, NA, 3, 2, 5, 4, 3, 3, 4, 2, 2, 2, 3, 4, 4, 5, 5, 2, 1, 2, 4, 2, 4, 3,…
+$ adverse_event   <chr> "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", …
+$ clinic_visits   <dbl> 2, 5, 3, 7, 2, 0, 3, 4, 1, 3, 2, 0, 4, 2, 6, 3, 4, 1, 2, 1, 3, 0, 1, 2, 2, 2, 2, 3, …
+$ followup_months <dbl> 12, 12, 12, 12, 12, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 1…
+
+> head(raw, 10)
+# A tibble: 10 × 19
+   id    district sex      age education  smoker activity_min diet_score   bmi sbp_0 high_bp_0   crp programme
+   <chr> <chr>    <chr>  <dbl> <chr>      <chr>         <dbl>      <dbl> <dbl> <dbl> <chr>     <dbl> <chr>    
+ 1 HH001 South    Female    72 Primary o… No               80          3  29.6   128 No          5.2 Lifestyl…
+ 2 HH002 North    Male      56 Tertiary   No              375          8  23.4   130 No          4.1 Lifestyl…
+ 3 HH003 West     Female    43 Primary o… No              115          8  23.7   116 No          1   Standard…
+ 4 HH004 South    Male      58 Secondary  No              530          6  21.4   133 No          2   Standard…
+ 5 HH005 East     Male      51 Secondary  Yes              35          6  27.7   134 No          3.8 Standard…
+ 6 HH006 West     Male      54 Secondary  No              760          8  26.4    96 No          1.9 Lifestyl…
+ 7 HH007 West     Female    66 Primary o… No               35          5  31.1   135 No          1.4 Standard…
+ 8 HH008 North    Female    33 Primary o… No              240          2  27.7   113 No          2   Standard…
+ 9 HH009 South    Female    47 Secondary  No              145          5  22.3   109 No          1.4 Lifestyl…
+10 HH010 West     Female    74 Secondary  No              585          4  23.1   116 No          1.5 Lifestyl…
+# ℹ 6 more variables: sbp_12 <dbl>, high_bp_12 <chr>, satisfaction <dbl>, adverse_event <chr>,
+#   clinic_visits <dbl>, followup_months <dbl>
+
+> summary(raw)
+         id           district          sex           age            education         smoker   
+ Length   :480   Length   :480   Length   :480   Min.   :30.00   Length   :480   Length   :480  
+ N.unique :480   N.unique :  4   N.unique :  2   1st Qu.:43.00   N.unique :  3   N.unique :  2  
+ N.blank  :  0   N.blank  :  0   N.blank  :  0   Median :51.00   N.blank  :  0   N.blank  :  0  
+ Min.nchar:  5   Min.nchar:  4   Min.nchar:  4   Mean   :51.74   Min.nchar:  8   Min.nchar:  2  
+ Max.nchar:  5   Max.nchar:  5   Max.nchar:  6   3rd Qu.:62.00   Max.nchar: 15   Max.nchar:  3  
+                                                 Max.   :74.00   NAs      :  6                  
+                                                                                                
+  activity_min     diet_score          bmi            sbp_0           high_bp_0        crp        
+ Min.   :-99.0   Min.   : 1.000   Min.   :16.50   Min.   : 84.0   Length   :480   Min.   : 0.100  
+ 1st Qu.: 75.0   1st Qu.: 4.000   1st Qu.:23.50   1st Qu.:118.0   N.unique :  2   1st Qu.: 1.200  
+ Median :150.0   Median : 6.000   Median :26.20   Median :129.0   N.blank  :  0   Median : 1.900  
+ Mean   :182.4   Mean   : 5.496   Mean   :26.36   Mean   :129.3   Min.nchar:  2   Mean   : 3.025  
+ 3rd Qu.:250.0   3rd Qu.: 7.000   3rd Qu.:29.38   3rd Qu.:140.0   Max.nchar:  3   3rd Qu.: 3.700  
+ Max.   :905.0   Max.   :10.000   Max.   :37.60   Max.   :175.0                   Max.   :37.900  
+                                  NAs    :10                                      NAs    :14      
+     programme       sbp_12          high_bp_12   satisfaction     adverse_event clinic_visits   
+ Length   :480   Min.   : 77.0   Length   :480   Min.   :1.000   Length   :480   Min.   : 0.000  
+ N.unique :  2   1st Qu.:114.0   N.unique :  2   1st Qu.:2.000   N.unique :  2   1st Qu.: 1.000  
+ N.blank  :  0   Median :125.0   N.blank  :  0   Median :3.000   N.blank  :  0   Median : 2.000  
+ Min.nchar: 15   Mean   :125.3   Min.nchar:  2   Mean   :3.264   Min.nchar:  2   Mean   : 2.777  
+ Max.nchar: 19   3rd Qu.:136.0   Max.nchar:  3   3rd Qu.:4.000   Max.nchar:  3   3rd Qu.: 4.000  
+                 Max.   :183.0   NAs      : 41   Max.   :5.000                   Max.   :18.000  
+                 NAs    :41                      NAs    :41                                      
+ followup_months
+ Min.   : 2.00  
+ 1st Qu.:12.00  
+ Median :12.00  
+ Mean   :11.58  
+ 3rd Qu.:12.00  
+ Max.   :12.00  
+                
+
+> select(filter(raw, activity_min < 0), id, activity_min)
+# A tibble: 7 × 2
+  id    activity_min
+  <chr>        <dbl>
+1 HH054          -99
+2 HH104          -99
+3 HH185          -99
+4 HH205          -99
+5 HH380          -99
+6 HH384          -99
+7 HH402          -99
+
+> colSums(is.na(raw))
+             id        district             sex             age       education          smoker 
+              0               0               0               0               6               0 
+   activity_min      diet_score             bmi           sbp_0       high_bp_0             crp 
+              0               0              10               0               0              14 
+      programme          sbp_12      high_bp_12    satisfaction   adverse_event   clinic_visits 
+              0              41              41              41               0               0 
+followup_months 
+              0 
+
+> hearts <- mutate(raw, activity_min = na_if(activity_min, 
++     -99), district = factor(district, levels = c("North", "South", 
++     "East", "West")), sex = factor(sex, levels = c("Female", 
++     "Male")), education = factor(education, levels = c("Primary or less", 
++     "Secondary", "Tertiary")), smoker = factor(smoker, levels = c("No", 
++     "Yes")), high_bp_0 = factor(high_bp_0, levels = c("No", "Yes")), 
++     high_bp_12 = factor(high_bp_12, levels = c("No", "Yes")), 
++     programme = factor(programme, levels = c("Standard advice", 
++         "Lifestyle programme")), adverse_event = factor(adverse_event, 
++         levels = c("No", "Yes")))
+
+> summary(hearts$activity_min)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
+   15.0    75.0   150.0   186.6   250.0   905.0       7 
+
+> colSums(is.na(hearts))
+             id        district             sex             age       education          smoker 
+              0               0               0               0               6               0 
+   activity_min      diet_score             bmi           sbp_0       high_bp_0             crp 
+              7               0              10               0               0              14 
+      programme          sbp_12      high_bp_12    satisfaction   adverse_event   clinic_visits 
+              0              41              41              41               0               0 
+followup_months 
+              0 
+
+> range(hearts$age)
+[1] 30 74
+
+> range(hearts$bmi, na.rm = TRUE)
+[1] 16.5 37.6
+
+> range(hearts$sbp_0)
+[1]  84 175
+
+> count(hearts, district)
+# A tibble: 4 × 2
+  district     n
+  <fct>    <int>
+1 North      119
+2 South      114
+3 East       125
+4 West       122
+
+> count(hearts, education)
+# A tibble: 4 × 2
+  education           n
+  <fct>           <int>
+1 Primary or less   117
+2 Secondary         223
+3 Tertiary          134
+4 <NA>                6
+
+> summarise(hearts, n_total = n(), n_with_sbp_12 = sum(!is.na(sbp_12)))
+# A tibble: 1 × 2
+  n_total n_with_sbp_12
+    <int>         <int>
+1     480           439
+
+> summarise(group_by(hearts, missing_sbp_12 = is.na(sbp_12)), 
++     n = n(), mean_age = mean(age), mean_sbp_0 = mean(sbp_0))
+# A tibble: 2 × 4
+  missing_sbp_12     n mean_age mean_sbp_0
+  <lgl>          <int>    <dbl>      <dbl>
+1 FALSE            439     51.6       129.
+2 TRUE              41     53.7       129.

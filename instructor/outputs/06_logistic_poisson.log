@@ -1,0 +1,107 @@
+
+> library(dplyr)
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+> library(ggplot2)
+
+> library(broom)
+
+> source("R/theme_neudata.R")
+
+> hearts <- mutate(readRDS("data/hearts.rds"), age10 = age/10)
+
+> fit_lr0 <- glm(high_bp_0 ~ smoker, family = binomial, 
++     data = hearts)
+
+> tidy(fit_lr0, conf.int = TRUE, exponentiate = TRUE)
+# A tibble: 2 × 7
+  term        estimate std.error statistic  p.value conf.low conf.high
+  <chr>          <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
+1 (Intercept)    0.273     0.122    -10.7  1.40e-26    0.214     0.345
+2 smokerYes      3.39      0.256      4.78 1.79e- 6    2.05      5.61 
+
+> fit_lr1 <- glm(high_bp_0 ~ smoker + age10 + sex, family = binomial, 
++     data = hearts)
+
+> tidy(fit_lr1, conf.int = TRUE, exponentiate = TRUE)
+# A tibble: 4 × 7
+  term        estimate std.error statistic  p.value conf.low conf.high
+  <chr>          <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
+1 (Intercept)  0.00228     0.668     -9.10 8.66e-20 0.000583   0.00804
+2 smokerYes    2.04        0.282      2.53 1.14e- 2 1.17       3.54   
+3 age10        2.29        0.112      7.35 1.99e-13 1.84       2.87   
+4 sexMale      2.06        0.237      3.06 2.18e- 3 1.30       3.30   
+
+> new <- expand.grid(age10 = seq(3, 7.5, by = 0.1), 
++     smoker = factor(c("No", "Yes"), levels = c("No", "Yes")), 
++     sex = factor("Female", levels = c("Female", "Male")))
+
+> new$prob <- predict(fit_lr1, newdata = new, type = "response")
+
+> ggplot(new, aes(x = age10 * 10, y = prob, colour = smoker)) + 
++     geom_line(linewidth = 1) + scale_colour_manual(values = unname(neudata_cols[c("teal", 
++     "blue")])) + scale_y_continuous(labels = scales::percent, 
++     limits = c(0, 1)) + labs(x = "Age (years)", y = "Predicted probability of high BP", 
++     colour = "Smoker", title = "Women: predicted probability of high BP")
+
+> summarise(group_by(hearts, programme), people = n(), 
++     visits = sum(clinic_visits), person_months = sum(followup_months), 
++     rate_per_100_pm = 100 * visits/person_months)
+# A tibble: 2 × 5
+  programme           people visits person_months rate_per_100_pm
+  <fct>                <int>  <int>         <dbl>           <dbl>
+1 Standard advice        240    683          2762            24.7
+2 Lifestyle programme    240    650          2795            23.3
+
+> fit_pois <- glm(clinic_visits ~ programme + age10 + 
++     high_bp_0 + offset(log(followup_months)), family = poisson, 
++     data = hearts)
+
+> tidy(fit_pois, conf.int = TRUE, exponentiate = TRUE)
+# A tibble: 4 × 7
+  term                         estimate std.error statistic  p.value conf.low conf.high
+  <chr>                           <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
+1 (Intercept)                    0.0851    0.136     -18.2  1.21e-73   0.0651     0.111
+2 programmeLifestyle programme   0.913     0.0550     -1.66 9.67e- 2   0.819      1.02 
+3 age10                          1.21      0.0255      7.52 5.40e-14   1.15       1.27 
+4 high_bp_0Yes                   1.23      0.0629      3.34 8.24e- 4   1.09       1.40 
+
+> dispersion <- sum(residuals(fit_pois, type = "pearson")^2)/df.residual(fit_pois)
+
+> dispersion
+[1] 2.029035
+
+> fit_qp <- glm(clinic_visits ~ programme + age10 + 
++     high_bp_0 + offset(log(followup_months)), family = quasipoisson, 
++     data = hearts)
+
+> tidy(fit_qp, conf.int = TRUE, exponentiate = TRUE)
+# A tibble: 4 × 7
+  term                         estimate std.error statistic  p.value conf.low conf.high
+  <chr>                           <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
+1 (Intercept)                    0.0851    0.193     -12.7  3.26e-32   0.0580     0.124
+2 programmeLifestyle programme   0.913     0.0783     -1.17 2.44e- 1   0.783      1.06 
+3 age10                          1.21      0.0363      5.28 1.96e- 7   1.13       1.30 
+4 high_bp_0Yes                   1.23      0.0897      2.35 1.93e- 2   1.03       1.47 
+
+> fit_nb <- MASS::glm.nb(clinic_visits ~ programme + 
++     age10 + high_bp_0 + offset(log(followup_months)), data = hearts)
+
+> tidy(fit_nb, conf.int = TRUE, exponentiate = TRUE)
+# A tibble: 4 × 7
+  term                         estimate std.error statistic  p.value conf.low conf.high
+  <chr>                           <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
+1 (Intercept)                    0.0853    0.188    -13.1   4.69e-39   0.0587     0.124
+2 programmeLifestyle programme   0.927     0.0786    -0.965 3.35e- 1   0.794      1.08 
+3 age10                          1.21      0.0361     5.28  1.30e- 7   1.13       1.30 
+4 high_bp_0Yes                   1.22      0.0932     2.13  3.29e- 2   1.01       1.47 

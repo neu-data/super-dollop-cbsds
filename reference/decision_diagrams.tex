@@ -1,0 +1,24 @@
+% Collects the decision diagrams D0 to D6 into one printable A4 landscape PDF.
+% Concepts of Biostatistics and Data Science: a two-day crash course with practical analysis in R
+% Uses the Neudata LaTeX class (neudata.cls, style 1, from neu-data/latex-report-template).
+% Build the diagrams first (diagrams/build_diagrams.py), then run pdflatex here twice.
+\documentclass[style1, note, nocover]{neudata}
+\geometry{landscape, margin=10mm, top=19mm, bottom=12mm, headheight=0.95cm, headsep=3mm, footskip=6mm}
+\AtBeginDocument{\setlength{\headwidth}{\textwidth}}   % header and footer span the landscape page
+\hypersetup{pdftitle={Choosing an analysis method: decision diagrams}, pdfauthor={Neudata Consulting Ltd},
+  pdfsubject={Concepts of Biostatistics and Data Science: a two-day crash course with practical analysis in R}}
+\title{Choosing an analysis method: decision diagrams \textperiodcentered\ Concepts of Biostatistics and Data Science}
+\newcommand{\diagram}[1]{%
+  \null\vfill
+  \begin{center}\includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{diagrams/#1}\end{center}
+  \vfill\newpage}
+\begin{document}
+\diagram{D0_start_here.pdf}
+\diagram{D1_describe.pdf}
+\diagram{D2_compare_continuous.pdf}
+\diagram{D3_categorical.pdf}
+\diagram{D4_association_regression.pdf}
+\diagram{D5_clustering.pdf}
+\diagram{D6_design_check.pdf}
+\neudatacopyrightpage
+\end{document}

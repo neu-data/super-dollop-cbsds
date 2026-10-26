@@ -1,0 +1,60 @@
+\input{diagram_style}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[title] at (0,2.2) {D4. Associations and regression models};
+\node[subtitle] at (0,1.5) {Regression estimates how the outcome changes with each predictor, holding the other predictors constant. Dashed boxes are beyond this course: routes for further learning.};
+
+\node[q=11cm, anchor=north] (root) at (12.9,0.6) {\textbf{Relationship between an outcome and one or more predictors}\\\footnotesize Predictors (explanatory variables) can be continuous or categorical};
+\node[q=6cm, below=5mm of root] (type) {\textbf{What type is the outcome?}};
+\draw[flow] (root) -- (type);
+
+\def\cw{5.9cm}
+\foreach \i/\n/\t in {0/cont/Continuous, 1/bin/Binary, 2/cnt/Count, 3/oth/Other outcome types}{
+  \node[opt=\cw, anchor=north] (\n) at (3.05+\i*6.6,-2.6) {\textbf{\t}};
+  \draw[flow] (type.south) -- ++(0,-0.35) -| (\n.north);
+}
+
+% continuous
+\node[m=\cw, below=5mm of cont] (cor) {\textbf{Correlation} (strength only)\\
+Pearson r: linear association\\
+Spearman rho: monotonic, uses ranks\\
+\rc{cor.test(\textasciitilde{} sbp\_0 + age, data = hearts)}};
+\node[m=\cw, below=4mm of cor] (slr) {\textbf{Simple linear regression}\\
+Slope = difference in mean outcome per 1-unit difference in x, with 95\% CI\\
+\rc{lm(sbp\_0 \textasciitilde{} age, data = hearts)}};
+\node[m=\cw, below=4mm of slr] (mlr) {\textbf{Multiple linear regression}\\
+Adjusted slopes; categorical predictors become indicator variables\\
+\rc{lm(sbp\_0 \textasciitilde{} activity\_hr + age + sex,}\\\rc{\ \ \ data = hearts)}};
+
+% binary
+\node[m=\cw, below=5mm of bin] (lr) {\textbf{Logistic regression}\\
+Models the log-odds. exp(coefficient) = odds ratio; adjusted OR (aOR) with several predictors\\
+\rc{glm(high\_bp\_0 \textasciitilde{} smoker + age10 + sex,}\\\rc{\ \ \ \ family = binomial, data = hearts)}\\
+Course data: smoking OR 3.39 crude, aOR 2.04 (95\% CI 1.17 to 3.54) adjusted for age and sex};
+\node[note=\cw, below=3mm of lr] {Check: enough events per coefficient; linearity of continuous predictors on the log-odds scale. With a common outcome an OR is not a risk ratio.};
+
+% count
+\node[m=\cw, below=5mm of cnt] (pois) {\textbf{Poisson regression}\\
+Models the log rate. exp(coefficient) = incidence rate ratio (IRR). Different follow-up times enter as an \textbf{offset}\\
+\rc{glm(clinic\_visits \textasciitilde{} programme +}\\\rc{\ \ age10 + high\_bp\_0 +}\\\rc{\ \ offset(log(followup\_months)),}\\\rc{\ \ family = poisson, data = hearts)}};
+\node[warn=\cw, below=4mm of pois] (od) {\textbf{Overdispersion:} variance larger than the mean. Pearson chi-square / residual df well above 1 (course data about 2) makes CIs too narrow. Use \rc{quasipoisson} or negative binomial (\rc{MASS::glm.nb}).};
+
+% further learning
+\node[further=\cw, below=5mm of oth] (ordl) {\textbf{Ordinal} (e.g.\ satisfaction 1 to 5)\\
+Proportional odds (ordinal logistic) regression, e.g.\ \rc{MASS::polr}};
+\node[further=\cw, below=4mm of ordl] (mult) {\textbf{Nominal, more than two categories}\\
+Multinomial logistic regression, e.g.\ \rc{nnet::multinom}};
+\node[further=\cw, below=4mm of mult] (surv) {\textbf{Time-to-event with censoring}\\
+Kaplan-Meier curves, log-rank test, Cox regression (hazard ratio), \rc{survival} package};
+\node[further=\cw, below=4mm of surv] (mixed) {\textbf{Repeated or clustered observations} (any outcome type)\\
+Mixed-effects models or GEE: see \dref{D6}};
+
+% bottom row: purpose and checks
+\node[m=8.0cm, anchor=north west, minimum height=3.1cm] (expl) at (0.05,-13.1) {\textbf{Explaining (estimating an association)}\\
+Choose adjustment variables from a causal diagram, not from p-values. Adjust for \textbf{confounders} (common causes of exposure and outcome), not for \textbf{mediators} (on the path from exposure to outcome). Association is not causation.};
+\node[m=8.0cm, anchor=north west, minimum height=3.1cm] (pred) at (8.75,-13.1) {\textbf{Predicting}\\
+Judge the model on data it has not seen: split into training and test sets (or cross-validate). Avoid \textbf{leakage}: no test-set or future information while building the model.};
+\node[m=8.0cm, anchor=north west, minimum height=3.1cm] (chk) at (17.45,-13.1) {\textbf{Checks for linear regression}\\
+Independence (from the design); linearity; constant spread; approximately normal residuals. Use \rc{plot(fit)}: residuals vs fitted, Q-Q plot. The outcome itself need not be normal.};
+\end{tikzpicture}
+\end{document}

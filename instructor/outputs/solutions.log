@@ -1,0 +1,651 @@
+
+> library(readr)
+
+> library(dplyr)
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+> library(ggplot2)
+
+> library(broom)
+
+> source("R/theme_neudata.R")
+
+> raw <- read_csv("data/hearts_raw.csv", show_col_types = FALSE)
+
+> dim(raw)
+[1] 480  19
+
+> colSums(is.na(raw))
+             id        district             sex             age       education          smoker 
+              0               0               0               0               6               0 
+   activity_min      diet_score             bmi           sbp_0       high_bp_0             crp 
+              0               0              10               0               0              14 
+      programme          sbp_12      high_bp_12    satisfaction   adverse_event   clinic_visits 
+              0              41              41              41               0               0 
+followup_months 
+              0 
+
+> sum(raw$activity_min == -99, na.rm = TRUE)
+[1] 7
+
+> hearts <- readRDS("data/hearts.rds")
+
+> colSums(is.na(hearts))[colSums(is.na(hearts)) > 0]
+   education activity_min          bmi          crp       sbp_12   high_bp_12 satisfaction 
+           6            7           10           14           41           41           41 
+
+> mutate(count(hearts, smoker), percent = round(100 * 
++     n/sum(n), 1))
+  smoker   n percent
+1     No 401    83.5
+2    Yes  79    16.5
+
+> mutate(count(filter(hearts, !is.na(education)), education), 
++     percent = round(100 * n/sum(n), 1))
+        education   n percent
+1 Primary or less 117    24.7
+2       Secondary 223    47.0
+3        Tertiary 134    28.3
+
+> summ <- function(x) c(n = sum(!is.na(x)), mean = mean(x, 
++     na.rm = TRUE), sd = sd(x, na.rm = TRUE), median = median(x, 
++     na.rm = TRUE), q1 = unname(quantile(x, 0.25, na.rm = TRUE)), 
++     q3 = unname(quantile(x, 0.75, na.rm = TRUE)))
+
+> round(rbind(sbp_0 = summ(hearts$sbp_0), crp = summ(hearts$crp)), 
++     2)
+        n   mean    sd median    q1    q3
+sbp_0 480 129.34 15.61  129.0 118.0 140.0
+crp   466   3.02  3.42    1.9   1.2   3.7
+
+> ggplot(hearts, aes(bmi)) + geom_histogram(binwidth = 1, 
++     fill = neudata_cols[["teal"]], colour = "white")
+
+> ggplot(hearts, aes(smoker, crp)) + geom_boxplot(fill = neudata_mist) + 
++     scale_y_log10()
+
+> summ(hearts$bmi)
+         n       mean         sd     median         q1         q3 
+470.000000  26.361915   3.986985  26.200000  23.500000  29.375000 
+
+> summarise(group_by(hearts, sex), n = sum(!is.na(bmi)), 
++     mean = mean(bmi, na.rm = TRUE), sd = sd(bmi, na.rm = TRUE))
+# A tibble: 2 × 4
+  sex        n  mean    sd
+  <fct>  <int> <dbl> <dbl>
+1 Female   245  26.3  3.97
+2 Male     225  26.4  4.02
+
+> t.test(bmi ~ sex, data = hearts)
+
+	Welch Two Sample t-test
+
+data:  bmi by sex
+t = -0.27678, df = 463.59, p-value = 0.7821
+alternative hypothesis: true difference in means between group Female and group Male is not equal to 0
+95 percent confidence interval:
+ -0.8265780  0.6224782
+sample estimates:
+mean in group Female   mean in group Male 
+            26.31306             26.41511 
+
+
+> std <- filter(hearts, programme == "Standard advice", 
++     !is.na(sbp_12))
+
+> nrow(std)
+[1] 215
+
+> t.test(std$sbp_12, std$sbp_0, paired = TRUE)
+
+	Paired t-test
+
+data:  std$sbp_12 and std$sbp_0
+t = -3.3412, df = 214, p-value = 0.0009843
+alternative hypothesis: true mean difference is not equal to 0
+95 percent confidence interval:
+ -3.2316465 -0.8334698
+sample estimates:
+mean difference 
+      -2.032558 
+
+
+> summarise(group_by(hearts, district), n = sum(!is.na(bmi)), 
++     mean = mean(bmi, na.rm = TRUE), sd = sd(bmi, na.rm = TRUE))
+# A tibble: 4 × 4
+  district     n  mean    sd
+  <fct>    <int> <dbl> <dbl>
+1 North      115  26.0  4.18
+2 South      113  27.4  3.61
+3 East       121  26.5  3.97
+4 West       121  25.7  3.99
+
+> oneway.test(bmi ~ district, data = hearts)
+
+	One-way analysis of means (not assuming equal variances)
+
+data:  bmi and district
+F = 4.5344, num df = 3.00, denom df = 258.47, p-value = 0.004063
+
+
+> pairwise.t.test(hearts$bmi, hearts$district, pool.sd = FALSE, 
++     p.adjust.method = "holm")
+
+	Pairwise comparisons using t tests with non-pooled SD 
+
+data:  hearts$bmi and hearts$district 
+
+      North South East 
+South 0.035 -     -    
+East  0.657 0.300 -    
+West  0.657 0.004 0.321
+
+P value adjustment method: holm 
+
+> tab_sex <- table(hearts$sex, hearts$high_bp_0)
+
+> addmargins(tab_sex)
+        
+          No Yes Sum
+  Female 201  47 248
+  Male   155  77 232
+  Sum    356 124 480
+
+> round(prop.table(tab_sex, 1), 3)
+        
+            No   Yes
+  Female 0.810 0.190
+  Male   0.668 0.332
+
+> p_m <- tab_sex["Male", "Yes"]/sum(tab_sex["Male", 
++     ])
+
+> p_f <- tab_sex["Female", "Yes"]/sum(tab_sex["Female", 
++     ])
+
+> c(prev_male = p_m, prev_female = p_f, PR = p_m/p_f, 
++     OR = (p_m/(1 - p_m))/(p_f/(1 - p_f)))
+  prev_male prev_female          PR          OR 
+  0.3318966   0.1895161   1.7512839   2.1245024 
+
+> chisq.test(tab_sex)
+
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  tab_sex
+X-squared = 11.95, df = 1, p-value = 0.0005464
+
+
+> fisher.test(tab_sex)$conf.int
+[1] 1.369766 3.310075
+attr(,"conf.level")
+[1] 0.95
+
+> tab_d <- table(hearts$district, hearts$high_bp_0)
+
+> addmargins(tab_d)
+       
+         No Yes Sum
+  North  99  20 119
+  South  71  43 114
+  East   87  38 125
+  West   99  23 122
+  Sum   356 124 480
+
+> round(prop.table(tab_d, 1), 3)
+       
+           No   Yes
+  North 0.832 0.168
+  South 0.623 0.377
+  East  0.696 0.304
+  West  0.811 0.189
+
+> chisq.test(tab_d)
+
+	Pearson's Chi-squared test
+
+data:  tab_d
+X-squared = 17.93, df = 3, p-value = 0.0004547
+
+
+> summarise(group_by(hearts, education), n = sum(!is.na(activity_min)), 
++     median = median(activity_min, na.rm = TRUE), q1 = quantile(activity_min, 
++         0.25, na.rm = TRUE), q3 = quantile(activity_min, 0.75, 
++         na.rm = TRUE))
+# A tibble: 4 × 5
+  education           n median    q1    q3
+  <fct>           <int>  <dbl> <dbl> <dbl>
+1 Primary or less   115   150   77.5  225 
+2 Secondary         220   145   80    250 
+3 Tertiary          132   160   68.8  275 
+4 <NA>                6   168.  72.5  289.
+
+> kruskal.test(activity_min ~ education, data = hearts)
+
+	Kruskal-Wallis rank sum test
+
+data:  activity_min by education
+Kruskal-Wallis chi-squared = 1.2051, df = 2, p-value = 0.5474
+
+
+> mutate(group_by(count(filter(hearts, !is.na(satisfaction)), 
++     sex, satisfaction), sex), pct = round(100 * n/sum(n), 1))
+# A tibble: 10 × 4
+# Groups:   sex [2]
+   sex    satisfaction     n   pct
+   <fct>         <dbl> <int> <dbl>
+ 1 Female            1    14   6.1
+ 2 Female            2    40  17.5
+ 3 Female            3    78  34.2
+ 4 Female            4    66  28.9
+ 5 Female            5    30  13.2
+ 6 Male              1    21  10  
+ 7 Male              2    37  17.5
+ 8 Male              3    55  26.1
+ 9 Male              4    59  28  
+10 Male              5    39  18.5
+
+> wilcox.test(satisfaction ~ sex, data = hearts)
+
+	Wilcoxon rank sum test with continuity correction
+
+data:  satisfaction by sex
+W = 23546, p-value = 0.6934
+alternative hypothesis: true location shift is not equal to 0
+
+
+> summary(aov(sbp_0 ~ district, data = hearts))
+             Df Sum Sq Mean Sq F value   Pr(>F)    
+district      3   5136  1712.0   7.305 8.49e-05 ***
+Residuals   476 111549   234.3                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+> oneway.test(sbp_0 ~ district, data = hearts)
+
+	One-way analysis of means (not assuming equal variances)
+
+data:  sbp_0 and district
+F = 6.8338, num df = 3.00, denom df = 262.16, p-value = 0.0001888
+
+
+> tab_std <- table(Baseline = std$high_bp_0, Month12 = std$high_bp_12)
+
+> tab_std
+        Month12
+Baseline  No Yes
+     No  148  12
+     Yes  17  38
+
+> mcnemar.test(tab_std)
+
+	McNemar's Chi-squared test with continuity correction
+
+data:  tab_std
+McNemar's chi-squared = 0.55172, df = 1, p-value = 0.4576
+
+
+> hearts <- mutate(hearts, age_group = cut(age, c(29, 
++     49, 74), labels = c("30-49", "50-74")))
+
+> round(prop.table(table(hearts$age_group, hearts$smoker), 
++     1), 3)
+       
+           No   Yes
+  30-49 0.915 0.085
+  50-74 0.767 0.233
+
+> for (g in levels(hearts$age_group)) {
++     t <- with(filter(hearts, age_group == g), table(smoker, high_bp_0))
++     cat("\nAge", g, "\n")
++     print(addmargins(t))
++     cat("OR =", round(t[2, 2] * t[1, 1]/(t[2, 1] * t[1, 2]), 
++         2), "\n")
++ }
+
+Age 30-49 
+      high_bp_0
+smoker  No Yes Sum
+   No  184  20 204
+   Yes  15   4  19
+   Sum 199  24 223
+OR = 2.45 
+
+Age 50-74 
+      high_bp_0
+smoker  No Yes Sum
+   No  131  66 197
+   Yes  26  34  60
+   Sum 157 100 257
+OR = 2.6 
+
+> mantelhaen.test(table(hearts$smoker, hearts$high_bp_0, 
++     hearts$age_group))
+
+	Mantel-Haenszel chi-squared test with continuity correction
+
+data:  table(hearts$smoker, hearts$high_bp_0, hearts$age_group)
+Mantel-Haenszel X-squared = 11.589, df = 1, p-value = 0.0006634
+alternative hypothesis: true common odds ratio is not equal to 1
+95 percent confidence interval:
+ 1.513127 4.370906
+sample estimates:
+common odds ratio 
+         2.571719 
+
+
+> hearts <- mutate(hearts, age10 = age/10, bmi5 = bmi/5, 
++     activity_hr = activity_min/60)
+
+> ggplot(hearts, aes(bmi, sbp_0)) + geom_point(alpha = 0.4)
+
+> cor.test(~sbp_0 + bmi, data = hearts)
+
+	Pearson's product-moment correlation
+
+data:  sbp_0 and bmi
+t = 11.698, df = 468, p-value < 2.2e-16
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.4025103 0.5427414
+sample estimates:
+      cor 
+0.4756423 
+
+
+> cor.test(~sbp_0 + bmi, data = hearts, method = "spearman", 
++     exact = FALSE)
+
+	Spearman's rank correlation rho
+
+data:  sbp_0 and bmi
+S = 9114072, p-value < 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.4732894 
+
+
+> fit_bmi <- lm(sbp_0 ~ bmi, data = hearts)
+
+> tidy(fit_bmi, conf.int = TRUE)
+# A tibble: 2 × 7
+  term        estimate std.error statistic  p.value conf.low conf.high
+  <chr>          <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
+1 (Intercept)    79.9      4.26       18.7 6.51e-59    71.5      88.3 
+2 bmi             1.87     0.160      11.7 6.62e-28     1.56      2.18
+
+> glance(fit_bmi)[, c("r.squared", "sigma", "nobs")]
+# A tibble: 1 × 3
+  r.squared sigma  nobs
+      <dbl> <dbl> <int>
+1     0.226  13.8   470
+
+> tidy(lm(sbp_0 ~ bmi5, data = hearts), conf.int = TRUE)
+# A tibble: 2 × 7
+  term        estimate std.error statistic  p.value conf.low conf.high
+  <chr>          <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
+1 (Intercept)    79.9      4.26       18.7 6.51e-59    71.5       88.3
+2 bmi5            9.35     0.799      11.7 6.62e-28     7.78      10.9
+
+> par(mfrow = c(2, 2))
+
+> plot(fit_bmi)
+
+> par(mfrow = c(1, 1))
+
+> fit_s0 <- lm(sbp_0 ~ smoker, data = hearts)
+
+> fit_s1 <- lm(sbp_0 ~ smoker + age + sex, data = hearts)
+
+> select(filter(bind_rows(mutate(tidy(fit_s0, conf.int = TRUE), 
++     model = "crude"), mutate(tidy(fit_s1, conf.int = TRUE), model = "adjusted age, sex")), 
++     term == "smokerYes"), model, estimate, conf.low, conf.high, 
++     p.value)
+# A tibble: 2 × 5
+  model             estimate conf.low conf.high  p.value
+  <chr>                <dbl>    <dbl>     <dbl>    <dbl>
+1 crude                12.5      8.87      16.1 3.29e-11
+2 adjusted age, sex     7.01     3.73      10.3 3.08e- 5
+
+> fit_b2 <- lm(sbp_0 ~ bmi + age + sex, data = hearts)
+
+> tidy(fit_b2, conf.int = TRUE)
+# A tibble: 4 × 7
+  term        estimate std.error statistic  p.value conf.low conf.high
+  <chr>          <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
+1 (Intercept)   62.1      4.05       15.3  2.62e-43   54.1      70.0  
+2 bmi            1.42     0.147       9.72 1.86e-20    1.14      1.71 
+3 age            0.522    0.0491     10.6  8.93e-24    0.426     0.619
+4 sexMale        5.43     1.12        4.85 1.72e- 6    3.23      7.64 
+
+> new <- expand.grid(bmi = seq(18, 37, 0.5), age = 50, 
++     sex = factor(c("Female", "Male"), levels = c("Female", "Male")))
+
+> new <- cbind(new, predict(fit_b2, newdata = new, interval = "confidence"))
+
+> ggplot(new, aes(bmi, fit, colour = sex, fill = sex)) + 
++     geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.2, colour = NA) + 
++     geom_line()
+
+> fit_lb <- glm(high_bp_0 ~ bmi5 + age10 + sex, family = binomial, 
++     data = hearts)
+
+> tidy(fit_lb, conf.int = TRUE, exponentiate = TRUE)
+# A tibble: 4 × 7
+  term         estimate std.error statistic  p.value    conf.low conf.high
+  <chr>           <dbl>     <dbl>     <dbl>    <dbl>       <dbl>     <dbl>
+1 (Intercept) 0.0000104     1.18      -9.69 3.47e-22 0.000000909 0.0000955
+2 bmi5        2.92          0.177      6.04 1.51e- 9 2.08        4.18     
+3 age10       2.13          0.117      6.46 1.04e-10 1.70        2.70     
+4 sexMale     2.52          0.255      3.63 2.81e- 4 1.54        4.19     
+
+> fit_ps <- glm(clinic_visits ~ smoker + age10 + offset(log(followup_months)), 
++     family = poisson, data = hearts)
+
+> tidy(fit_ps, conf.int = TRUE, exponentiate = TRUE)
+# A tibble: 3 × 7
+  term        estimate std.error statistic  p.value conf.low conf.high
+  <chr>          <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
+1 (Intercept)   0.0778    0.132     -19.4  1.26e-83   0.0600     0.101
+2 smokerYes     1.24      0.0678      3.17 1.52e- 3   1.08       1.41 
+3 age10         1.23      0.0241      8.46 2.56e-17   1.17       1.29 
+
+> sum(residuals(fit_ps, type = "pearson")^2)/df.residual(fit_ps)
+[1] 2.05613
+
+> fit_qs <- update(fit_ps, family = quasipoisson)
+
+> tidy(fit_qs, conf.int = TRUE, exponentiate = TRUE)
+# A tibble: 3 × 7
+  term        estimate std.error statistic  p.value conf.low conf.high
+  <chr>          <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
+1 (Intercept)   0.0778    0.189     -13.5  1.87e-35   0.0535     0.112
+2 smokerYes     1.24      0.0972      2.21 2.75e- 2   1.02       1.50 
+3 age10         1.23      0.0345      5.90 6.77e- 9   1.15       1.31 
+
+> life <- filter(select(hearts, id, activity_min, diet_score, 
++     bmi), !is.na(activity_min), !is.na(bmi))
+
+> z <- scale(life[, 2:4])
+
+> set.seed(2024)
+
+> km2 <- kmeans(z, 2, nstart = 25)
+
+> set.seed(2024)
+
+> km3 <- kmeans(z, 3, nstart = 25)
+
+> life$k2 <- factor(km2$cluster)
+
+> life$k3 <- factor(km3$cluster)
+
+> summarise(group_by(life, k2), n = n(), act = median(activity_min), 
++     diet = mean(diet_score), bmi = mean(bmi))
+# A tibble: 2 × 5
+  k2        n   act  diet   bmi
+  <fct> <int> <dbl> <dbl> <dbl>
+1 1       215   255  6.80  24.1
+2 2       248    85  4.40  28.4
+
+> table(k2 = life$k2, k3 = life$k3)
+   k3
+k2    1   2   3
+  1   0 126  89
+  2 146 102   0
+
+> truth <- read.csv("instructor/hearts_truth.csv")
+
+> life <- left_join(life, truth, by = "id")
+
+> table(kmeans_k3 = life$k3, true_profile = life$profile)
+         true_profile
+kmeans_k3 Active Average Sedentary
+        1      0      44       102
+        2     55     160        13
+        3     85       4         0
+
+> t.test(I(sbp_12 - sbp_0) ~ programme, data = hearts)$conf.int
+[1] 2.304768 5.639044
+attr(,"conf.level")
+[1] 0.95
+
+> tidy(lm(sbp_12 ~ programme + sbp_0, data = hearts), 
++     conf.int = TRUE)[2, ]
+# A tibble: 1 × 7
+  term                         estimate std.error statistic    p.value conf.low conf.high
+  <chr>                           <dbl>     <dbl>     <dbl>      <dbl>    <dbl>     <dbl>
+1 programmeLifestyle programme    -3.97     0.849     -4.68 0.00000386    -5.64     -2.30
+
+> set.seed(42)
+
+> train_rows <- sample(nrow(hearts), size = round(0.7 * 
++     nrow(hearts)))
+
+> train <- hearts[train_rows, ]
+
+> test <- hearts[-train_rows, ]
+
+> rmse <- function(m, d) sqrt(mean((d$sbp_0 - predict(m, 
++     newdata = d))^2, na.rm = TRUE))
+
+> m_mid <- lm(sbp_0 ~ age + sex + bmi, data = train)
+
+> c(train = rmse(m_mid, train), test = rmse(m_mid, test))
+   train     test 
+11.92521 12.47810 
+
+> hc_avg <- hclust(dist(z), method = "average")
+
+> table(average_k3 = cutree(hc_avg, 3))
+average_k3
+  1   2   3 
+426  30   7 
+
+> hc_w <- hclust(dist(z), method = "ward.D2")
+
+> table(ward_k3 = cutree(hc_w, 3))
+ward_k3
+  1   2   3 
+121 152 190 
+
+> summarise(group_by(hearts, sex), n = sum(!is.na(crp)), 
++     median = median(crp, na.rm = TRUE), q1 = quantile(crp, 0.25, 
++         na.rm = TRUE), q3 = quantile(crp, 0.75, na.rm = TRUE))
+# A tibble: 2 × 5
+  sex        n median    q1    q3
+  <fct>  <int>  <dbl> <dbl> <dbl>
+1 Female   240   1.85   1.1  3.62
+2 Male     226   2      1.2  3.77
+
+> wilcox.test(crp ~ sex, data = hearts, conf.int = TRUE)
+
+	Wilcoxon rank sum test with continuity correction
+
+data:  crp by sex
+W = 26142, p-value = 0.5009
+alternative hypothesis: true location shift is not equal to 0
+95 percent confidence interval:
+ -0.3999882  0.1999714
+sample estimates:
+difference in location 
+           -0.09994385 
+
+
+> tt <- t.test(log(crp) ~ sex, data = hearts)
+
+> exp(-diff(tt$estimate))
+mean in group Male 
+         0.9273985 
+
+> 1/exp(tt$conf.int)
+[1] 1.2681129 0.9168733
+attr(,"conf.level")
+[1] 0.95
+
+> tidy(lm(sbp_0 ~ diet_score, data = hearts), conf.int = TRUE)[2, 
++     ]
+# A tibble: 1 × 7
+  term       estimate std.error statistic       p.value conf.low conf.high
+  <chr>         <dbl>     <dbl>     <dbl>         <dbl>    <dbl>     <dbl>
+1 diet_score    -2.32     0.389     -5.96 0.00000000488    -3.08     -1.55
+
+> tidy(lm(sbp_0 ~ diet_score + age + sex, data = hearts), 
++     conf.int = TRUE)[2, ]
+# A tibble: 1 × 7
+  term       estimate std.error statistic    p.value conf.low conf.high
+  <chr>         <dbl>     <dbl>     <dbl>      <dbl>    <dbl>     <dbl>
+1 diet_score    -1.54     0.342     -4.50 0.00000840    -2.21    -0.868
+
+> tab12 <- table(hearts$programme, hearts$high_bp_12)
+
+> addmargins(tab12)
+                     
+                       No Yes Sum
+  Standard advice     165  50 215
+  Lifestyle programme 189  35 224
+  Sum                 354  85 439
+
+> round(prop.table(tab12, 1), 3)
+                     
+                         No   Yes
+  Standard advice     0.767 0.233
+  Lifestyle programme 0.844 0.156
+
+> chisq.test(tab12)
+
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  tab12
+X-squared = 3.6172, df = 1, p-value = 0.05718
+
+
+> p <- prop.table(tab12, 1)[, "Yes"]
+
+> c(RR = p[2]/p[1], RD = p[2] - p[1])
+RR.Lifestyle programme RD.Lifestyle programme 
+            0.67187500            -0.07630814 
+
+> tidy(glm(high_bp_12 ~ programme + high_bp_0, family = binomial, 
++     data = hearts), conf.int = TRUE, exponentiate = TRUE)
+# A tibble: 3 × 7
+  term                         estimate std.error statistic  p.value conf.low conf.high
+  <chr>                           <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
+1 (Intercept)                    0.0809     0.266     -9.45 3.32e-21   0.0464     0.132
+2 programmeLifestyle programme   0.462      0.312     -2.47 1.34e- 2   0.247      0.845
+3 high_bp_0Yes                  27.7        0.319     10.4  2.32e-25  15.1       53.1  
+Warning messages:
+1: Removed 10 rows containing non-finite outside the scale range (`stat_bin()`). 
+2: Removed 14 rows containing non-finite outside the scale range (`stat_boxplot()`). 
+3: Removed 10 rows containing missing values or values outside the scale range (`geom_point()`). 

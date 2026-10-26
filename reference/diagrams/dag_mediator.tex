@@ -1,0 +1,15 @@
+\input{diagram_style}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+  var/.style={draw=cblue, fill=clight, rounded corners=3pt, line width=0.9pt,
+              align=center, inner sep=7pt, font=\normalsize, minimum width=3.6cm}]
+\node[var, draw=cgreen, fill=white, line width=1.2pt] (bmi) at (4.5,3) {BMI\\\footnotesize mediator};
+\node[var] (act) at (0,0) {Physical activity\\\footnotesize exposure};
+\node[var] (sbp) at (9,0) {Systolic BP\\\footnotesize outcome};
+\draw[flow] (act) -- (bmi);
+\draw[flow] (bmi) -- (sbp);
+\draw[flow, draw=cblue, line width=1.2pt] (act) -- node[lab, below=2pt] {direct path} (sbp);
+\node[note=11cm, anchor=north, font=\small] at (4.5,-1.3) {Activity can lower BMI, and BMI raises SBP: BMI lies on the path. Adjusting for BMI removes the part of the effect that works through BMI. \textbf{Do not adjust for a mediator} when you want the total effect.\\[2pt]
+Course data: \textminus 1.60 mmHg per hour/week (age, sex); \textminus 0.86 when BMI is also added.};
+\end{tikzpicture}
+\end{document}

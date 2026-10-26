@@ -1,0 +1,59 @@
+\input{diagram_style}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+  cell/.style={draw=#1, fill=white, rounded corners=3pt, line width=0.7pt, align=left,
+               inner sep=5pt, minimum height=1.55cm, anchor=north west, font=\footnotesize},
+  head/.style={font=\normalsize, text=cblue, anchor=base west}]
+\node[title] at (0,1.9) {D1. Describing data: summaries and plots by variable type};
+\node[subtitle] at (0,1.2) {Always report n and the number of missing values. Plot the data before choosing a summary.};
+
+\def\xa{0}\def\xb{4.9}\def\xc{11.5}\def\xd{16.8}
+\node[head] at (\xa,0.2) {Variable type};
+\node[head] at (\xb,0.2) {Summarise with};
+\node[head] at (\xc,0.2) {Plot with};
+\node[head] at (\xd,0.2) {R, course data};
+
+% one row = type | summary | plot | code
+\newcommand{\row}[5]{%
+  \node[cell=cblue, fill=clight, text width=4.3cm] at (\xa,#1) {#2};
+  \node[cell=cgreen, text width=6.0cm] at (\xb,#1) {#3};
+  \node[cell=cgreen, text width=4.7cm] at (\xc,#1) {#4};
+  \node[cell=cgrey, text width=7.6cm, font=\ttfamily\footnotesize] at (\xd,#1) {#5};}
+
+\node[band] at (0,-0.35) {One variable};
+\row{-0.75}{\textbf{Binary or nominal}\\e.g.\ smoker, district}
+   {Counts and percentages. State the denominator: everyone, or only those with a known value.}
+   {Bar chart of counts or percentages}
+   {count(hearts, district)\\geom\_bar()}
+\row{-2.45}{\textbf{Ordinal}\\e.g.\ satisfaction 1 to 5}
+   {Counts and percentages, kept in category order. Median and IQR can be added.}
+   {Bar chart in category order}
+   {count(hearts, satisfaction)}
+\row{-4.15}{\textbf{Continuous, roughly symmetric}\\e.g.\ SBP}
+   {Mean and standard deviation (SD)}
+   {Histogram; boxplot}
+   {mean(sbp\_0); sd(sbp\_0)\\geom\_histogram(binwidth = 5)}
+\row{-5.85}{\textbf{Continuous, skewed}\\e.g.\ CRP}
+   {Median and interquartile range (IQR, 25th to 75th percentile). Mean and SD are pulled by extreme values.}
+   {Histogram, often on a log scale; boxplot}
+   {median(crp, na.rm = TRUE)\\quantile(crp, c(0.25, 0.75), na.rm = TRUE)\\scale\_x\_log10()}
+\row{-7.55}{\textbf{Count}\\e.g.\ clinic visits}
+   {Mean and variance; a rate (events per person-time) when follow-up time differs}
+   {Bar chart of each count value}
+   {sum(clinic\_visits) / sum(followup\_months)}
+
+\node[band] at (0,-9.55) {Two variables};
+\row{-9.95}{\textbf{Continuous by group}\\e.g.\ SBP by district}
+   {The summary above, given separately for each group, with n per group}
+   {Boxplots with the raw points}
+   {group\_by(district) |> summarise(...)\\geom\_boxplot() + geom\_jitter()}
+\row{-11.65}{\textbf{Two categorical}\\e.g.\ smoker by high BP}
+   {Contingency table with row percentages (denominator = each row total)}
+   {Bar chart of proportions}
+   {tab <- table(hearts\$smoker, hearts\$high\_bp\_0)\\prop.table(tab, margin = 1)}
+\row{-13.35}{\textbf{Two continuous}\\e.g.\ age and SBP}
+   {Correlation, if the pattern is roughly linear or monotonic (see \dref{D4})}
+   {Scatterplot}
+   {geom\_point()}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,144 @@
+
+> library(dplyr)
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+> library(ggplot2)
+
+> library(cluster)
+
+> source("R/theme_neudata.R")
+
+> hearts <- readRDS("data/hearts.rds")
+
+> life <- filter(select(hearts, id, activity_min, diet_score, 
++     bmi), !is.na(activity_min), !is.na(bmi))
+
+> nrow(life)
+[1] 463
+
+> summary(life[, -1])
+  activity_min     diet_score          bmi       
+ Min.   : 15.0   Min.   : 1.000   Min.   :16.50  
+ 1st Qu.: 80.0   1st Qu.: 4.000   1st Qu.:23.65  
+ Median :155.0   Median : 6.000   Median :26.20  
+ Mean   :187.6   Mean   : 5.516   Mean   :26.39  
+ 3rd Qu.:250.0   3rd Qu.: 7.000   3rd Qu.:29.40  
+ Max.   :905.0   Max.   :10.000   Max.   :37.60  
+
+> life_scaled <- scale(life[, c("activity_min", "diet_score", 
++     "bmi")])
+
+> round(apply(life_scaled, 2, sd), 2)
+activity_min   diet_score          bmi 
+           1            1            1 
+
+> set.seed(2024)
+
+> k_values <- 1:8
+
+> wss <- sapply(k_values, function(k) kmeans(life_scaled, 
++     centers = k, nstart = 25)$tot.withinss)
+
+> sil <- sapply(2:8, function(k) {
++     km <- kmeans(life_scaled, centers = k, nstart = 25)
++     mean(silhouette(km$cluster, dist(life_scaled))[, "sil_width"])
++ })
+
+> ggplot(data.frame(k = k_values, wss = wss), aes(k, 
++     wss)) + geom_line(colour = "grey50") + geom_point(size = 2.5, 
++     colour = neudata_cols[["teal"]]) + scale_x_continuous(breaks = k_values) + 
++     labs(x = "Number of clusters (k)", y = "Total within-cluster sum of squares", 
++         title = "Elbow plot")
+
+> data.frame(k = 2:8, avg_silhouette = round(sil, 3))
+  k avg_silhouette
+1 2          0.338
+2 3          0.293
+3 4          0.282
+4 5          0.276
+5 6          0.270
+6 7          0.258
+7 8          0.269
+
+> set.seed(2024)
+
+> km3 <- kmeans(life_scaled, centers = 3, nstart = 25)
+
+> life$cluster <- factor(km3$cluster)
+
+> table(life$cluster)
+
+  1   2   3 
+146 228  89 
+
+> summarise(group_by(life, cluster), n = n(), activity_median = median(activity_min), 
++     diet_mean = round(mean(diet_score), 1), bmi_mean = round(mean(bmi), 
++         1))
+# A tibble: 3 × 5
+  cluster     n activity_median diet_mean bmi_mean
+  <fct>   <int>           <dbl>     <dbl>    <dbl>
+1 1         146              60       3.9     30.2
+2 2         228             165       5.8     25.1
+3 3          89             390       7.3     23.5
+
+> ggplot(life, aes(x = activity_min, y = bmi, colour = cluster)) + 
++     geom_point(alpha = 0.6) + scale_x_log10() + scale_colour_manual(values = unname(neudata_cols[c("teal", 
++     "blue", "teal_light")])) + labs(x = "Physical activity (min/week, log scale)", 
++     y = "BMI (kg/m2)", colour = "Cluster", title = "k-means clusters (k = 3, scaled variables)")
+
+> set.seed(2024)
+
+> km3_raw <- kmeans(life[, c("activity_min", "diet_score", 
++     "bmi")], centers = 3, nstart = 25)
+
+> summarise(group_by(mutate(life, cluster_raw = factor(km3_raw$cluster)), 
++     cluster_raw), n = n(), activity_min = paste(range(activity_min), 
++     collapse = " to "), diet_mean = round(mean(diet_score), 1), 
++     bmi_mean = round(mean(bmi), 1))
+# A tibble: 3 × 5
+  cluster_raw     n activity_min diet_mean bmi_mean
+  <fct>       <int> <chr>            <dbl>    <dbl>
+1 1             173 160 to 365         6.2     25.4
+2 2              54 370 to 905         6.9     23.8
+3 3             236 15 to 155          4.7     27.7
+
+> life <- left_join(life, select(hearts, id, sbp_0, 
++     age), by = "id")
+
+> summarise(group_by(life, cluster), n = n(), mean_age = round(mean(age), 
++     1), mean_sbp = round(mean(sbp_0), 1))
+# A tibble: 3 × 4
+  cluster     n mean_age mean_sbp
+  <fct>   <int>    <dbl>    <dbl>
+1 1         146     56.5     138.
+2 2         228     50.1     127.
+3 3          89     47.7     121.
+
+> d <- dist(life_scaled)
+
+> hc <- hclust(d, method = "ward.D2")
+
+> plot(hc, labels = FALSE, hang = -1, main = "Hierarchical clustering (Ward)", 
++     xlab = "", sub = "")
+
+> rect.hclust(hc, k = 3, border = unname(neudata_cols[c("teal", 
++     "blue", "teal_light")]))
+
+> life$hc3 <- factor(cutree(hc, k = 3))
+
+> table(kmeans = life$cluster, hierarchical = life$hc3)
+      hierarchical
+kmeans   1   2   3
+     1 120   0  26
+     2   1  63 164
+     3   0  89   0

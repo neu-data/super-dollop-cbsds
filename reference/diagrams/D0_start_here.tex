@@ -1,0 +1,57 @@
+\input{diagram_style}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[title] at (0,1.6) {D0. Choosing an analysis: start here};
+\node[subtitle] at (0,0.85) {Answer four questions in order. The blue labels point to the focused diagrams D1 to D6.};
+
+% ---- Band 1: purpose
+\node[q=4.2cm, anchor=north west] (b1) at (0,0) {\textbf{1. What is the question?}\\[2pt]\footnotesize Write it in one sentence first};
+\foreach \i/\t/\d/\r in {
+  0/Describe/{What do the data look like?}/{\dref{D1}},
+  1/Compare groups/{Do groups differ in the outcome?}/{\dref{D2} continuous, ordinal\\\dref{D3} categorical},
+  2/Assess an association/{Is X related to Y, possibly adjusted for others?}/{\dref{D3} both categorical\\\dref{D4} otherwise},
+  3/Predict/{Estimate Y for new people}/{\dref{D4} plus a train/test split},
+  4/Discover groups/{Are there subgroups? No outcome variable}/{\dref{D5}}}{
+  \node[opt=3.7cm, anchor=north west] (p\i) at (5.0+\i*4.15,0) {\textbf{\t}\\[1pt]{\footnotesize\d}\\[2pt]{\footnotesize\r}};
+}
+
+% ---- Band 2: outcome type
+\node[q=4.2cm, anchor=north west] (b2) at (0,-3.3) {\textbf{2. What type is the outcome?}\\[2pt]\footnotesize The variable you measure or explain};
+\foreach \i/\t/\d in {
+  0/Continuous/{Measured on a scale\\e.g.\ SBP, BMI, CRP},
+  1/Binary/{Two categories\\e.g.\ high BP yes/no},
+  2/Nominal/{Unordered categories\\e.g.\ district},
+  3/Ordinal/{Ordered categories\\e.g.\ satisfaction 1 to 5},
+  4/Count/{Number of events\\e.g.\ clinic visits},
+  5/Time-to-event/{Time until an event; some not yet observed (censored)}}{
+  \node[opt=3.05cm, anchor=north west] (o\i) at (5.0+\i*3.45,-3.3) {\textbf{\t}\\[1pt]{\footnotesize\d}};
+}
+
+% ---- Band 3: design
+\node[q=4.2cm, anchor=north west] (b3) at (0,-6.3) {\textbf{3. How were the observations collected?}};
+\foreach \i/\t/\d/\r in {
+  0/Independent/{One measurement per person; people unrelated}/{\dref{D2} to \dref{D4}},
+  1/Paired/{Same people twice, or matched pairs}/{paired methods in \dref{D2}, \dref{D3}},
+  2/Repeated/{Three or more measurements per person}/{\dref{D6} before analysing},
+  3/Clustered/{People grouped in clinics, households, schools}/{\dref{D6} before analysing}}{
+  \node[opt=4.75cm, anchor=north west] (d\i) at (5.0+\i*5.2,-6.3) {\textbf{\t}\\[1pt]{\footnotesize\d}\\[2pt]{\footnotesize\r}};
+}
+
+% ---- Band 4: groups / predictors
+\node[q=4.2cm, anchor=north west] (b4) at (0,-9.3) {\textbf{4. How many groups or predictors?}};
+\foreach \i/\t/\d in {
+  0/Two groups/{e.g.\ women and men; t-test, Wilcoxon, 2 x 2 table},
+  1/Three or more groups/{e.g.\ four districts; ANOVA, Kruskal-Wallis, r x c table},
+  2/One predictor/{Correlation or simple regression},
+  3/Several predictors/{Adjusted associations: multiple, logistic or Poisson regression}}{
+  \node[opt=4.75cm, anchor=north west] (g\i) at (5.0+\i*5.2,-9.3) {\textbf{\t}\\[1pt]{\footnotesize\d}};
+}
+
+\draw[flow] (b1.south) -- (b2.north);
+\draw[flow] (b2.south) -- (b3.north);
+\draw[flow] (b3.south) -- (b4.north);
+
+\node[warn=25.4cm, anchor=north west] at (0,-11.7) {\textbf{Use these diagrams to structure your thinking, not as automatic rules.}
+Look at the data with plots, think about how they were collected, and report an effect estimate (difference, ratio, slope) with its 95\% confidence interval, not only a p-value. Sample size alone does not decide between a t-test and a rank-based test, and neither does the p-value of a normality test.};
+\end{tikzpicture}
+\end{document}

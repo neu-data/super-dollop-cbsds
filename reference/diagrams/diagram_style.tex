@@ -1,0 +1,56 @@
+% Shared preamble for the course decision diagrams.
+% Each diagram file starts with \input{diagram_style} and contains one tikzpicture.
+% Compile with pdflatex; build_diagrams.py then crops each page to its content.
+\documentclass[11pt]{article}
+\usepackage[a3paper,landscape,margin=10mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{tgheros}                 % Neudata body font (as in neudata.cls)
+\renewcommand{\sfdefault}{qhv}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[scaled=0.95,varqu]{zi4}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+% Neudata palette (neu-data/.github BRAND.md); names kept so the diagram sources need no edits
+\definecolor{cblue}{HTML}{0B376C}    % Neudata Blue: question boxes, links between diagrams
+\definecolor{corange}{HTML}{B5652B}  % muted contrasting colour: warnings
+\definecolor{cgreen}{HTML}{055F56}   % Neudata Teal: method boxes
+\definecolor{clight}{HTML}{EAF2F5}   % Neudata Mist: question box fill
+\definecolor{ctext}{HTML}{1F2D33}    % Neudata Ink: text
+\definecolor{cgrey}{HTML}{8A99A3}    % Neudata Grey: further-learning routes
+\definecolor{cpale}{HTML}{F4F8FA}
+\definecolor{cnavy}{HTML}{04242F}    % Deep Navy: titles
+
+\tikzset{
+  every node/.style={text=ctext, font=\small},
+  title/.style={font=\Large\bfseries, text=cnavy, anchor=west},
+  subtitle/.style={font=\normalsize, text=ctext!72, anchor=west},
+  q/.style={draw=cblue, fill=clight, rounded corners=3pt, line width=0.8pt,
+            align=center, inner sep=6pt, text width=#1},
+  q/.default=5cm,
+  m/.style={draw=cgreen, fill=white, rounded corners=3pt, line width=1pt,
+            align=left, inner sep=6pt, text width=#1},
+  m/.default=5cm,
+  opt/.style={draw=cblue, fill=white, rounded corners=3pt, line width=0.6pt,
+              align=center, inner sep=5pt, text width=#1},
+  opt/.default=3.2cm,
+  further/.style={draw=cgrey, dashed, fill=white, rounded corners=3pt, line width=0.8pt,
+                  align=left, inner sep=6pt, text=ctext, text width=#1},
+  further/.default=5cm,
+  warn/.style={draw=corange, fill=white, rounded corners=3pt, line width=1pt,
+               align=left, inner sep=6pt, text width=#1},
+  warn/.default=6cm,
+  note/.style={align=left, text width=#1, font=\footnotesize, text=ctext},
+  note/.default=5cm,
+  band/.style={font=\normalsize\bfseries, text=cgreen, anchor=west, align=left},
+  flow/.style={-{Stealth[length=2.6mm]}, line width=0.8pt, draw=ctext!75},
+  flowg/.style={-{Stealth[length=2.6mm]}, line width=0.8pt, draw=cgrey, dashed},
+  lab/.style={font=\footnotesize, fill=white, inner sep=2pt, text=ctext},
+  code/.style={font=\ttfamily\footnotesize},
+}
+\newcommand{\rc}[1]{{\ttfamily\footnotesize #1}}
+\newcommand{\dref}[1]{{\color{cblue}#1}}

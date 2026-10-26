@@ -1,0 +1,377 @@
+% Statistics and R cheat sheet
+% Concepts of Biostatistics and Data Science: a two-day crash course with practical analysis in R
+% Uses the Neudata LaTeX class (neudata.cls, style 1, from neu-data/latex-report-template).
+% Compile with: pdflatex cheat_sheet.tex   (run twice so that "page n / total" is correct)
+% All numbers come from the course scripts run on the SIMULATED Healthy Hearts data.
+\documentclass[style1, note, nocover]{neudata}
+\geometry{margin=12mm, top=21mm, bottom=17mm, headheight=0.95cm, headsep=3mm, footskip=8mm}
+\usepackage[scaled=0.92,varqu]{zi4}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{needspace}
+\hypersetup{pdftitle={Statistics and R cheat sheet}, pdfauthor={Neudata Consulting Ltd},
+  pdfsubject={Concepts of Biostatistics and Data Science: a two-day crash course with practical analysis in R}}
+\title{Statistics and R cheat sheet \textperiodcentered\ Concepts of Biostatistics and Data Science}
+
+% Course colours mapped to the Neudata palette (see neu-data/.github BRAND.md)
+\colorlet{cblue}{NeudataDeepTeal}      % labels, frames
+\colorlet{cnavy}{NeudataNavy}          % headings
+\definecolor{corange}{HTML}{B5652B}    % muted contrasting colour for warnings
+\definecolor{cgreen}{HTML}{5FA39B}     % Neudata light teal
+\colorlet{clight}{NeudataMist}
+\colorlet{ctext}{NeudataInk}
+\definecolor{cgrey}{HTML}{5C6B73}      % darker than Neudata grey, for readable small text
+\definecolor{cpale}{HTML}{F4F8FA}
+\color{ctext}
+
+\small
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlength{\columnsep}{6mm}
+\setlist{nosep, leftmargin=1.1em}
+\hyphenpenalty=2000
+\raggedright
+
+\newcommand{\rc}[1]{{\ttfamily\small #1}}
+\newcommand{\sect}[1]{\needspace{6\baselineskip}\vspace{4pt}{\large\bfseries\color{cnavy}#1}\par\vspace{1pt}{\color{cblue}\rule{\linewidth}{0.8pt}}\par}
+\newcommand{\lab}[1]{{\color{cblue}#1}\enspace}
+
+% A method card: title, question, data and design, assumptions, R, report, course result, mistake
+\newtcolorbox{card}[1]{enhanced, colback=white, colframe=cblue!70, boxrule=0.5pt, arc=2pt,
+  left=4pt, right=4pt, top=2pt, bottom=3pt, before skip=5pt, after skip=3pt,
+  title={#1}, coltitle=cnavy, colbacktitle=clight, fonttitle=\normalsize\bfseries, toptitle=1pt, bottomtitle=1pt,
+  fontupper=\small, before upper={\raggedright\setlength{\parskip}{1.5pt}}}
+\newtcolorbox{keybox}[2][corange]{enhanced, colback=white, colframe=#1, boxrule=0.7pt, arc=2pt,
+  left=4pt, right=4pt, top=3pt, bottom=3pt, before skip=5pt, after skip=4pt,
+  title={#2}, coltitle=cnavy, colbacktitle=white, fonttitle=\normalsize\bfseries, attach boxed title to top left={xshift=4pt, yshift=-2pt},
+  boxed title style={colframe=white, colback=white}, fontupper=\small, before upper={\raggedright}}
+
+\begin{document}
+\small
+
+{\LARGE\bfseries\color{cnavy}Statistics and R cheat sheet}\par
+\vspace{2pt}
+{\large\color{cblue}Concepts of Biostatistics and Data Science: a two-day crash course with practical analysis in R}\par
+\vspace{4pt}
+\vspace{4pt}
+{\small All examples use the course dataset \rc{hearts} (the Healthy Hearts District Study), loaded with
+\rc{hearts <- readRDS("data/hearts.rds")}. The data are \textbf{simulated for teaching}: the results illustrate methods and say nothing about real people. Packages: \rc{readr}, \rc{dplyr}, \rc{ggplot2}, \rc{broom}; \rc{MASS} and \rc{cluster} come with R. For choosing a method, use the decision diagrams D0 to D6.}
+
+\begin{multicols}{2}
+
+\sect{Before any analysis: five questions}
+\begin{enumerate}[leftmargin=1.4em]
+\item \textbf{Question.} Describe, compare groups, assess an association, predict, or discover groups?
+\item \textbf{Outcome type.} Continuous, binary, nominal, ordinal, count or time-to-event?
+\item \textbf{Design.} Independent, paired, repeated or clustered observations?
+\item \textbf{Groups or predictors.} Two groups, more than two, one predictor, several?
+\item \textbf{Effect to report.} Difference, ratio or slope, with its 95\% CI. A p-value alone is not an answer.
+\end{enumerate}
+
+\begin{keybox}{Reading results honestly}
+\begin{itemize}
+\item \textbf{Statistical significance is not practical importance.} A tiny difference can be ``significant'' in a large study. Judge size from the estimate and CI.
+\item \textbf{Significance is not causation.} In observational data, confounding, bias and chance can all produce associations.
+\item \textbf{``Not significant'' is not ``no effect''.} Look at the CI: it may include both no effect and important effects.
+\item A p-value is not the probability that the null hypothesis is true.
+\end{itemize}
+\end{keybox}
+
+\sect{Glossary}
+{\small
+\lab{Observation}one unit measured (here, one participant; one row).\par
+\lab{Variable}a characteristic recorded for each observation (one column).\par
+\lab{Population, sample}the people we want to learn about; the subset we measured.\par
+\lab{Estimate}a number computed from the sample to describe the population (mean difference, OR, slope).\par
+\lab{Standard error (SE)}how much an estimate would vary from sample to sample.\par
+\lab{95\% confidence interval (CI)}a range of population values compatible with the data. Across many studies, 95\% of such intervals would contain the true value.\par
+\lab{Null hypothesis}a reference claim, usually ``no difference'' or ``no association''.\par
+\lab{p-value}how surprising data at least this extreme would be if the null hypothesis were true.\par
+\lab{Effect size}the size of a difference or association, in units people understand.\par
+\lab{Independent observations}no observation tells you anything about another (no pairing, repeats or clusters).\par
+\lab{Paired}two measurements linked to the same person or a matched pair.\par
+\lab{Residual}observed value minus the value fitted by a model.\par
+\lab{Rank}position of a value when all values are sorted (1 = smallest).\par
+\lab{Skewed}a distribution with a long tail on one side (CRP has a long right tail).\par
+\lab{Confounder}a common cause of the exposure and the outcome. Adjust for it.\par
+\lab{Mediator}a variable on the path from exposure to outcome. Do not adjust for it if you want the total effect.\par
+\lab{Effect modification}the association differs between subgroups (e.g.\ women and men).\par
+\lab{Odds}number with the outcome divided by number without it.\par
+\lab{Offset}a term that tells a count model how long each person was observed.\par
+\lab{Overdispersion}counts vary more than a Poisson model assumes.\par
+\lab{Censoring}the event has not (yet) been observed when follow-up ends.\par
+\lab{Scaling (standardising)}subtract the mean and divide by the SD, so variables share a scale.\par
+}
+
+\sect{Describing data}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.0cm}@{}}
+\toprule
+\textbf{Variable} & \textbf{Summary} & \textbf{Plot}\\\midrule
+Binary, nominal & n and \% (state the denominator) & bar chart\\
+Ordinal & n and \% in order; median (IQR) & ordered bars\\
+Continuous, symmetric & mean (SD) & histogram, boxplot\\
+Continuous, skewed & median (IQR) & histogram (log scale)\\
+Count & mean, variance; rate per person-time & bar chart\\
+Two categorical & table with row \% & bars of proportions\\
+Continuous by group & summary per group & boxplot with points\\
+Two continuous & correlation & scatterplot\\\bottomrule
+\end{tabularx}
+{\small
+\rc{count(hearts, district) |> mutate(pct = 100 * n / sum(n))}\\
+\rc{hearts |> group\_by(sex) |> summarise(n = n(),}\\
+\rc{\ \ mean = mean(sbp\_0), sd = sd(sbp\_0))}\\
+\rc{median(hearts\$crp, na.rm = TRUE)}\\
+\rc{ggplot(hearts, aes(x = district, y = sbp\_0)) +}\\
+\rc{\ \ geom\_boxplot() + geom\_jitter(width = 0.15)}\\[2pt]
+Course data: SBP mean 129.3 (SD 15.6) mmHg, n = 480. CRP is right-skewed: median 1.9 (IQR 1.2 to 3.7) mg/L, n = 466 (14 missing); its mean (3.0) is pulled up by a few high values.}
+
+\sect{Comparing a continuous or ordinal outcome}
+
+\begin{card}{Welch t-test: two independent groups}
+\lab{Question}Do two groups differ in their mean outcome?\par
+\lab{Data}Continuous outcome; two independent groups.\par
+\lab{Assumptions}Independent observations; group means approximately normal (usually fine in moderate or large groups unless there is strong skew or outliers). Welch does not assume equal variances, so it is a sensible default. Check: boxplots or histograms by group.\par
+\lab{R}\rc{t.test(sbp\_0 \textasciitilde{} sex, data = hearts)}\par
+\lab{Report}Difference in means with 95\% CI.\par
+\lab{Course}Women 126.4, men 132.5 mmHg. Difference (women minus men) $-$6.1 mmHg (95\% CI $-$8.9 to $-$3.4).\par
+\lab{In words}On average women's SBP was about 6 mmHg lower; the data are compatible with a difference of about 3 to 9 mmHg.\par
+\lab{Mistake}Ignoring which group is subtracted (R uses the factor level order), or reporting only the p-value.
+\end{card}
+
+\begin{card}{Paired t-test: the same people measured twice}
+\lab{Question}Did the mean change within people (or within matched pairs)?\par
+\lab{Data}Continuous outcome measured twice on the same unit.\par
+\lab{Assumptions}Pairs independent of each other; differences approximately normal or enough pairs. Check: histogram of the differences.\par
+\lab{R}\rc{t.test(prog\$sbp\_12, prog\$sbp\_0, paired = TRUE)}\par
+\lab{Report}Mean difference with 95\% CI.\par
+\lab{Course}Lifestyle group (n = 224): mean change $-$6.0 mmHg (95\% CI $-$7.2 to $-$4.8).\par
+\lab{Mistake}Analysing paired data as independent groups (CI widens to $-$9.1 to $-$2.9). And a within-group change is not the programme effect: compare the change between the randomised groups (4.0 mmHg greater fall, 95\% CI 2.3 to 5.6).
+\end{card}
+
+\begin{card}{Wilcoxon rank-sum (Mann-Whitney) test}
+\lab{Question}Do values tend to be higher in one group than in the other?\par
+\lab{Data}Ordinal or continuous outcome; two independent groups.\par
+\lab{Assumptions}Independent observations. Reading it as a shift in location needs distributions of similar shape. It is \textbf{not assumption-free} and \textbf{not in general a test of medians}.\par
+\lab{R}\rc{wilcox.test(crp \textasciitilde{} smoker, data = hearts,}\\\rc{\ \ \ \ \ \ \ \ \ \ \ \ conf.int = TRUE)}\par
+\lab{Report}Medians (IQR) per group, and the Hodges-Lehmann shift with CI (the median of all smoker versus non-smoker differences).\par
+\lab{Course}CRP median 1.8 (IQR 1.1 to 3.3) in non-smokers, 2.8 (1.7 to 5.3) in smokers; shift 0.9 mg/L (95\% CI 0.5 to 1.4), p < 0.001. Alternative for a positive skewed outcome: t-test on \rc{log(crp)} gives a ratio of geometric means of 1.63 (1.31 to 2.03).\par
+\lab{Mistake}Choosing it because ``the sample is small'' or because a normality test gave p < 0.05. Choose by the question and the data.
+\end{card}
+
+\begin{card}{Wilcoxon signed-rank test: paired differences}
+\lab{Question}Do the within-pair differences tend to be above or below zero?\par
+\lab{Assumptions}Independent pairs; for the pseudomedian estimate, differences roughly symmetric.\par
+\lab{R}\rc{wilcox.test(prog\$sbp\_12, prog\$sbp\_0,}\\\rc{\ \ \ \ \ \ \ \ \ \ \ \ paired = TRUE, conf.int = TRUE)}\par
+\lab{Course}Pseudomedian change $-$6.0 mmHg (95\% CI $-$7.0 to $-$5.0).\par
+\lab{Mistake}Using the rank-sum test (independent groups) on paired data.
+\end{card}
+
+\begin{card}{One-way ANOVA and Welch's ANOVA: three or more groups}
+\lab{Question}Do mean outcomes differ across three or more independent groups?\par
+\lab{Assumptions}Independent observations; approximately normal residuals; classical ANOVA also assumes equal variances, Welch's does not. Check: \rc{plot(fit, which = 1:2)}.\par
+\lab{R}\rc{oneway.test(sbp\_0 \textasciitilde{} district, data = hearts)}\\
+\rc{fit <- aov(sbp\_0 \textasciitilde{} district, data = hearts)}\\
+\rc{TukeyHSD(fit)}\par
+\lab{Report}Group means with CIs; pairwise differences with adjusted CIs if needed.\par
+\lab{Course}Means: North 126, South 134, East 131, West 126 mmHg. Welch F = 6.83, p < 0.001. Tukey: South minus North 7.6 mmHg (2.5 to 12.8).\par
+\lab{Mistake}Concluding from the overall p-value \textbf{which} groups differ, or running many unadjusted t-tests.
+\end{card}
+
+\begin{card}{Kruskal-Wallis test}
+\lab{Question}Do values tend to differ across three or more independent groups (rank-based)?\par
+\lab{Assumptions}Independent observations. Not a test of medians in general.\par
+\lab{R}\rc{kruskal.test(crp \textasciitilde{} district, data = hearts)}\par
+\lab{Course}Median CRP 1.8 to 2.5 mg/L across districts; p = 0.067. Weak evidence of a difference, which is not evidence of no difference.\par
+\lab{Mistake}Following up with unadjusted pairwise tests.
+\end{card}
+
+\sect{Categorical outcomes}
+
+\begin{card}{Chi-square test of association}
+\lab{Question}Is a categorical outcome associated with a categorical exposure (do the proportions differ)?\par
+\lab{Data}Two categorical variables; independent observations.\par
+\lab{Assumptions}Expected counts about 5 or more in each cell. Check: \rc{chisq.test(tab)\$expected}.\par
+\lab{R}\rc{tab <- table(hearts\$smoker, hearts\$high\_bp\_0)}\\\rc{prop.table(tab, margin = 1)}\\\rc{chisq.test(tab)}\par
+\lab{Report}Proportions in each group, and a difference or ratio with 95\% CI (see the measures section).\par
+\lab{Course}High BP in 48\% of smokers and 21\% of non-smokers; $\chi^2$ = 23.1, 1 df, p < 0.001.\par
+\lab{Mistake}Reporting only the p-value; using column percentages when the question needs row percentages; using it on paired data.
+\end{card}
+
+\begin{card}{Fisher's exact test}
+\lab{Question}As for chi-square, when expected counts are small.\par
+\lab{R}\rc{fisher.test(tab\_ae)}\par
+\lab{Course}Adverse events 14/240 with the programme vs 3/240 with standard advice; p = 0.011; RR 4.67 (95\% CI 1.36 to 16.03). The wide CI shows how uncertain the size of the increase is.\par
+\lab{Mistake}Thinking a small total sample decides it. The expected counts matter.
+\end{card}
+
+\begin{card}{McNemar's test: paired binary data}
+\lab{Question}Did the proportion with an outcome change within the same people?\par
+\lab{R}\rc{tab\_paired <- table(prog\$high\_bp\_0, prog\$high\_bp\_12)}\\\rc{mcnemar.test(tab\_paired)}\par
+\lab{Course}Lifestyle group: 28 people moved from high BP to not high, 6 the other way; p < 0.001. Only these discordant pairs carry information about change.\par
+\lab{Mistake}A chi-square test on before and after as if they were different people.
+\end{card}
+
+\sect{Proportions, risks, odds and their ratios}
+{\small
+\textbf{Proportion} = number with the characteristic / number in the group. Always say what the denominator is.\par
+\textbf{Risk} = number who \emph{develop} the outcome during a period / number at risk at the start. Needs follow-up (cohort study or trial).\par
+\textbf{Prevalence} = number who \emph{have} the outcome at one time / number observed then (cross-sectional study).\par
+\textbf{Odds} = number with the outcome / number without it. A risk of 0.20 is odds of 0.20/0.80 = 0.25.\par
+\textbf{Risk difference (RD)} = risk in exposed $-$ risk in unexposed. Absolute; report in percentage points.\par
+\textbf{Risk ratio (RR)} = risk in exposed / risk in unexposed. Relative. The same for prevalences gives a \textbf{prevalence ratio (PR)}.\par
+\textbf{Odds ratio (OR)} = odds in exposed / odds in unexposed. From logistic regression with several predictors it is an \textbf{adjusted OR (aOR)}.\par
+A value of 1 for a ratio, or 0 for a difference, means no association.\par}
+
+\vspace{3pt}
+{\small\textbf{Cross-sectional example (baseline): smoking and high BP}}\par
+{\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+ & High BP & No high BP & Total\\\midrule
+Smokers & 38 & 41 & 79\\
+Non-smokers & 86 & 315 & 401\\\bottomrule
+\end{tabular}\par
+Prevalence: 38/79 = 0.481 vs 86/401 = 0.214\par
+Prevalence difference: 0.267 (26.7 percentage points)\par
+PR = 0.481 / 0.214 = \textbf{2.24} (95\% CI 1.67 to 3.02)\par
+Odds: 38/41 = 0.927 vs 86/315 = 0.273\par
+OR = 0.927 / 0.273 = \textbf{3.39} (95\% CI 2.06 to 5.61)\par
+Adjusted for age and sex (logistic regression): aOR \textbf{2.04} (1.17 to 3.54)\par}
+
+\vspace{3pt}
+{\small\textbf{Randomised trial example: adverse events}}\par
+{\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+ & Event & No event & Total\\\midrule
+Lifestyle programme & 14 & 226 & 240\\
+Standard advice & 3 & 237 & 240\\\bottomrule
+\end{tabular}\par
+Risk: 14/240 = 5.8\% vs 3/240 = 1.25\%; RD 4.6 percentage points\par
+RR = \textbf{4.67} (95\% CI 1.36 to 16.03); OR = 4.89 (1.39 to 17.26)\par
+The outcome is rare, so OR and RR are close. For high BP (21\% to 48\%) the OR (3.39) is much further from 1 than the PR (2.24).\par}
+
+\vspace{3pt}
+\begin{keybox}[cblue]{Which measures the design allows}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}X@{}}
+Cohort, trial & Risks, RD, RR (and OR)\\
+Cross-sectional & Prevalences, prevalence difference, PR (and OR)\\
+Case-control & \textbf{Only the OR.} The proportion of cases is fixed by the design, so risks cannot be estimated.\\
+\end{tabularx}
+\end{keybox}
+\begin{keybox}{Common mistakes}
+\begin{itemize}
+\item Calling an OR of 3.4 ``3.4 times the risk''. That is only roughly true for rare outcomes.
+\item Reporting a relative measure without the absolute risks behind it.
+\item Mixing up percent and percentage points.
+\end{itemize}
+\end{keybox}
+
+\sect{Confounding, mediation and effect modification}
+{\small
+\textbf{Confounder}: a common cause of exposure and outcome. Older people in the course data are less active and have higher SBP, so age confounds the activity and SBP association. \emph{Adjust} for confounders.\par
+\textbf{Mediator}: lies on the path from exposure to outcome (activity lowers BMI, BMI raises SBP). Adjusting for it removes part of the effect you want. Do not adjust for mediators when estimating a total effect.\par
+\textbf{Effect modification}: the association differs between subgroups. Report the subgroup estimates. In the course data the smoking OR was 2.75 in women and 3.28 in men: similar, so a single adjusted estimate is reasonable.\par
+Choose adjustment variables from subject knowledge (draw a diagram of the causes), not from p-values or stepwise selection.\par}
+
+\vspace{3pt}
+{\small
+\begin{tabularx}{\linewidth}{@{}X r@{}}
+\toprule
+\multicolumn{2}{@{}l}{SBP per extra hour/week of activity (mmHg)}\\\midrule
+Crude & $-$2.08 ($-$2.62 to $-$1.53)\\
+Adjusted for age, sex (confounders) & $-$1.60 ($-$2.08 to $-$1.12)\\
+Also adjusted for BMI (mediator) & $-$0.86 ($-$1.36 to $-$0.37)\\\midrule
+\multicolumn{2}{@{}l}{High BP, smokers vs non-smokers}\\\midrule
+Crude OR & 3.39 (2.06 to 5.61)\\
+OR adjusted for sex (Mantel-Haenszel) & 3.09 (1.85 to 5.15)\\
+aOR adjusted for age and sex & 2.04 (1.17 to 3.54)\\\bottomrule
+\end{tabularx}\par
+The change from crude to adjusted shows the confounding by age and sex. Adjustment can only remove confounding by variables that were measured, and measured well.\par}
+
+\sect{Correlation and regression}
+
+\begin{card}{Pearson and Spearman correlation}
+\lab{Question}How strongly do two variables move together?\par
+\lab{Data}Two continuous (Spearman: also ordinal) variables; independent observations.\par
+\lab{Assumptions}Pearson: a linear pattern; sensitive to outliers. Spearman uses ranks and measures a monotonic pattern. Always look at the scatterplot.\par
+\lab{R}\rc{cor.test(\textasciitilde{} sbp\_0 + age, data = hearts)}\\\rc{cor.test(\textasciitilde{} crp + activity\_hr, data = hearts,}\\\rc{\ \ \ \ \ \ \ \ \ method = "spearman", exact = FALSE)}\par
+\lab{Course}Age and SBP: r = 0.50 (95\% CI 0.43 to 0.57). CRP and activity: Spearman rho = $-$0.15.\par
+\lab{Mistake}Reading r as the size of the change (use regression), or r near 0 as ``no relationship'' (it could be curved).
+\end{card}
+
+\begin{card}{Simple linear regression}
+\lab{Question}How much does the mean outcome change per unit of x?\par
+\lab{Assumptions}Independence (from the design); linearity; constant spread of residuals; approximately normal residuals (matters least in large samples). The outcome itself need not be normal. Check: \rc{plot(fit)}.\par
+\lab{R}\rc{fit <- lm(sbp\_0 \textasciitilde{} age10, data = hearts)}\\\rc{tidy(fit, conf.int = TRUE)}\par
+\lab{Report}Slope with 95\% CI; $R^2$ if useful.\par
+\lab{Course}Mean SBP 6.6 mmHg higher per 10 years of age (95\% CI 5.6 to 7.6); $R^2$ = 0.25.\par
+\lab{Mistake}Interpreting the intercept at age 0, or predicting outside the range of the data.
+\end{card}
+
+\begin{card}{Multiple linear regression}
+\lab{Question}What is the association of x with the outcome among people with the same values of the other predictors?\par
+\lab{R}\rc{fit <- lm(sbp\_0 \textasciitilde{} activity\_hr + age + sex,}\\\rc{\ \ \ \ \ \ \ \ \ \ data = hearts)}\par
+\lab{Report}Adjusted coefficients with 95\% CIs, and n used.\par
+\lab{Course}$-$1.60 mmHg per extra hour/week (95\% CI $-$2.08 to $-$1.12), adjusted for age and sex (n = 473).\par
+\lab{In words}Among people of the same age and sex, each extra hour of weekly activity was associated with SBP about 1.6 mmHg lower on average.\par
+\lab{Mistake}Adjusting for mediators; choosing variables by p-value; not noticing that missing values change n between models.
+\end{card}
+
+\begin{card}{Logistic regression: binary outcome}
+\lab{Question}How are the odds of a binary outcome related to one or more predictors?\par
+\lab{Assumptions}Independent observations; linear on the log-odds scale for continuous predictors; enough events for the number of coefficients.\par
+\lab{R}\rc{fit <- glm(high\_bp\_0 \textasciitilde{} smoker + age10 + sex,}\\\rc{\ \ \ \ \ \ \ \ \ \ \ family = binomial, data = hearts)}\\\rc{tidy(fit, conf.int = TRUE, exponentiate = TRUE)}\par
+\lab{Report}(Adjusted) odds ratios with 95\% CIs; predicted probabilities help explain them.\par
+\lab{Course}Smoking aOR 2.04 (1.17 to 3.54); per 10 years of age 2.29 (1.84 to 2.87); men vs women 2.06 (1.30 to 3.30).\par
+\lab{Mistake}Reading an OR as a risk ratio when the outcome is common. R models the probability of the second factor level (here ``Yes'').
+\end{card}
+
+\begin{card}{Poisson regression: counts and rates}
+\lab{Question}How are event rates related to predictors?\par
+\lab{Data}Count outcome; follow-up time can differ between people.\par
+\lab{Assumptions}Independent observations; variance equal to the mean. Check overdispersion: Pearson $\chi^2$ / residual df (about 1 is fine).\par
+\lab{R}\rc{fit <- glm(clinic\_visits \textasciitilde{} programme + age10 +}\\\rc{\ \ high\_bp\_0 + offset(log(followup\_months)),}\\\rc{\ \ family = poisson, data = hearts)}\par
+\lab{Report}Incidence rate ratios (IRR) with 95\% CIs.\par
+\lab{Course}Dispersion 2.03, so Poisson CIs are too narrow. Programme IRR 0.91: Poisson CI 0.82 to 1.02, quasi-Poisson CI 0.78 to 1.06.\par
+\lab{Mistake}Comparing raw counts when follow-up differs (no offset), or ignoring overdispersion. Remedies: \rc{family = quasipoisson} or \rc{MASS::glm.nb()}.
+\end{card}
+
+\sect{Clustering (unsupervised learning)}
+
+\begin{card}{k-means clustering}
+\lab{Question}Are there groups of people with similar values on chosen variables? There is no outcome.\par
+\lab{Data}Numeric variables, complete cases. Scale variables measured in different units.\par
+\lab{Choices}Variables; scaling; k (elbow plot, average silhouette width, interpretability); several random starts.\par
+\lab{R}\rc{z <- scale(life[, c("activity\_min",}\\\rc{\ \ \ \ \ \ \ "diet\_score", "bmi")])}\\\rc{set.seed(2024)}\\\rc{km <- kmeans(z, centers = 3, nstart = 25)}\par
+\lab{Report}How variables and k were chosen; cluster sizes; profiles on the original scale.\par
+\lab{Course}Clusters of 146, 228 and 89 people (low, middle and high activity and diet scores, with BMI falling across them). Average silhouette 0.29 for k = 3 and 0.34 for k = 2: weak structure.\par
+\lab{Mistake}Not scaling (activity minutes then dominate); treating clusters as real types; testing whether clusters differ on the variables used to build them.
+\end{card}
+
+\begin{card}{Hierarchical clustering}
+\lab{Question}As for k-means, shown as a tree (dendrogram) that can be cut at any k.\par
+\lab{R}\rc{hc <- hclust(dist(z), method = "ward.D2")}\\\rc{plot(hc); cutree(hc, k = 3)}\par
+\lab{Choices}Distance and linkage. Ward's method gives compact groups; average linkage gave groups of 426, 30 and 7 in the course data.\par
+\lab{Mistake}Reading the dendrogram as proof that groups exist.
+\end{card}
+
+\sect{R essentials}
+{\small
+\rc{library(dplyr)}\quad load a package (install once with \rc{install.packages("dplyr")})\par
+\rc{raw <- read\_csv("data/hearts\_raw.csv")}\quad import\par
+\rc{glimpse(raw); summary(raw); colSums(is.na(raw))}\par
+\rc{mutate(activity\_min = na\_if(activity\_min, -99))}\quad recode a missing-value code\par
+\rc{mutate(district = factor(district, levels = c(...)))}\quad first level = reference group\par
+\rc{filter(hearts, programme == "Lifestyle programme")}\par
+\rc{select(hearts, id, sbp\_0)};\enspace \rc{count(hearts, smoker)}\par
+\rc{group\_by(sex) |> summarise(mean = mean(bmi, na.rm = TRUE))}\par
+\rc{ggplot(data, aes(x = ..., y = ...)) + geom\_point()}\par
+\rc{ggsave("outputs/plot.png", width = 6, height = 4)}\par
+\rc{y \textasciitilde{} x}\quad a formula: outcome on the left, predictors on the right\par
+\rc{na.rm = TRUE}\quad ignore missing values in a summary\par
+\rc{?t.test}\quad open the help page for a function\par}
+\end{multicols}
+
+\neudatacopyrightpage
+\end{document}

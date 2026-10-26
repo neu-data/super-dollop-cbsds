@@ -1,0 +1,55 @@
+\input{diagram_style}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[title] at (0,2.2) {D5. Discovering groups: clustering};
+\node[subtitle] at (0,1.5) {Unsupervised learning: there is no outcome. Clusters depend on the variables, the scaling, the method and k.};
+
+\def\cw{4.6cm}
+\foreach \i/\n/\t in {
+  0/s1/{1. Purpose and variables},
+  1/s2/{2. Prepare the data},
+  2/s3/{3. Choose a method},
+  3/s4/{4. Choose the number of clusters},
+  4/s5/{5. Check and describe}}{
+  \node[q=\cw, anchor=north west, minimum height=1.2cm] (\n) at (\i*5.4,0.6) {\textbf{\t}};
+}
+\draw[flow] (s1) -- (s2); \draw[flow] (s2) -- (s3); \draw[flow] (s3) -- (s4); \draw[flow] (s4) -- (s5);
+
+% step 1
+\node[m=\cw, below=5mm of s1] (p1) {Write the question, e.g.\ ``Are there distinct lifestyle profiles?''\\[3pt]
+Choose variables for substantive reasons. Every variable you add changes the distances.\\[3pt]
+Leave out outcomes you want to compare later (e.g.\ use activity, diet and BMI; keep SBP aside).};
+
+% step 2
+\node[m=\cw, below=5mm of s2] (p2) {Complete cases: \rc{kmeans()} cannot handle missing values.\\[3pt]
+Very skewed variables may need a log transformation.};
+\node[q=\cw, below=5mm of p2] (scaleq) {\textbf{Variables on different scales or units?}\\\footnotesize e.g.\ minutes (0 to 900) and a score (0 to 10)};
+\node[m=\cw, below=5mm of scaleq] (scaley) {\textbf{Yes (usual):} standardise each variable to mean 0, SD 1\\
+\rc{z <- scale(life[, c("activity\_min",}\\\rc{\ \ \ \ \ "diet\_score", "bmi")])}\\
+Without scaling, the variable with the largest numbers dominates.};
+\draw[flow] (p2) -- (scaleq);
+\draw[flow] (scaleq) -- (scaley);
+
+% step 3
+\node[m=\cw, below=5mm of s3] (km) {\textbf{k-means}\\
+Numeric variables; you set k in advance; finds compact, roughly round groups. Use several random starts.\\
+\rc{set.seed(2024)}\\\rc{kmeans(z, centers = 3,}\\\rc{\ \ \ \ \ \ \ nstart = 25)}};
+\node[m=\cw, below=4mm of km] (hc) {\textbf{Hierarchical clustering}\\
+Builds a tree (dendrogram) by merging the closest groups; cut it to get k groups. Choose a distance and a linkage (Ward's method is common).\\
+\rc{hc <- hclust(dist(z),}\\\rc{\ \ \ \ \ \ method = "ward.D2")}\\\rc{cutree(hc, k = 3)}};
+
+% step 4
+\node[m=\cw, below=5mm of s4] (k) {\textbf{Elbow plot:} within-cluster sum of squares against k; look for a bend.\\[3pt]
+\textbf{Average silhouette width:} how well points sit in their own cluster (maximum 1).\\[3pt]
+\textbf{Interpretability:} can you describe and use the groups?};
+\node[warn=\cw, below=4mm of k] (knote) {There is often no single right k. In the course data the elbow is gradual and all silhouettes are below 0.35: weak structure. Say so.};
+
+% step 5
+\node[m=\cw, below=5mm of s5] (chk) {Describe clusters on the \textbf{original} scale (medians, means, n).\\[3pt]
+Check stability: other seeds, k, methods or subsets.\\[3pt]
+Compare clusters on variables \textbf{not} used to build them (e.g.\ age, SBP).};
+\node[warn=\cw, below=4mm of chk] (cav) {\textbf{Apparent clusters are not automatically real.} k-means always returns k groups, even from data with no groups. Do not test whether clusters differ on the variables used to create them.};
+
+\node[further=26.15cm, anchor=north west] at ($(scaley.south -| 0,0)+(0,-0.6)$) {\textbf{Further learning:} mixed numeric and categorical variables (Gower distance with \rc{cluster::daisy} and \rc{pam}); model-based clustering (Gaussian mixture models); principal component analysis for visualising many variables.};
+\end{tikzpicture}
+\end{document}

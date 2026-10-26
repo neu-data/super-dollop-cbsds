@@ -1,0 +1,15 @@
+\input{diagram_style}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+  var/.style={draw=cblue, fill=clight, rounded corners=3pt, line width=0.9pt,
+              align=center, inner sep=7pt, font=\normalsize, minimum width=3.6cm}]
+\node[var, draw=corange, fill=white, line width=1.2pt] (age) at (4.5,3) {Age\\\footnotesize confounder};
+\node[var] (act) at (0,0) {Physical activity\\\footnotesize exposure};
+\node[var] (sbp) at (9,0) {Systolic BP\\\footnotesize outcome};
+\draw[flow] (age) -- (act);
+\draw[flow] (age) -- (sbp);
+\draw[flow, draw=cblue, line width=1.2pt] (act) -- node[lab, below=2pt] {association of interest} (sbp);
+\node[note=11cm, anchor=north, font=\small] at (4.5,-1.3) {Older people are less active and have higher SBP. Part of the crude association between activity and SBP is due to age. \textbf{Adjust for a confounder.}\\[2pt]
+Course data: \textminus 2.08 mmHg per hour/week crude; \textminus 1.60 adjusted for age and sex.};
+\end{tikzpicture}
+\end{document}

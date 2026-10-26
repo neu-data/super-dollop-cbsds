@@ -1,0 +1,52 @@
+\input{diagram_style}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[title] at (0,2.2) {D3. Categorical outcomes: tables, tests and effect measures};
+\node[subtitle] at (0,1.5) {Binary or nominal outcome compared between groups or exposures. Always state the denominator.};
+
+\node[q=11cm, anchor=north] (root) at (9.9,0.6) {\textbf{Categorical outcome by group or exposure}\\\footnotesize e.g.\ high BP (yes/no) by smoking; adverse event by programme};
+\node[m=11cm, below=5mm of root] (table) {\textbf{Start with a contingency table: counts and row percentages}\\
+Row percentage = number with the outcome / row total (e.g.\ smokers with high BP / all smokers)\\
+\rc{tab <- table(hearts\$smoker, hearts\$high\_bp\_0)}\\\rc{prop.table(tab, margin = 1)}};
+\draw[flow] (root) -- (table);
+\node[q=7cm, below=6mm of table] (design) {\textbf{Are the observations independent or paired?}};
+\draw[flow] (table) -- (design);
+
+% independent
+\node[q=7.2cm, anchor=north] (exp) at ($(design.south)+(-4.1,-1.0)$) {\textbf{Independent groups}\\\footnotesize Are the expected counts large enough (about 5 or more in each cell)?};
+\draw[flow] (design.south) -- ++(0,-0.45) -| node[lab, pos=0.25] {independent} (exp.north);
+\node[m=5.3cm, anchor=north] (chi) at ($(exp.south)+(-2.9,-1.0)$) {\textbf{Chi-square test}\\
+\rc{chisq.test(tab)}\\
+\rc{chisq.test(tab)\$expected}\\
+2 x 2 tables: Yates' correction by default. Works for larger r x c tables too.};
+\node[m=5.3cm, anchor=north] (fis) at ($(exp.south)+(2.9,-1.0)$) {\textbf{Fisher's exact test}\\
+\rc{fisher.test(tab\_ae)}\\
+No large-sample approximation; usual choice when expected counts are small (rare outcomes, small groups).};
+\draw[flow] (exp.south) -- ++(0,-0.45) -| node[lab, pos=0.25] {yes} (chi.north);
+\draw[flow] (exp.south) -- ++(0,-0.45) -| node[lab, pos=0.25] {no, small} (fis.north);
+
+% paired
+\node[m=5.4cm, anchor=north] (mcn) at ($(design.south)+(4.9,-1.0)$) {\textbf{McNemar's test}\\
+Same people, yes/no twice (high BP at baseline and 12 months), or matched pairs. Only pairs that changed carry information.\\
+\rc{mcnemar.test(tab\_paired)}};
+\draw[flow] (design.south) -- ++(0,-0.45) -| node[lab, pos=0.3] {paired} (mcn.north);
+
+\node[warn=11.6cm, anchor=north west] (sig) at ($(chi.south west)+(0,-0.6)$) {\textbf{A significant test says the proportions differ somewhere.} In tables larger than 2 x 2, look at the row percentages to see where. Report the effect measure (right) with its 95\% CI, not only the p-value.};
+\node[further=5.4cm, below=4mm of mcn] (ord) {Ordinal outcome (e.g.\ satisfaction 1 to 5): the chi-square test ignores the order. Consider a rank-based test (\dref{D2}) or ordinal regression (further learning).};
+
+% effect measures by design
+\node[q=8.6cm, anchor=north west] (meas) at (18.6,0.6) {\textbf{Which effect measure? It depends on the study design}};
+\node[m=8.6cm, below=5mm of meas] (coh) {\textbf{Cohort study or randomised trial}\\
+People followed over time, so proportions are \textbf{risks}.\\
+Report risk difference (RD) and risk ratio (RR); OR also possible.\\
+Trial example, adverse events: 14/240 (5.8\%) with the programme vs 3/240 (1.2\%) with standard advice. RR 4.67 (95\% CI 1.36 to 16.03).};
+\node[m=8.6cm, below=4mm of coh] (cs) {\textbf{Cross-sectional study} (one time point)\\
+Proportions are \textbf{prevalences}. Report prevalence difference and prevalence ratio (PR); OR also possible.\\
+Course example, high BP: 38/79 (48\%) smokers vs 86/401 (21\%) non-smokers. PR 2.24 (1.67 to 3.02); OR 3.39 (2.06 to 5.61).};
+\node[m=8.6cm, below=4mm of cs] (cc) {\textbf{Case-control study}\\
+Cases and controls are chosen by outcome, so the proportion with the outcome is set by the design. Risks cannot be estimated: \textbf{only the OR} is interpretable.};
+\node[warn=8.6cm, below=4mm of cc] (rare) {\textbf{OR is close to RR only when the outcome is rare} (roughly under 10\%). With a common outcome the OR is further from 1: do not read an OR of 3.4 as ``3.4 times the risk''.};
+\node[m=8.6cm, below=4mm of rare] (adj) {\textbf{Adjusting for a confounder}\\
+Stratify and combine: \rc{mantelhaen.test(...)}, or logistic regression for an adjusted OR (aOR): see \dref{D4}.};
+\end{tikzpicture}
+\end{document}

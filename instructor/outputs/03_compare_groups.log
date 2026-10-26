@@ -1,0 +1,326 @@
+
+> library(dplyr)
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+> library(ggplot2)
+
+> source("R/theme_neudata.R")
+
+> hearts <- readRDS("data/hearts.rds")
+
+> summarise(group_by(hearts, sex), n = n(), mean = mean(sbp_0), 
++     sd = sd(sbp_0))
+# A tibble: 2 × 4
+  sex        n  mean    sd
+  <fct>  <int> <dbl> <dbl>
+1 Female   248  126.  15.1
+2 Male     232  132.  15.6
+
+> ggplot(hearts, aes(x = sex, y = sbp_0)) + geom_boxplot(fill = neudata_mist, 
++     outlier.shape = NA, width = 0.5) + geom_jitter(width = 0.12, 
++     alpha = 0.3) + labs(x = NULL, y = "Systolic BP at baseline (mmHg)")
+
+> t.test(sbp_0 ~ sex, data = hearts)
+
+	Welch Two Sample t-test
+
+data:  sbp_0 by sex
+t = -4.3628, df = 473.02, p-value = 1.578e-05
+alternative hypothesis: true difference in means between group Female and group Male is not equal to 0
+95 percent confidence interval:
+ -8.865755 -3.359496
+sample estimates:
+mean in group Female   mean in group Male 
+            126.3831             132.4957 
+
+
+> t.test(sbp_0 ~ sex, data = hearts, var.equal = TRUE)
+
+	Two Sample t-test
+
+data:  sbp_0 by sex
+t = -4.368, df = 478, p-value = 1.539e-05
+alternative hypothesis: true difference in means between group Female and group Male is not equal to 0
+95 percent confidence interval:
+ -8.862388 -3.362863
+sample estimates:
+mean in group Female   mean in group Male 
+            126.3831             132.4957 
+
+
+> summarise(group_by(hearts, smoker), n = sum(!is.na(crp)), 
++     median = median(crp, na.rm = TRUE), q1 = quantile(crp, 0.25, 
++         na.rm = TRUE), q3 = quantile(crp, 0.75, na.rm = TRUE))
+# A tibble: 2 × 5
+  smoker     n median    q1    q3
+  <fct>  <int>  <dbl> <dbl> <dbl>
+1 No       387    1.8   1.1   3.3
+2 Yes       79    2.8   1.7   5.3
+
+> wilcox.test(crp ~ smoker, data = hearts, conf.int = TRUE)
+
+	Wilcoxon rank sum test with continuity correction
+
+data:  crp by smoker
+W = 10770, p-value = 3.452e-05
+alternative hypothesis: true location shift is not equal to 0
+95 percent confidence interval:
+ -1.399957 -0.499992
+sample estimates:
+difference in location 
+            -0.9000502 
+
+
+> tt_log <- t.test(log(crp) ~ smoker, data = hearts)
+
+> tt_log
+
+	Welch Two Sample t-test
+
+data:  log(crp) by smoker
+t = -4.3888, df = 108.7, p-value = 2.651e-05
+alternative hypothesis: true difference in means between group No and group Yes is not equal to 0
+95 percent confidence interval:
+ -0.7094902 -0.2680332
+sample estimates:
+ mean in group No mean in group Yes 
+         0.620932          1.109694 
+
+
+> exp(tt_log$conf.int)
+[1] 0.4918949 0.7648824
+attr(,"conf.level")
+[1] 0.95
+
+> 1/exp(tt_log$conf.int)
+[1] 2.032955 1.307391
+attr(,"conf.level")
+[1] 0.95
+
+> prog <- filter(hearts, programme == "Lifestyle programme", 
++     !is.na(sbp_12))
+
+> nrow(prog)
+[1] 224
+
+> prog <- mutate(prog, change = sbp_12 - sbp_0)
+
+> summary(prog$change)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+-33.000 -12.000  -6.000  -6.004   0.000  19.000 
+
+> t.test(prog$sbp_12, prog$sbp_0, paired = TRUE)
+
+	Paired t-test
+
+data:  prog$sbp_12 and prog$sbp_0
+t = -10.158, df = 223, p-value < 2.2e-16
+alternative hypothesis: true mean difference is not equal to 0
+95 percent confidence interval:
+ -7.169381 -4.839548
+sample estimates:
+mean difference 
+      -6.004464 
+
+
+> t.test(prog$change)
+
+	One Sample t-test
+
+data:  prog$change
+t = -10.158, df = 223, p-value < 2.2e-16
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ -7.169381 -4.839548
+sample estimates:
+mean of x 
+-6.004464 
+
+
+> t.test(prog$sbp_12, prog$sbp_0)
+
+	Welch Two Sample t-test
+
+data:  prog$sbp_12 and prog$sbp_0
+t = -3.7935, df = 435.76, p-value = 0.0001695
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -9.115386 -2.893542
+sample estimates:
+mean of x mean of y 
+ 123.3884  129.3929 
+
+
+> wilcox.test(prog$sbp_12, prog$sbp_0, paired = TRUE, 
++     conf.int = TRUE)
+
+	Wilcoxon signed rank test with continuity correction
+
+data:  prog$sbp_12 and prog$sbp_0
+V = 3826, p-value < 2.2e-16
+alternative hypothesis: true location shift is not equal to 0
+95 percent confidence interval:
+ -7.00003 -4.99994
+sample estimates:
+(pseudo)median 
+     -6.000021 
+
+
+> set.seed(1)
+
+> sample40 <- slice_sample(prog, n = 40)
+
+> long40 <- mutate(bind_rows(data.frame(id = sample40$id, 
++     time = "Baseline", sbp = sample40$sbp_0), data.frame(id = sample40$id, 
++     time = "12 months", sbp = sample40$sbp_12)), time = factor(time, 
++     levels = c("Baseline", "12 months")))
+
+> ggplot(long40, aes(x = time, y = sbp, group = id)) + 
++     geom_line(colour = "grey60") + geom_point(colour = neudata_cols[["teal"]]) + 
++     labs(x = NULL, y = "Systolic BP (mmHg)", title = "Paired data: each line joins one person's two measurements")
+
+> hearts <- mutate(hearts, change = sbp_12 - sbp_0)
+
+> summarise(group_by(hearts, programme), n = sum(!is.na(change)), 
++     mean_change = mean(change, na.rm = TRUE), sd_change = sd(change, 
++         na.rm = TRUE))
+# A tibble: 2 × 4
+  programme               n mean_change sd_change
+  <fct>               <int>       <dbl>     <dbl>
+1 Standard advice       215       -2.03      8.92
+2 Lifestyle programme   224       -6.00      8.85
+
+> t.test(change ~ programme, data = hearts)
+
+	Welch Two Sample t-test
+
+data:  change by programme
+t = 4.6826, df = 435.94, p-value = 3.79e-06
+alternative hypothesis: true difference in means between group Standard advice and group Lifestyle programme is not equal to 0
+95 percent confidence interval:
+ 2.304768 5.639044
+sample estimates:
+    mean in group Standard advice mean in group Lifestyle programme 
+                        -2.032558                         -6.004464 
+
+
+> summarise(group_by(hearts, district), n = n(), mean = mean(sbp_0), 
++     sd = sd(sbp_0))
+# A tibble: 4 × 4
+  district     n  mean    sd
+  <fct>    <int> <dbl> <dbl>
+1 North      119  126.  13.4
+2 South      114  134.  17.6
+3 East       125  131.  16.0
+4 West       122  126.  14.0
+
+> fit_aov <- aov(sbp_0 ~ district, data = hearts)
+
+> summary(fit_aov)
+             Df Sum Sq Mean Sq F value   Pr(>F)    
+district      3   5136  1712.0   7.305 8.49e-05 ***
+Residuals   476 111549   234.3                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+> oneway.test(sbp_0 ~ district, data = hearts)
+
+	One-way analysis of means (not assuming equal variances)
+
+data:  sbp_0 and district
+F = 6.8338, num df = 3.00, denom df = 262.16, p-value = 0.0001888
+
+
+> pairwise.t.test(hearts$sbp_0, hearts$district, pool.sd = FALSE, 
++     p.adjust.method = "holm")
+
+	Pairwise comparisons using t tests with non-pooled SD 
+
+data:  hearts$sbp_0 and hearts$district 
+
+      North   South   East   
+South 0.00130 -       -      
+East  0.05661 0.29527 -      
+West  0.84434 0.00098 0.05062
+
+P value adjustment method: holm 
+
+> TukeyHSD(fit_aov)
+  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = sbp_0 ~ district, data = hearts)
+
+$district
+                  diff         lwr        upr     p adj
+South-North  7.6251659   2.4528276 12.7975041 0.0009347
+East-North   4.4582185  -0.5965502  9.5129872 0.1056220
+West-North  -0.3472241  -5.4322128  4.7377645 0.9980601
+East-South  -3.1669474  -8.2781886  1.9442939 0.3810461
+West-South  -7.9723900 -13.1135193 -2.8312607 0.0004293
+West-East   -4.8054426  -9.8282719  0.2173867 0.0665626
+
+
+> par(mfrow = c(1, 2))
+
+> plot(fit_aov, which = 1)
+
+> plot(fit_aov, which = 2)
+
+> par(mfrow = c(1, 1))
+
+> summarise(group_by(hearts, district), n = sum(!is.na(crp)), 
++     median_crp = median(crp, na.rm = TRUE), q1 = quantile(crp, 
++         0.25, na.rm = TRUE), q3 = quantile(crp, 0.75, na.rm = TRUE))
+# A tibble: 4 × 5
+  district     n median_crp    q1    q3
+  <fct>    <int>      <dbl> <dbl> <dbl>
+1 North      114       1.85  1.1   3.05
+2 South      112       2.45  1.4   4.5 
+3 East       122       1.8   1.1   3.77
+4 West       118       1.8   1.02  3.35
+
+> kruskal.test(crp ~ district, data = hearts)
+
+	Kruskal-Wallis rank sum test
+
+data:  crp by district
+Kruskal-Wallis chi-squared = 7.162, df = 3, p-value = 0.06691
+
+
+> mutate(group_by(count(filter(hearts, !is.na(satisfaction)), 
++     programme, satisfaction), programme), percent = round(100 * 
++     n/sum(n), 1))
+# A tibble: 10 × 4
+# Groups:   programme [2]
+   programme           satisfaction     n percent
+   <fct>                      <dbl> <int>   <dbl>
+ 1 Standard advice                1    24    11.2
+ 2 Standard advice                2    45    20.9
+ 3 Standard advice                3    75    34.9
+ 4 Standard advice                4    49    22.8
+ 5 Standard advice                5    22    10.2
+ 6 Lifestyle programme            1    11     4.9
+ 7 Lifestyle programme            2    32    14.3
+ 8 Lifestyle programme            3    58    25.9
+ 9 Lifestyle programme            4    76    33.9
+10 Lifestyle programme            5    47    21  
+
+> wilcox.test(satisfaction ~ programme, data = hearts)
+
+	Wilcoxon rank sum test with continuity correction
+
+data:  satisfaction by programme
+W = 17969, p-value = 2.09e-06
+alternative hypothesis: true location shift is not equal to 0
+

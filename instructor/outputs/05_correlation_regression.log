@@ -1,0 +1,260 @@
+
+> library(dplyr)
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+> library(ggplot2)
+
+> library(broom)
+
+> source("R/theme_neudata.R")
+
+> hearts <- mutate(readRDS("data/hearts.rds"), activity_hr = activity_min/60, 
++     age10 = age/10)
+
+> ggplot(hearts, aes(x = age, y = sbp_0)) + geom_point(alpha = 0.4, 
++     colour = neudata_cols[["teal"]]) + labs(x = "Age (years)", 
++     y = "Systolic BP at baseline (mmHg)")
+
+> cor.test(~sbp_0 + age, data = hearts)
+
+	Pearson's product-moment correlation
+
+data:  sbp_0 and age
+t = 12.7, df = 478, p-value < 2.2e-16
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.4322244 0.5663346
+sample estimates:
+     cor 
+0.502294 
+
+
+> ggplot(hearts, aes(x = activity_hr, y = crp)) + geom_point(alpha = 0.4, 
++     colour = neudata_cols[["teal"]]) + labs(x = "Physical activity (hours/week)", 
++     y = "CRP (mg/L)")
+
+> cor.test(~crp + activity_hr, data = hearts, method = "spearman", 
++     exact = FALSE)
+
+	Spearman's rank correlation rho
+
+data:  crp and activity_hr
+S = 18512549, p-value = 0.001406
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+       rho 
+-0.1486335 
+
+
+> fit1 <- lm(sbp_0 ~ age, data = hearts)
+
+> summary(fit1)
+
+Call:
+lm(formula = sbp_0 ~ age, data = hearts)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-36.826  -8.983   0.133   9.230  43.153 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 95.19506    2.75817   34.51   <2e-16 ***
+age          0.65984    0.05196   12.70   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 13.51 on 478 degrees of freedom
+Multiple R-squared:  0.2523,	Adjusted R-squared:  0.2507 
+F-statistic: 161.3 on 1 and 478 DF,  p-value: < 2.2e-16
+
+
+> confint(fit1)
+                 2.5 %      97.5 %
+(Intercept) 89.7754249 100.6146989
+age          0.5577482   0.7619257
+
+> tidy(fit1, conf.int = TRUE)
+# A tibble: 2 × 7
+  term        estimate std.error statistic   p.value conf.low conf.high
+  <chr>          <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>
+1 (Intercept)   95.2      2.76        34.5 6.89e-132   89.8     101.   
+2 age            0.660    0.0520      12.7 4.78e- 32    0.558     0.762
+
+> fit1b <- lm(sbp_0 ~ age10, data = hearts)
+
+> tidy(fit1b, conf.int = TRUE)
+# A tibble: 2 × 7
+  term        estimate std.error statistic   p.value conf.low conf.high
+  <chr>          <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>
+1 (Intercept)    95.2      2.76       34.5 6.89e-132    89.8     101.  
+2 age10           6.60     0.520      12.7 4.78e- 32     5.58      7.62
+
+> ggplot(hearts, aes(x = age, y = sbp_0)) + geom_point(alpha = 0.35, 
++     colour = "grey45") + geom_smooth(method = "lm", formula = y ~ 
++     x, colour = neudata_cols[["teal"]], fill = neudata_cols[["teal_light"]]) + 
++     labs(x = "Age (years)", y = "Systolic BP at baseline (mmHg)")
+
+> par(mfrow = c(2, 2))
+
+> plot(fit1)
+
+> par(mfrow = c(1, 1))
+
+> fit_crude <- lm(sbp_0 ~ activity_hr, data = hearts)
+
+> cor.test(~activity_hr + age, data = hearts)
+
+	Pearson's product-moment correlation
+
+data:  activity_hr and age
+t = -4.1187, df = 471, p-value = 4.5e-05
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.27204148 -0.09793938
+sample estimates:
+       cor 
+-0.1864538 
+
+
+> fit_adj <- lm(sbp_0 ~ activity_hr + age + sex, data = hearts)
+
+> summary(fit_adj)
+
+Call:
+lm(formula = sbp_0 ~ activity_hr + age + sex, data = hearts)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-32.359  -9.048   0.453   8.798  39.410 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 101.03082    2.91503  34.659  < 2e-16 ***
+activity_hr  -1.60317    0.24391  -6.573 1.32e-10 ***
+age           0.58928    0.05011  11.759  < 2e-16 ***
+sexMale       6.01910    1.17194   5.136 4.12e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 12.7 on 469 degrees of freedom
+  (7 observations deleted due to missingness)
+Multiple R-squared:  0.3444,	Adjusted R-squared:  0.3402 
+F-statistic: 82.11 on 3 and 469 DF,  p-value: < 2.2e-16
+
+
+> fit_med <- lm(sbp_0 ~ activity_hr + age + sex + bmi, 
++     data = hearts)
+
+> select(filter(bind_rows(mutate(tidy(fit_crude, conf.int = TRUE), 
++     model = "1. Crude"), mutate(tidy(fit_adj, conf.int = TRUE), 
++     model = "2. Adjusted for age and sex"), mutate(tidy(fit_med, 
++     conf.int = TRUE), model = "3. Also adjusted for BMI (mediator)")), 
++     term == "activity_hr"), model, estimate, conf.low, conf.high, 
++     p.value)
+# A tibble: 3 × 5
+  model                               estimate conf.low conf.high  p.value
+  <chr>                                  <dbl>    <dbl>     <dbl>    <dbl>
+1 1. Crude                              -2.08     -2.62    -1.53  4.76e-13
+2 2. Adjusted for age and sex           -1.60     -2.08    -1.12  1.32e-10
+3 3. Also adjusted for BMI (mediator)   -0.863    -1.36    -0.370 6.37e- 4
+
+> nobs(fit_crude)
+[1] 473
+
+> nobs(fit_adj)
+[1] 473
+
+> nobs(fit_med)
+[1] 463
+
+> fit_district <- lm(sbp_0 ~ district + age + sex, data = hearts)
+
+> tidy(fit_district, conf.int = TRUE)
+# A tibble: 6 × 7
+  term          estimate std.error statistic   p.value conf.low conf.high
+  <chr>            <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>
+1 (Intercept)     92.2      2.80      32.9   2.11e-124   86.7      97.7  
+2 districtSouth    5.70     1.71       3.33  9.20e-  4    2.34      9.06 
+3 districtEast     1.97     1.68       1.17  2.41e-  1   -1.33      5.26 
+4 districtWest    -1.64     1.68      -0.977 3.29e-  1   -4.94      1.66 
+5 age              0.640    0.0504    12.7   5.35e- 32    0.541     0.739
+6 sexMale          5.31     1.19       4.47  9.89e-  6    2.98      7.65 
+
+> anova(lm(sbp_0 ~ district, data = hearts))
+Analysis of Variance Table
+
+Response: sbp_0
+           Df Sum Sq Mean Sq F value    Pr(>F)    
+district    3   5136 1711.96  7.3052 8.494e-05 ***
+Residuals 476 111549  234.35                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+> par(mfrow = c(2, 2))
+
+> plot(fit_adj)
+
+> par(mfrow = c(1, 1))
+
+> new <- expand.grid(activity_hr = seq(0, 10, by = 0.25), 
++     age = 50, sex = factor(c("Female", "Male"), levels = c("Female", 
++         "Male")))
+
+> pred <- predict(fit_adj, newdata = new, interval = "confidence")
+
+> new <- cbind(new, pred)
+
+> ggplot(new, aes(x = activity_hr, y = fit, colour = sex, 
++     fill = sex)) + geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.2, 
++     colour = NA) + geom_line(linewidth = 1) + scale_colour_manual(values = unname(neudata_cols[c("teal", 
++     "blue")])) + scale_fill_manual(values = unname(neudata_cols[c("teal", 
++     "blue")])) + labs(x = "Physical activity (hours/week)", y = "Predicted mean SBP (mmHg)", 
++     colour = NULL, fill = NULL, title = "Fitted SBP at age 50, with 95% CI")
+
+> fit_trial <- lm(sbp_12 ~ programme + sbp_0, data = hearts)
+
+> tidy(fit_trial, conf.int = TRUE)
+# A tibble: 3 × 7
+  term                         estimate std.error statistic   p.value conf.low conf.high
+  <chr>                           <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>
+1 (Intercept)                     -2.95    3.59      -0.820 4.13e-  1  -10.0        4.11
+2 programmeLifestyle programme    -3.97    0.849     -4.68  3.86e-  6   -5.64      -2.30
+3 sbp_0                            1.01    0.0274    36.8   8.92e-136    0.953      1.06
+
+> set.seed(42)
+
+> train_rows <- sample(nrow(hearts), size = round(0.7 * 
++     nrow(hearts)))
+
+> train <- hearts[train_rows, ]
+
+> test <- hearts[-train_rows, ]
+
+> m_small <- lm(sbp_0 ~ age, data = train)
+
+> m_big <- lm(sbp_0 ~ age + sex + bmi + activity_hr + 
++     smoker + district, data = train)
+
+> rmse <- function(model, data) {
++     pred <- predict(model, newdata = data)
++     sqrt(mean((data$sbp_0 - pred)^2, na.rm = TRUE))
++ }
+
+> c(train_small = rmse(m_small, train), test_small = rmse(m_small, 
++     test), train_big = rmse(m_big, train), test_big = rmse(m_big, 
++     test))
+train_small  test_small   train_big    test_big 
+   13.37228    13.74854    11.40207    12.33824 
+Warning message:
+Removed 21 rows containing missing values or values outside the scale range (`geom_point()`). 

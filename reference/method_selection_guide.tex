@@ -1,0 +1,110 @@
+% Method-selection guide
+% Concepts of Biostatistics and Data Science: a two-day crash course with practical analysis in R
+% Uses the Neudata LaTeX class (neudata.cls, style 1, from neu-data/latex-report-template).
+% Compile with: pdflatex method_selection_guide.tex   (run twice so that "page n / total" is correct)
+\documentclass[style1, note, nocover]{neudata}
+\geometry{landscape, margin=12mm, top=20mm, bottom=13mm, headheight=0.95cm, headsep=3mm, footskip=7mm}
+\usepackage[scaled=0.92,varqu]{zi4}
+\usepackage{longtable}
+\AtBeginDocument{\setlength{\headwidth}{\textwidth}}   % header and footer span the landscape page
+\hypersetup{pdftitle={Choosing an analysis method}, pdfauthor={Neudata Consulting Ltd},
+  pdfsubject={Concepts of Biostatistics and Data Science: a two-day crash course with practical analysis in R}}
+\title{Method-selection guide \textperiodcentered\ Concepts of Biostatistics and Data Science}
+
+% Course colours mapped to the Neudata palette (see neu-data/.github BRAND.md)
+\colorlet{cblue}{NeudataNavy}          % headings
+\definecolor{corange}{HTML}{B5652B}    % muted contrasting colour for the principles box
+\colorlet{clight}{NeudataMist}
+\colorlet{ctext}{NeudataInk}
+\definecolor{cgrey}{HTML}{5C6B73}      % darker than Neudata grey, for readable small text
+\color{ctext}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlist{nosep, leftmargin=1.2em}
+\hyphenpenalty=3000
+
+\newcommand{\rc}[1]{{\ttfamily\footnotesize #1}}
+\newcommand{\fl}[1]{\leavevmode{\color{cgrey}\textit{#1}}}   % further learning
+\newcommand{\grp}[1]{\multicolumn{6}{@{}l}{\cellcolor{clight}\rule{0pt}{2.6ex}\textbf{\color{NeudataDeepTeal}#1}}\\*[1pt]}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\begin{document}
+{\LARGE\bfseries\color{cblue}Choosing an analysis method}\par
+\vspace{2pt}
+{\large\color{NeudataDeepTeal}Concepts of Biostatistics and Data Science: a two-day crash course with practical analysis in R}\par
+\vspace{4pt}
+{\small Start from the \textbf{question}, then the \textbf{outcome type}, then the \textbf{design} (independent or paired), then the number of \textbf{groups or predictors}. The table suggests a usual first choice and what to report; it is a guide for thinking, not an automatic rule. The decision diagrams D0 to D6 show the same choices visually, and the cheat sheet gives assumptions, R code and common mistakes for each method. \fl{Grey italic entries} are beyond this course and are routes for further learning.}
+
+\vspace{2pt}
+{\small
+\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}P{3.0cm}P{2.7cm}P{4.6cm}P{4.0cm}P{4.1cm}P{6.6cm}@{}}
+\toprule
+\textbf{Question} & \textbf{Outcome} & \textbf{Independent observations} & \textbf{Paired observations} & \textbf{Report} & \textbf{R, course example}\\\midrule
+\endhead
+\bottomrule
+\endfoot
+\grp{Describe (diagram D1)}
+What do the data look like? & Categorical & Counts and \% (state the denominator); bar chart & & n, \% & \rc{count(hearts, district)}\\
+ & Continuous & Mean (SD) if symmetric; median (IQR) if skewed; histogram, boxplot & & n, missing, summary & \rc{summarise(hearts, mean(sbp\_0), sd(sbp\_0))}\\
+\grp{Compare two groups (D2, D3)}
+Do two groups differ? & Continuous & Welch t-test (default); Student's t only with equal spread & Paired t-test on the differences & Mean difference, 95\% CI & \rc{t.test(sbp\_0 \textasciitilde{} sex, data = hearts)}\\
+ & Continuous, positive, right-skewed & t-test on log scale & Paired t-test on log values & Ratio of geometric means, CI & \rc{t.test(log(crp) \textasciitilde{} smoker, data = hearts)}\\
+ & Ordinal, or ranks suit the question & Wilcoxon rank-sum (Mann-Whitney) & Wilcoxon signed-rank & Medians (IQR); Hodges-Lehmann shift, CI & \rc{wilcox.test(crp \textasciitilde{} smoker, data = hearts, conf.int = TRUE)}\\
+ & Binary & Chi-square; Fisher's exact when expected counts are small & McNemar's test & Proportions; RD, RR or PR, OR with CI & \rc{chisq.test(tab)}; \rc{fisher.test(tab\_ae)}; \rc{mcnemar.test(tab\_paired)}\\
+ & Count with follow-up time & Poisson regression with offset & \fl{conditional models} & Rate ratio (IRR), CI & \rc{glm(clinic\_visits \textasciitilde{} programme + offset(log(followup\_months)), family = poisson, data = hearts)}\\
+ & Time-to-event & \fl{Kaplan-Meier, log-rank test} & & \fl{Hazard ratio} & \fl{survival package}\\
+\grp{Compare three or more groups (D2, D3)}
+Do several groups differ? & Continuous & Welch ANOVA or classical ANOVA; then adjusted pairwise comparisons if needed & \fl{Repeated-measures models, mixed models} & Group means with CIs; adjusted pairwise differences & \rc{oneway.test(sbp\_0 \textasciitilde{} district, data = hearts)}; \rc{TukeyHSD(aov(...))}\\
+ & Ordinal, or ranks & Kruskal-Wallis & \fl{Friedman test} & Medians (IQR) per group & \rc{kruskal.test(crp \textasciitilde{} district, data = hearts)}\\
+ & Categorical & Chi-square for an r x c table; Fisher when counts are small & \fl{Cochran's Q} & Row \% per group & \rc{chisq.test(table(hearts\$district, hearts\$high\_bp\_0))}\\
+\grp{Assess an association between two variables (D3, D4)}
+Are two variables related? & Two continuous & Scatterplot; Pearson r (linear) or Spearman rho (monotonic); simple linear regression for the size of change & \fl{Repeated or clustered: mixed models} & r with CI; slope with CI & \rc{cor.test(\textasciitilde{} sbp\_0 + age, data = hearts)}; \rc{lm(sbp\_0 \textasciitilde{} age10, data = hearts)}\\
+ & Two categorical & Contingency table, chi-square or Fisher & McNemar (same binary variable twice) & RD, RR, PR or OR by design & \rc{prop.table(tab, margin = 1)}\\
+\grp{Estimate an association adjusted for other variables (D4)}
+What is the association, holding confounders constant? & Continuous & Multiple linear regression & \fl{Mixed models, GEE} & Adjusted slope, CI & \rc{lm(sbp\_0 \textasciitilde{} activity\_hr + age + sex, data = hearts)}\\
+ & Binary & Logistic regression & \fl{Conditional logistic regression (matched), GEE} & Adjusted OR (aOR), CI & \rc{glm(high\_bp\_0 \textasciitilde{} smoker + age10 + sex, family = binomial, data = hearts)}\\
+ & Count & Poisson regression with offset; quasi-Poisson or negative binomial if overdispersed & \fl{Mixed models, GEE} & Adjusted IRR, CI & \rc{glm(... + offset(log(followup\_months)), family = poisson, ...)}; \rc{MASS::glm.nb()}\\
+ & Ordinal & \fl{Proportional odds regression} & & \fl{Cumulative OR} & \fl{MASS::polr}\\
+ & Nominal, more than 2 categories & \fl{Multinomial logistic regression} & & \fl{Relative risk ratios} & \fl{nnet::multinom}\\
+ & Time-to-event & \fl{Cox proportional hazards regression} & & \fl{Hazard ratio} & \fl{survival::coxph}\\
+\grp{Predict an outcome for new people (D4)}
+How well can we predict? & Any & The regression model for the outcome type, fitted on training data and judged on test data; no leakage & & Prediction error on test data (e.g.\ RMSE) & \rc{train/test split with sample()}; \rc{predict(fit, newdata = test)}\\
+\grp{Discover groups (D5)}
+Are there subgroups? & None (no outcome) & Scale variables in different units; k-means or hierarchical clustering; check k, stability and meaning & & Cluster sizes and profiles; how k was chosen & \rc{kmeans(scale(x), centers = 3, nstart = 25)}; \rc{hclust(dist(z), method = "ward.D2")}\\
+\end{longtable}}
+
+\newpage
+{\Large\bfseries\color{cblue}When basic independent-observation methods are inappropriate (diagram D6)}\par
+\vspace{4pt}
+{\small
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{@{}P{3.2cm}P{6.6cm}P{7.0cm}P{8.0cm}@{}}
+\toprule
+\textbf{Structure} & \textbf{Example} & \textbf{Problem if ignored} & \textbf{What to do}\\\midrule
+Paired & Same people before and after; matched case and control & Independent-groups tests give wrong (usually too wide) CIs & Analyse differences: paired t-test, Wilcoxon signed-rank, McNemar (covered in the course)\\
+Repeated measures & SBP at 0, 3, 6 and 12 months & Separate tests at each time point inflate false positives; people counted as several independent observations & One summary per person (change, slope, mean) analysed with basic methods; \fl{mixed-effects models or GEE}\\
+Clustered & Patients within clinics; people within households or districts & Standard errors too small, CIs too narrow, p-values too small & \fl{Mixed-effects (multilevel) models, GEE, cluster-robust standard errors}; with few clusters, analyse cluster summaries\\
+Time-to-event with censoring & Time to diagnosis; some people not diagnosed by the end of follow-up & Dropping censored people or using event yes/no biases results when follow-up differs & \fl{Kaplan-Meier, log-rank test, Cox regression}\\
+Different follow-up times for counts & Clinic visits over 2 to 12 months & Raw counts compare unequal exposure & Poisson regression with \rc{offset(log(followup\_months))} (covered)\\\bottomrule
+\end{longtable}}
+
+\vspace{6pt}
+\begin{tcolorbox}[enhanced, colback=white, colframe=corange, boxrule=0.8pt, arc=2pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  title={Principles that matter more than any flowchart}, coltitle=NeudataNavy, colbacktitle=white, fonttitle=\normalsize,
+  attach boxed title to top left={xshift=6pt, yshift=-2pt}, boxed title style={colframe=white, colback=white}]
+\small
+\begin{itemize}
+\item \textbf{Sample size alone does not decide between a t-test and a rank-based test.} With small samples, look carefully at the data (strong skew, outliers, ordinal scale) and choose the summary that answers the question. Rank-based tests are not a safety net for small samples: they also have assumptions and can have little power.
+\item \textbf{Do not choose a test from a normality-test p-value.} In large samples such tests flag trivial departures; in small samples they miss important ones. Plots of the data and residuals are more informative. For t-tests, ANOVA and regression what matters is the distribution of the sample means or residuals, not of the raw outcome.
+\item \textbf{Rank-based tests are not assumption-free and not, in general, tests of medians.} Wilcoxon and Kruskal-Wallis assume independent observations and compare whole distributions through ranks.
+\item \textbf{A significant overall test (ANOVA, Kruskal-Wallis, r x c chi-square) does not identify which groups differ.} Use adjusted pairwise comparisons or look at the estimates.
+\item \textbf{Welch's versions are sensible defaults} for two-group and several-group comparisons of means, because equal variances are rarely known.
+\item \textbf{Independence comes from the design}, not from a test. Paired, repeated and clustered data need methods that respect their structure.
+\item \textbf{Report effect estimates with 95\% CIs.} Statistical significance does not establish practical importance or causation, and a non-significant result does not show that there is no effect.
+\item \textbf{The study design determines which measures can be interpreted:} risks and RR from cohorts and trials, prevalences and PR from cross-sectional studies, only the OR from case-control studies.
+\item \textbf{Choose adjustment variables from subject knowledge}: adjust for confounders, not mediators.
+\end{itemize}
+\end{tcolorbox}
+\neudatacopyrightpage
+\end{document}

@@ -1,0 +1,51 @@
+
+> course_packages <- c("readr", "dplyr", "ggplot2", 
++     "broom")
+
+> to_install <- course_packages[!course_packages %in% 
++     rownames(installed.packages())]
+
+> if (length(to_install) > 0) {
++     install.packages(to_install)
++ }
+
+> for (p in course_packages) {
++     library(p, character.only = TRUE)
++     cat(sprintf("%-8s version %s loaded\n", p, as.character(packageVersion(p))))
++ }
+readr    version 2.2.0 loaded
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+dplyr    version 1.2.1 loaded
+ggplot2  version 4.0.3 loaded
+broom    version 1.0.13 loaded
+
+> for (p in c("MASS", "cluster")) {
++     cat(sprintf("%-8s version %s available (comes with R)\n", 
++         p, as.character(packageVersion(p))))
++ }
+MASS     version 7.3.65 available (comes with R)
+cluster  version 2.1.8.2 available (comes with R)
+
+> stopifnot(file.exists("data/hearts_raw.csv"), file.exists("data/hearts.rds"))
+
+> hearts <- readRDS("data/hearts.rds")
+
+> cat("Course data found:", nrow(hearts), "rows and", 
++     ncol(hearts), "columns\n")
+Course data found: 480 rows and 19 columns
+
+> cat("R version:", R.version.string, "\n")
+R version: R version 4.6.1 (2026-06-24 ucrt) 
+
+> cat("Your computer is ready for the course.\n")
+Your computer is ready for the course.

@@ -1,0 +1,103 @@
+
+> library(dplyr)
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+> library(ggplot2)
+
+> hearts <- readRDS("data/hearts.rds")
+
+> source("R/theme_neudata.R")
+
+> course_teal <- neudata_cols[["teal"]]
+
+> course_blue <- neudata_cols[["blue"]]
+
+> mutate(count(hearts, district), percent = round(100 * 
++     n/sum(n), 1))
+  district   n percent
+1    North 119    24.8
+2    South 114    23.8
+3     East 125    26.0
+4     West 122    25.4
+
+> mutate(count(hearts, smoker), percent = round(100 * 
++     n/sum(n), 1))
+  smoker   n percent
+1     No 401    83.5
+2    Yes  79    16.5
+
+> mutate(count(hearts, education), percent_all = round(100 * 
++     n/sum(n), 1), percent_known = ifelse(is.na(education), NA, 
++     round(100 * n/sum(n[!is.na(education)]), 1)))
+        education   n percent_all percent_known
+1 Primary or less 117        24.4          24.7
+2       Secondary 223        46.5          47.0
+3        Tertiary 134        27.9          28.3
+4            <NA>   6         1.2            NA
+
+> ggplot(hearts, aes(x = district)) + geom_bar(fill = course_teal, 
++     width = 0.6) + labs(x = "District", y = "Number of participants", 
++     title = "Participants by district")
+
+> summarise(hearts, n = sum(!is.na(sbp_0)), mean = mean(sbp_0), 
++     sd = sd(sbp_0), median = median(sbp_0), q1 = quantile(sbp_0, 
++         0.25), q3 = quantile(sbp_0, 0.75))
+    n     mean       sd median  q1  q3
+1 480 129.3375 15.60775    129 118 140
+
+> mean(hearts$crp)
+[1] NA
+
+> mean(hearts$crp, na.rm = TRUE)
+[1] 3.024678
+
+> summarise(hearts, n = sum(!is.na(crp)), mean = mean(crp, 
++     na.rm = TRUE), sd = sd(crp, na.rm = TRUE), median = median(crp, 
++     na.rm = TRUE), q1 = quantile(crp, 0.25, na.rm = TRUE), q3 = quantile(crp, 
++     0.75, na.rm = TRUE))
+    n     mean       sd median  q1  q3
+1 466 3.024678 3.416477    1.9 1.2 3.7
+
+> summarise(group_by(hearts, district), n = n(), mean_sbp = mean(sbp_0), 
++     sd_sbp = sd(sbp_0), median_sbp = median(sbp_0))
+# A tibble: 4 × 5
+  district     n mean_sbp sd_sbp median_sbp
+  <fct>    <int>    <dbl>  <dbl>      <dbl>
+1 North      119     126.   13.4       126 
+2 South      114     134.   17.6       134.
+3 East       125     131.   16.0       132 
+4 West       122     126.   14.0       126.
+
+> ggplot(hearts, aes(x = sbp_0)) + geom_histogram(binwidth = 5, 
++     fill = course_teal, colour = "white") + labs(x = "Systolic blood pressure at baseline (mmHg)", 
++     y = "Number of participants")
+
+> ggplot(hearts, aes(x = crp)) + geom_histogram(binwidth = 1, 
++     fill = course_blue, colour = "white") + labs(x = "C-reactive protein (mg/L)", 
++     y = "Number of participants", title = "CRP is right-skewed: most values are low, a few are high")
+
+> ggplot(hearts, aes(x = crp)) + geom_histogram(bins = 25, 
++     fill = course_blue, colour = "white") + scale_x_log10() + 
++     labs(x = "C-reactive protein (mg/L, log scale)", y = "Number of participants")
+
+> ggplot(hearts, aes(x = district, y = sbp_0)) + geom_boxplot(fill = neudata_mist, 
++     outlier.shape = NA, width = 0.55) + geom_jitter(width = 0.15, 
++     alpha = 0.35, size = 1.2) + labs(x = "District", y = "Systolic BP at baseline (mmHg)")
+
+> dir.create("outputs", showWarnings = FALSE)
+
+> ggsave("outputs/sbp_by_district.png", width = 6, height = 4, 
++     dpi = 200)
+Warning messages:
+1: Removed 14 rows containing non-finite outside the scale range (`stat_bin()`). 
+2: Removed 14 rows containing non-finite outside the scale range (`stat_bin()`). 

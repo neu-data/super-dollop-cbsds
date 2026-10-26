@@ -1,0 +1,481 @@
+"id","district","sex","age","education","smoker","activity_min","diet_score","bmi","sbp_0","high_bp_0","crp","programme","sbp_12","high_bp_12","satisfaction","adverse_event","clinic_visits","followup_months"
+"HH001","South","Female",72,"Primary or less","No",80,3,29.6,128,"No",5.2,"Lifestyle programme",122,"No",4,"No",2,12
+"HH002","North","Male",56,"Tertiary","No",375,8,23.4,130,"No",4.1,"Lifestyle programme",122,"No",4,"No",5,12
+"HH003","West","Female",43,"Primary or less","No",115,8,23.7,116,"No",1,"Standard advice",107,"No",2,"No",3,12
+"HH004","South","Male",58,"Secondary","No",530,6,21.4,133,"No",2,"Standard advice",125,"No",1,"No",7,12
+"HH005","East","Male",51,"Secondary","Yes",35,6,27.7,134,"No",3.8,"Standard advice",126,"No",4,"No",2,12
+"HH006","West","Male",54,"Secondary","No",760,8,26.4,96,"No",1.9,"Lifestyle programme",,,,"No",0,2
+"HH007","West","Female",66,"Primary or less","No",35,5,31.1,135,"No",1.4,"Standard advice",129,"No",3,"No",3,12
+"HH008","North","Female",33,"Primary or less","No",240,2,27.7,113,"No",2,"Standard advice",106,"No",2,"No",4,12
+"HH009","South","Female",47,"Secondary","No",145,5,22.3,109,"No",1.4,"Lifestyle programme",99,"No",5,"No",1,12
+"HH010","West","Female",74,"Secondary","No",585,4,23.1,116,"No",1.5,"Lifestyle programme",101,"No",4,"No",3,12
+"HH011","North","Male",61,"Secondary","No",510,6,19.8,143,"Yes",1.6,"Standard advice",121,"No",3,"No",2,12
+"HH012","South","Female",53,"Primary or less","No",90,5,25.4,127,"No",5.9,"Standard advice",128,"No",3,"No",0,12
+"HH013","East","Female",60,"Secondary","No",80,4,32.2,134,"No",3.8,"Lifestyle programme",131,"No",4,"No",4,12
+"HH014","South","Male",57,"Secondary","Yes",45,3,36.9,154,"Yes",5.4,"Standard advice",153,"Yes",2,"No",2,12
+"HH015","West","Female",58,"Tertiary","Yes",55,4,25,129,"No",4.8,"Lifestyle programme",127,"No",2,"No",6,12
+"HH016","West","Male",39,"Secondary","No",100,6,30.4,144,"Yes",0.9,"Standard advice",127,"No",2,"No",3,12
+"HH017","East","Male",34,"Primary or less","No",40,4,30,119,"No",1.2,"Lifestyle programme",106,"No",3,"No",4,12
+"HH018","West","Male",36,"Secondary","No",250,6,25.6,129,"No",0.7,"Lifestyle programme",117,"No",4,"No",1,12
+"HH019","North","Male",49,"Secondary","No",110,7,18.8,108,"No",1.1,"Standard advice",102,"No",4,"No",2,12
+"HH020","West","Male",57,"Secondary","No",345,5,27.4,142,"Yes",0.8,"Lifestyle programme",134,"No",5,"Yes",1,12
+"HH021","West","Male",33,"Secondary","No",220,4,24.2,120,"No",1.8,"Lifestyle programme",118,"No",5,"No",3,12
+"HH022","West","Female",31,"Secondary","No",65,7,22.8,138,"No",1.4,"Standard advice",142,"Yes",2,"No",0,12
+"HH023","East","Male",51,"Secondary","Yes",280,7,30,153,"Yes",1.6,"Standard advice",152,"Yes",1,"No",1,12
+"HH024","North","Female",60,"Secondary","No",135,3,24.1,126,"No",0.2,"Lifestyle programme",116,"No",2,"No",2,12
+"HH025","South","Male",53,"Secondary","No",705,9,28.2,151,"Yes",3.5,"Lifestyle programme",127,"No",4,"No",2,12
+"HH026","South","Female",59,"Secondary","No",75,2,28.7,132,"No",4.8,"Standard advice",115,"No",2,"No",2,12
+"HH027","North","Female",57,"Tertiary","No",195,7,24.2,131,"No",1.2,"Lifestyle programme",127,"No",4,"No",2,12
+"HH028","North","Female",40,,"No",45,3,30.3,121,"No",6.8,"Standard advice",132,"No",3,"No",3,12
+"HH029","West","Male",50,"Secondary","No",120,4,22.9,124,"No",1.3,"Standard advice",131,"No",3,"No",2,12
+"HH030","East","Female",45,"Secondary","No",170,4,21.3,123,"No",0.6,"Standard advice",120,"No",2,"No",2,12
+"HH031","East","Male",35,"Secondary","No",185,9,21.9,121,"No",2.3,"Standard advice",127,"No",4,"No",1,12
+"HH032","North","Male",43,"Secondary","No",390,6,22.6,119,"No",1,"Lifestyle programme",116,"No",2,"No",1,12
+"HH033","East","Male",65,"Secondary","No",25,2,29.2,148,"Yes",1.3,"Standard advice",141,"Yes",3,"No",8,12
+"HH034","North","Female",32,"Primary or less","No",195,8,24.2,91,"No",1.9,"Lifestyle programme",79,"No",3,"No",4,12
+"HH035","East","Male",48,"Tertiary","No",80,5,24.9,115,"No",1,"Standard advice",110,"No",2,"No",1,12
+"HH036","South","Female",72,"Tertiary","No",50,3,33.1,160,"Yes",2.5,"Standard advice",168,"Yes",3,"No",4,12
+"HH037","North","Male",36,"Secondary","No",320,5,28,126,"No",3.6,"Lifestyle programme",123,"No",3,"No",1,12
+"HH038","East","Male",58,"Primary or less","No",290,3,21.1,137,"No",3.6,"Standard advice",133,"No",1,"No",1,12
+"HH039","East","Female",44,"Tertiary","No",270,8,24,120,"No",0.4,"Lifestyle programme",119,"No",4,"No",3,12
+"HH040","South","Male",38,"Tertiary","No",400,7,25.4,100,"No",1.8,"Lifestyle programme",94,"No",1,"No",1,12
+"HH041","West","Male",58,"Secondary","Yes",40,5,32.3,147,"Yes",11.7,"Lifestyle programme",145,"Yes",4,"No",7,12
+"HH042","East","Male",38,"Secondary","Yes",175,7,28.2,137,"No",0.9,"Lifestyle programme",142,"Yes",2,"No",1,12
+"HH043","West","Female",44,"Secondary","No",120,6,20.7,108,"No",1.6,"Standard advice",93,"No",4,"No",5,12
+"HH044","North","Male",36,"Primary or less","No",165,6,24.3,115,"No",0.9,"Standard advice",109,"No",3,"No",3,12
+"HH045","East","Female",39,"Tertiary","No",45,5,29.9,142,"Yes",3.3,"Standard advice",155,"Yes",4,"No",2,12
+"HH046","East","Female",66,"Secondary","No",380,7,22.3,103,"No",0.6,"Lifestyle programme",107,"No",2,"No",0,12
+"HH047","East","Female",67,"Secondary","No",55,5,19.3,152,"Yes",0.6,"Standard advice",144,"Yes",3,"No",4,12
+"HH048","South","Male",68,"Primary or less","Yes",380,4,25.6,153,"Yes",3,"Lifestyle programme",,,,"No",7,8
+"HH049","West","Female",72,"Secondary","Yes",30,6,27.6,146,"Yes",5.6,"Lifestyle programme",136,"No",2,"No",5,12
+"HH050","North","Female",64,"Secondary","No",195,6,24.6,144,"Yes",0.6,"Standard advice",144,"Yes",3,"No",3,12
+"HH051","South","Male",38,"Primary or less","No",170,5,28.8,142,"Yes",2.9,"Lifestyle programme",140,"Yes",4,"No",1,12
+"HH052","South","Female",40,"Secondary","No",225,4,28.2,158,"Yes",1.4,"Standard advice",152,"Yes",3,"No",2,12
+"HH053","South","Female",45,"Secondary","No",345,8,26.3,124,"No",2,"Standard advice",115,"No",3,"No",5,12
+"HH054","West","Male",65,"Secondary","Yes",,3,25.4,143,"Yes",3.4,"Standard advice",124,"No",3,"No",3,12
+"HH055","North","Female",47,"Primary or less","No",240,6,20.4,124,"No",2.9,"Standard advice",112,"No",3,"No",0,12
+"HH056","West","Female",66,"Primary or less","No",40,5,31.9,132,"No",4.4,"Standard advice",127,"No",4,"No",3,12
+"HH057","South","Male",35,"Secondary","No",320,7,22.9,128,"No",1.3,"Standard advice",126,"No",5,"No",2,12
+"HH058","West","Female",36,"Secondary","No",130,6,22.5,109,"No",4.9,"Standard advice",106,"No",4,"No",2,12
+"HH059","West","Male",35,"Tertiary","No",155,7,26,109,"No",1,"Lifestyle programme",109,"No",5,"No",1,12
+"HH060","East","Female",42,"Tertiary","No",40,6,31.8,148,"Yes",0.5,"Lifestyle programme",139,"No",5,"No",2,12
+"HH061","East","Male",42,"Tertiary","No",905,6,20.6,114,"No",0.8,"Standard advice",104,"No",2,"No",2,12
+"HH062","West","Female",47,"Secondary","No",75,4,24.3,120,"No",1.4,"Lifestyle programme",116,"No",1,"No",0,12
+"HH063","East","Female",61,"Secondary","Yes",185,7,23.7,128,"No",0.5,"Lifestyle programme",122,"No",4,"No",5,12
+"HH064","South","Male",31,"Primary or less","No",320,7,20,142,"Yes",0.5,"Lifestyle programme",131,"No",5,"No",0,12
+"HH065","West","Female",46,"Secondary","No",125,7,21.9,110,"No",1.5,"Lifestyle programme",100,"No",2,"No",2,12
+"HH066","West","Male",47,,"No",45,3,27.4,146,"Yes",1.4,"Lifestyle programme",146,"Yes",4,"No",8,12
+"HH067","West","Male",54,"Tertiary","No",235,6,26.9,117,"No",2,"Lifestyle programme",115,"No",3,"No",1,12
+"HH068","East","Male",46,"Secondary","No",140,5,20.8,125,"No",0.5,"Lifestyle programme",122,"No",1,"No",5,12
+"HH069","West","Female",61,"Secondary","Yes",190,7,26.3,136,"No",18.3,"Lifestyle programme",,,,"No",1,11
+"HH070","West","Female",40,"Tertiary","No",95,4,24.3,109,"No",0.6,"Standard advice",104,"No",1,"No",12,12
+"HH071","South","Female",37,"Secondary","No",100,3,28.1,123,"No",1.7,"Standard advice",,,,"No",0,8
+"HH072","South","Male",52,"Tertiary","No",25,6,33.7,145,"Yes",4.6,"Standard advice",140,"Yes",2,"No",2,12
+"HH073","East","Male",46,"Primary or less","No",100,5,30.9,129,"No",2.4,"Lifestyle programme",131,"No",4,"No",1,12
+"HH074","South","Female",64,"Primary or less","No",130,6,24,141,"Yes",4.5,"Standard advice",128,"No",3,"No",4,12
+"HH075","West","Female",63,"Secondary","No",185,5,26.5,115,"No",2.1,"Lifestyle programme",107,"No",3,"No",4,12
+"HH076","South","Female",65,"Secondary","Yes",55,3,28.9,135,"No",1.7,"Standard advice",145,"Yes",5,"No",5,12
+"HH077","North","Female",42,"Primary or less","No",75,5,25.4,137,"No",4,"Lifestyle programme",127,"No",5,"No",5,12
+"HH078","North","Female",55,"Primary or less","No",215,7,34.3,118,"No",4.4,"Standard advice",116,"No",3,"No",2,12
+"HH079","North","Male",43,"Tertiary","No",75,6,26.4,134,"No",0.8,"Lifestyle programme",120,"No",5,"No",4,12
+"HH080","South","Female",66,"Primary or less","No",75,5,31,142,"Yes",3.4,"Standard advice",,,,"No",1,5
+"HH081","South","Female",47,,"No",155,6,26.7,142,"Yes",1.7,"Lifestyle programme",137,"No",3,"No",2,12
+"HH082","West","Female",46,"Secondary","No",115,6,23.2,116,"No",4.3,"Lifestyle programme",102,"No",5,"Yes",0,12
+"HH083","South","Female",57,"Secondary","No",250,8,21.8,109,"No",2.8,"Lifestyle programme",106,"No",5,"No",3,12
+"HH084","West","Male",67,"Tertiary","No",120,2,26.1,123,"No",2.3,"Lifestyle programme",116,"No",5,"No",1,12
+"HH085","West","Male",65,"Primary or less","No",80,2,22,131,"No",0.4,"Standard advice",134,"No",1,"No",2,12
+"HH086","West","Male",63,"Secondary","No",445,8,20.9,107,"No",0.4,"Standard advice",107,"No",5,"No",1,12
+"HH087","North","Male",52,"Secondary","No",125,6,25.8,126,"No",,"Standard advice",125,"No",2,"No",1,12
+"HH088","West","Female",54,"Tertiary","No",45,3,23.8,111,"No",0.5,"Lifestyle programme",101,"No",4,"No",2,12
+"HH089","East","Male",58,"Tertiary","No",260,6,26,138,"No",5.9,"Lifestyle programme",138,"No",3,"No",4,12
+"HH090","West","Female",64,"Primary or less","No",125,4,32.1,123,"No",3.4,"Lifestyle programme",111,"No",3,"No",2,12
+"HH091","West","Female",61,"Secondary","Yes",195,6,25.6,146,"Yes",0.7,"Lifestyle programme",134,"No",4,"No",0,12
+"HH092","North","Male",38,"Tertiary","No",380,6,22.9,116,"No",1,"Lifestyle programme",,,,"No",2,10
+"HH093","North","Male",72,"Primary or less","Yes",60,5,25.5,143,"Yes",3.4,"Standard advice",,,,"No",0,9
+"HH094","North","Female",60,"Secondary","No",145,5,33.2,144,"Yes",1.5,"Standard advice",134,"No",3,"No",13,12
+"HH095","West","Female",59,"Secondary","No",380,8,31.9,141,"Yes",5.2,"Standard advice",157,"Yes",1,"No",1,12
+"HH096","North","Female",49,"Tertiary","No",65,4,35.2,144,"Yes",14,"Lifestyle programme",131,"No",3,"No",3,12
+"HH097","South","Female",70,"Tertiary","Yes",105,4,32,163,"Yes",3.3,"Standard advice",151,"Yes",2,"No",7,12
+"HH098","East","Male",59,"Tertiary","Yes",45,4,28.4,136,"No",18.8,"Standard advice",136,"No",4,"No",0,12
+"HH099","West","Female",36,"Secondary","Yes",130,2,30.9,128,"No",6.5,"Standard advice",121,"No",3,"No",3,12
+"HH100","North","Female",35,"Secondary","No",250,6,25.6,119,"No",1.4,"Standard advice",99,"No",1,"No",4,12
+"HH101","South","Female",31,"Tertiary","No",650,6,22.8,96,"No",1.8,"Lifestyle programme",109,"No",4,"No",4,12
+"HH102","West","Female",49,"Primary or less","Yes",240,6,26.2,123,"No",1.8,"Standard advice",138,"No",3,"No",8,12
+"HH103","West","Female",37,"Secondary","No",240,5,25.2,117,"No",2.6,"Lifestyle programme",115,"No",3,"No",0,12
+"HH104","North","Female",42,"Tertiary","No",,4,23,126,"No",0.9,"Standard advice",131,"No",1,"No",0,12
+"HH105","East","Male",60,"Primary or less","No",150,6,27.3,149,"Yes",2.7,"Lifestyle programme",127,"No",3,"No",3,12
+"HH106","East","Female",73,"Secondary","Yes",50,6,25.4,136,"No",0.9,"Standard advice",134,"No",2,"No",5,12
+"HH107","West","Female",69,"Secondary","No",55,7,31.7,136,"No",0.9,"Lifestyle programme",127,"No",2,"No",2,12
+"HH108","West","Male",66,"Primary or less","No",300,5,22.8,128,"No",5.9,"Standard advice",131,"No",2,"No",1,12
+"HH109","South","Female",34,"Secondary","No",140,5,26.6,116,"No",1.4,"Lifestyle programme",112,"No",3,"No",0,12
+"HH110","East","Female",63,"Secondary","No",345,6,28,131,"No",2.5,"Standard advice",134,"No",3,"No",6,12
+"HH111","North","Male",31,"Tertiary","No",230,7,16.5,109,"No",1.8,"Lifestyle programme",84,"No",5,"No",1,12
+"HH112","West","Male",41,"Tertiary","No",275,4,21.4,118,"No",1.8,"Standard advice",,,,"No",1,3
+"HH113","North","Male",53,"Primary or less","No",115,4,32.1,124,"No",1.1,"Standard advice",,,,"No",3,5
+"HH114","North","Male",53,"Secondary","No",215,7,20.7,121,"No",2.7,"Standard advice",121,"No",3,"No",2,12
+"HH115","South","Female",50,"Secondary","No",115,8,27,134,"No",1.2,"Lifestyle programme",137,"No",2,"No",1,12
+"HH116","South","Female",69,"Secondary","No",30,4,33.7,166,"Yes",10.1,"Standard advice",158,"Yes",3,"No",8,12
+"HH117","West","Female",52,"Secondary","No",215,6,26.4,128,"No",6.8,"Lifestyle programme",137,"No",3,"No",1,12
+"HH118","South","Female",61,"Primary or less","No",175,9,30.9,131,"No",1.8,"Lifestyle programme",130,"No",2,"No",1,12
+"HH119","East","Male",33,"Tertiary","No",455,8,26.2,133,"No",1,"Lifestyle programme",127,"No",5,"No",0,12
+"HH120","East","Male",58,"Secondary","No",30,5,26.3,148,"Yes",1.5,"Standard advice",142,"Yes",3,"No",0,12
+"HH121","South","Male",62,"Secondary","Yes",30,5,33.1,171,"Yes",4.7,"Lifestyle programme",167,"Yes",4,"No",0,12
+"HH122","East","Female",64,"Tertiary","No",720,9,28,120,"No",7.2,"Lifestyle programme",,,,"No",0,3
+"HH123","East","Female",37,"Secondary","No",15,2,26.1,122,"No",1,"Standard advice",119,"No",3,"No",6,12
+"HH124","North","Female",42,"Secondary","No",270,10,25.2,130,"No",1.1,"Lifestyle programme",117,"No",4,"No",1,12
+"HH125","East","Female",44,"Secondary","No",90,6,25.9,129,"No",4.2,"Standard advice",121,"No",4,"No",1,12
+"HH126","North","Female",32,"Secondary","No",395,7,31.9,113,"No",,"Lifestyle programme",119,"No",4,"No",0,12
+"HH127","North","Male",63,"Primary or less","No",165,7,29,142,"Yes",1,"Lifestyle programme",156,"Yes",4,"No",1,12
+"HH128","North","Female",60,"Secondary","No",30,2,30.2,125,"No",2.4,"Standard advice",122,"No",1,"No",2,12
+"HH129","North","Female",66,"Primary or less","Yes",40,6,30.5,127,"No",6.7,"Standard advice",133,"No",2,"No",4,12
+"HH130","South","Male",61,"Secondary","No",225,5,24.5,121,"No",3.1,"Lifestyle programme",130,"No",4,"No",4,12
+"HH131","North","Male",72,"Secondary","Yes",45,4,32.3,148,"Yes",3.1,"Lifestyle programme",135,"No",2,"No",7,12
+"HH132","East","Female",55,"Tertiary","No",150,6,28.1,137,"No",0.7,"Standard advice",138,"No",4,"No",3,12
+"HH133","East","Male",50,"Secondary","No",245,7,29.5,141,"Yes",9.2,"Standard advice",139,"No",4,"No",4,12
+"HH134","West","Female",40,"Secondary","No",315,5,19.8,105,"No",1.1,"Lifestyle programme",107,"No",3,"No",6,12
+"HH135","South","Female",32,"Primary or less","No",255,5,27.4,127,"No",2.6,"Lifestyle programme",127,"No",5,"No",1,12
+"HH136","North","Female",44,"Tertiary","No",185,9,27.1,128,"No",1.6,"Lifestyle programme",129,"No",4,"No",2,12
+"HH137","North","Female",38,"Primary or less","No",555,7,23.9,94,"No",0.7,"Standard advice",,,,"No",2,8
+"HH138","South","Male",40,"Tertiary","No",335,7,28.1,115,"No",3.9,"Lifestyle programme",126,"No",3,"No",0,12
+"HH139","West","Female",45,"Secondary","Yes",140,7,29.6,133,"No",1.8,"Standard advice",133,"No",3,"No",1,12
+"HH140","South","Female",68,"Primary or less","Yes",80,4,26.7,156,"Yes",4.1,"Lifestyle programme",152,"Yes",4,"No",1,12
+"HH141","North","Male",56,"Secondary","No",65,4,32.6,128,"No",2.7,"Standard advice",137,"No",3,"No",2,12
+"HH142","East","Female",64,"Primary or less","No",40,2,29.3,124,"No",1.9,"Standard advice",121,"No",4,"No",4,12
+"HH143","North","Female",41,"Secondary","No",685,8,17.7,115,"No",1.5,"Standard advice",131,"No",5,"No",1,12
+"HH144","East","Female",42,"Tertiary","No",85,5,25.3,116,"No",0.6,"Standard advice",119,"No",1,"No",2,12
+"HH145","North","Male",40,"Primary or less","Yes",245,7,22.4,117,"No",1.8,"Lifestyle programme",115,"No",3,"No",1,12
+"HH146","East","Male",34,"Secondary","No",140,6,26.9,107,"No",1.3,"Lifestyle programme",101,"No",5,"No",0,12
+"HH147","East","Female",62,"Secondary","No",60,4,24.4,135,"No",1.9,"Lifestyle programme",139,"No",4,"No",2,12
+"HH148","West","Female",47,"Secondary","No",170,5,30.3,137,"No",6.7,"Lifestyle programme",128,"No",4,"No",3,12
+"HH149","East","Female",35,"Secondary","No",315,7,28.6,126,"No",1.7,"Lifestyle programme",114,"No",5,"No",5,12
+"HH150","South","Male",55,"Secondary","No",35,4,29.6,130,"No",3.5,"Standard advice",122,"No",1,"No",0,12
+"HH151","East","Male",71,"Secondary","No",80,7,29.6,156,"Yes",1.1,"Lifestyle programme",161,"Yes",4,"No",0,12
+"HH152","South","Female",38,"Secondary","No",130,5,29,133,"No",1,"Lifestyle programme",124,"No",3,"No",3,12
+"HH153","South","Male",53,"Primary or less","No",460,9,29.8,117,"No",0.7,"Lifestyle programme",98,"No",5,"No",3,12
+"HH154","West","Male",65,"Primary or less","No",190,5,,129,"No",2.1,"Standard advice",115,"No",2,"No",1,12
+"HH155","West","Female",42,"Secondary","No",135,8,16.8,116,"No",3,"Standard advice",116,"No",5,"No",4,12
+"HH156","South","Male",63,"Secondary","Yes",115,5,32.2,144,"Yes",3.9,"Standard advice",121,"No",4,"No",12,12
+"HH157","North","Male",49,"Secondary","No",195,4,29.3,132,"No",6.5,"Lifestyle programme",131,"No",1,"No",5,12
+"HH158","West","Female",59,"Primary or less","No",90,4,28.4,138,"No",1.8,"Lifestyle programme",142,"Yes",5,"No",6,12
+"HH159","West","Male",40,"Tertiary","No",225,7,24.2,125,"No",1.5,"Standard advice",124,"No",4,"No",0,12
+"HH160","South","Female",44,"Tertiary","No",185,5,21.4,107,"No",1.5,"Standard advice",114,"No",4,"No",1,12
+"HH161","East","Male",69,"Primary or less","Yes",55,6,32.2,170,"Yes",4,"Lifestyle programme",173,"Yes",2,"No",5,12
+"HH162","South","Male",66,"Secondary","Yes",165,5,28.1,129,"No",1.3,"Lifestyle programme",117,"No",5,"No",3,12
+"HH163","West","Male",42,"Secondary","No",205,8,21.5,119,"No",5.5,"Lifestyle programme",122,"No",2,"No",1,12
+"HH164","West","Male",32,"Secondary","No",300,6,20.9,113,"No",1.9,"Lifestyle programme",87,"No",4,"No",1,12
+"HH165","South","Female",63,"Secondary","Yes",90,4,25.4,157,"Yes",8.4,"Lifestyle programme",165,"Yes",4,"No",0,12
+"HH166","South","Female",60,"Primary or less","No",150,7,30.1,136,"No",11,"Lifestyle programme",124,"No",2,"No",3,12
+"HH167","East","Female",57,"Primary or less","No",40,5,35.9,154,"Yes",13.8,"Lifestyle programme",149,"Yes",1,"No",5,12
+"HH168","South","Female",62,"Secondary","No",460,7,21.3,134,"No",1.4,"Lifestyle programme",119,"No",5,"No",2,12
+"HH169","East","Male",59,"Primary or less","Yes",90,6,21.6,147,"Yes",2,"Lifestyle programme",166,"Yes",5,"No",1,12
+"HH170","West","Female",46,"Primary or less","No",365,6,16.5,120,"No",0.4,"Standard advice",123,"No",4,"No",6,12
+"HH171","East","Female",51,"Tertiary","No",225,5,27.3,138,"No",3.1,"Standard advice",144,"Yes",3,"No",5,12
+"HH172","West","Male",31,"Tertiary","No",555,7,21.8,114,"No",0.4,"Lifestyle programme",,,,"No",2,6
+"HH173","East","Female",32,"Tertiary","No",285,8,28.1,93,"No",1,"Lifestyle programme",89,"No",5,"No",0,12
+"HH174","South","Male",66,"Primary or less","No",35,3,33.2,139,"No",3.3,"Lifestyle programme",138,"No",3,"No",1,12
+"HH175","South","Male",39,"Secondary","No",250,7,21.5,97,"No",1.6,"Standard advice",86,"No",3,"No",3,12
+"HH176","West","Male",34,"Tertiary","No",90,6,24,136,"No",0.3,"Standard advice",115,"No",4,"No",1,12
+"HH177","South","Female",70,"Secondary","No",135,4,30.2,148,"Yes",17.5,"Lifestyle programme",133,"No",5,"No",5,12
+"HH178","West","Female",63,"Tertiary","No",65,4,25.9,141,"Yes",1.4,"Standard advice",,,,"No",0,9
+"HH179","East","Female",67,"Primary or less","No",80,5,24.5,131,"No",4.5,"Lifestyle programme",122,"No",3,"No",6,12
+"HH180","East","Female",47,"Secondary","No",405,8,22.4,127,"No",6.3,"Standard advice",123,"No",3,"No",2,12
+"HH181","North","Male",40,"Tertiary","No",115,4,27.7,139,"No",4.2,"Standard advice",148,"Yes",3,"No",4,12
+"HH182","East","Female",59,"Secondary","Yes",120,6,,134,"No",4.9,"Standard advice",137,"No",2,"No",1,12
+"HH183","North","Female",58,"Secondary","No",55,6,28.2,134,"No",2.4,"Lifestyle programme",,,,"Yes",2,2
+"HH184","North","Female",57,"Secondary","Yes",95,6,21.1,126,"No",0.6,"Lifestyle programme",131,"No",3,"No",2,12
+"HH185","West","Male",34,"Primary or less","No",,4,21.7,102,"No",1.5,"Lifestyle programme",85,"No",5,"No",3,12
+"HH186","North","Female",53,"Secondary","No",505,10,16.5,102,"No",0.4,"Standard advice",87,"No",2,"No",7,12
+"HH187","South","Male",49,"Secondary","Yes",290,7,21.7,136,"No",1.7,"Standard advice",141,"Yes",3,"No",3,12
+"HH188","East","Male",47,"Tertiary","No",290,6,24.9,102,"No",1.5,"Standard advice",,,,"No",0,11
+"HH189","East","Male",68,"Primary or less","Yes",55,3,37.6,166,"Yes",10.6,"Standard advice",160,"Yes",3,"No",5,12
+"HH190","West","Female",49,"Primary or less","No",310,8,24.9,132,"No",1.7,"Lifestyle programme",99,"No",5,"No",7,12
+"HH191","West","Female",56,"Tertiary","No",210,6,23.9,133,"No",5.1,"Standard advice",138,"No",3,"No",3,12
+"HH192","North","Male",69,"Secondary","No",150,7,26.4,126,"No",2.6,"Lifestyle programme",135,"No",4,"No",4,12
+"HH193","East","Male",50,"Secondary","No",165,4,,144,"Yes",2.2,"Standard advice",127,"No",1,"No",0,12
+"HH194","North","Male",70,"Primary or less","No",85,5,29,153,"Yes",3.9,"Standard advice",163,"Yes",5,"No",4,12
+"HH195","West","Female",50,"Tertiary","No",165,4,21.1,128,"No",0.5,"Standard advice",134,"No",3,"No",1,12
+"HH196","East","Female",37,"Tertiary","No",125,5,24.4,117,"No",0.8,"Standard advice",113,"No",2,"No",1,12
+"HH197","North","Male",43,"Tertiary","No",160,8,21.6,119,"No",0.4,"Lifestyle programme",106,"No",4,"No",2,12
+"HH198","West","Female",39,"Secondary","No",195,7,30.1,115,"No",,"Lifestyle programme",111,"No",4,"No",1,12
+"HH199","North","Male",49,"Primary or less","Yes",560,9,19.6,112,"No",1.6,"Standard advice",119,"No",1,"No",1,12
+"HH200","East","Female",31,"Tertiary","No",110,7,24.1,84,"No",1.2,"Standard advice",90,"No",3,"No",4,12
+"HH201","East","Male",45,"Tertiary","No",25,5,34.3,148,"Yes",,"Standard advice",134,"No",3,"No",10,12
+"HH202","South","Male",53,"Secondary","No",220,5,29,139,"No",1.3,"Lifestyle programme",134,"No",4,"No",3,12
+"HH203","East","Female",47,"Secondary","No",195,4,29.7,126,"No",1.5,"Standard advice",125,"No",4,"No",0,12
+"HH204","South","Male",63,"Secondary","No",55,3,28.9,150,"Yes",3.1,"Standard advice",148,"Yes",1,"Yes",1,12
+"HH205","North","Male",64,"Primary or less","No",,7,20.5,123,"No",1.2,"Lifestyle programme",121,"No",5,"Yes",2,12
+"HH206","South","Male",68,"Primary or less","No",50,6,28.1,144,"Yes",6,"Lifestyle programme",140,"Yes",3,"No",4,12
+"HH207","West","Male",48,"Primary or less","No",245,7,25.1,118,"No",2.3,"Lifestyle programme",121,"No",3,"No",1,12
+"HH208","West","Female",53,"Tertiary","No",290,6,25.2,116,"No",3,"Lifestyle programme",111,"No",4,"No",0,12
+"HH209","West","Female",44,"Secondary","No",90,3,27.7,131,"No",1.3,"Standard advice",131,"No",3,"No",2,12
+"HH210","South","Male",45,"Tertiary","No",235,6,21.7,111,"No",0.8,"Lifestyle programme",110,"No",5,"No",0,12
+"HH211","East","Male",65,"Tertiary","No",520,7,23.1,144,"Yes",1.7,"Lifestyle programme",136,"No",3,"No",4,12
+"HH212","East","Male",70,"Secondary","No",50,4,28.1,149,"Yes",7,"Lifestyle programme",140,"Yes",4,"No",2,12
+"HH213","South","Male",51,"Secondary","Yes",85,5,26.6,172,"Yes",1.4,"Standard advice",177,"Yes",3,"No",7,12
+"HH214","South","Female",47,"Tertiary","No",155,5,24.3,135,"No",0.3,"Lifestyle programme",,,,"No",1,5
+"HH215","West","Male",70,"Tertiary","No",135,8,21.6,139,"No",7.6,"Lifestyle programme",,,,"No",1,5
+"HH216","East","Female",70,"Secondary","No",40,5,31.2,157,"Yes",1.7,"Lifestyle programme",,,,"No",5,6
+"HH217","North","Male",68,"Primary or less","Yes",270,7,24.6,121,"No",2.7,"Lifestyle programme",106,"No",5,"No",2,12
+"HH218","West","Female",49,"Tertiary","No",185,6,23,125,"No",2.9,"Lifestyle programme",116,"No",2,"No",4,12
+"HH219","South","Female",33,"Tertiary","No",190,6,28.3,116,"No",4.6,"Standard advice",107,"No",4,"No",1,12
+"HH220","North","Male",74,"Tertiary","No",30,5,29.4,154,"Yes",21.9,"Standard advice",155,"Yes",3,"Yes",2,12
+"HH221","North","Male",51,"Tertiary","Yes",60,2,29.7,139,"No",4.3,"Lifestyle programme",142,"Yes",5,"No",2,12
+"HH222","East","Female",55,"Primary or less","No",175,5,26.4,141,"Yes",0.3,"Lifestyle programme",133,"No",3,"No",4,12
+"HH223","South","Female",72,"Secondary","Yes",175,7,27.7,137,"No",3.5,"Lifestyle programme",129,"No",4,"No",9,12
+"HH224","East","Male",54,"Secondary","Yes",80,5,31.4,125,"No",5.2,"Lifestyle programme",116,"No",3,"No",2,12
+"HH225","South","Female",51,"Secondary","No",245,6,31.9,142,"Yes",3.1,"Lifestyle programme",119,"No",5,"No",0,12
+"HH226","West","Male",52,"Tertiary","No",225,6,22.6,137,"No",1.6,"Standard advice",119,"No",1,"No",1,12
+"HH227","South","Male",59,"Primary or less","No",100,5,30.5,158,"Yes",0.4,"Lifestyle programme",,,,"No",8,10
+"HH228","South","Male",59,"Primary or less","No",15,5,30.6,142,"Yes",4.6,"Standard advice",,,,"No",1,3
+"HH229","South","Female",39,"Primary or less","No",50,2,36.7,133,"No",7.8,"Lifestyle programme",124,"No",3,"No",4,12
+"HH230","East","Male",64,"Primary or less","No",215,4,17.5,125,"No",1.9,"Standard advice",122,"No",2,"No",5,12
+"HH231","South","Male",34,"Secondary","No",250,6,26.2,129,"No",2.4,"Standard advice",127,"No",3,"No",0,12
+"HH232","South","Female",39,"Secondary","No",355,7,21.9,119,"No",3.9,"Lifestyle programme",125,"No",3,"No",3,12
+"HH233","North","Male",47,"Tertiary","No",505,6,26.4,152,"Yes",2.8,"Standard advice",168,"Yes",2,"No",5,12
+"HH234","West","Male",53,"Secondary","Yes",90,5,29.3,140,"Yes",1.2,"Lifestyle programme",129,"No",2,"No",3,12
+"HH235","East","Male",59,"Secondary","No",135,7,27.3,127,"No",0.3,"Standard advice",,,,"No",0,5
+"HH236","North","Male",73,"Secondary","No",25,4,34.1,137,"No",1.7,"Lifestyle programme",133,"No",4,"Yes",1,12
+"HH237","West","Female",53,"Secondary","No",100,7,23.7,136,"No",1.2,"Standard advice",128,"No",3,"No",3,12
+"HH238","North","Female",59,"Secondary","Yes",40,5,30.7,141,"Yes",1.2,"Lifestyle programme",149,"Yes",4,"No",4,12
+"HH239","East","Female",48,"Tertiary","No",775,8,25.1,94,"No",0.7,"Lifestyle programme",93,"No",3,"No",0,12
+"HH240","West","Female",63,"Secondary","Yes",70,5,31.9,126,"No",1.7,"Lifestyle programme",109,"No",2,"No",2,12
+"HH241","East","Female",44,"Secondary","Yes",670,8,25.4,119,"No",2.5,"Standard advice",107,"No",2,"No",3,12
+"HH242","North","Female",40,"Secondary","No",400,7,23,122,"No",,"Standard advice",,,,"No",5,8
+"HH243","South","Female",74,"Primary or less","No",365,8,29.9,144,"Yes",1.7,"Lifestyle programme",,,,"No",5,6
+"HH244","South","Male",38,"Tertiary","No",310,9,24.6,122,"No",1.2,"Standard advice",122,"No",1,"No",0,12
+"HH245","East","Male",63,"Primary or less","Yes",170,7,28.9,152,"Yes",13,"Standard advice",140,"Yes",4,"No",3,12
+"HH246","North","Male",56,"Tertiary","No",140,7,25.8,142,"Yes",3.9,"Lifestyle programme",130,"No",4,"No",1,12
+"HH247","South","Female",43,"Tertiary","No",240,7,23.8,135,"No",3.9,"Standard advice",143,"Yes",3,"No",2,12
+"HH248","East","Male",65,"Primary or less","No",250,4,31,146,"Yes",1.6,"Lifestyle programme",136,"No",2,"No",1,12
+"HH249","North","Male",71,"Secondary","Yes",65,2,30.9,155,"Yes",13,"Lifestyle programme",,,,"No",4,10
+"HH250","North","Female",64,"Tertiary","Yes",135,5,27.5,144,"Yes",3.3,"Standard advice",154,"Yes",3,"No",2,12
+"HH251","East","Female",38,"Tertiary","No",225,6,27.5,141,"Yes",4.2,"Lifestyle programme",137,"No",4,"No",0,12
+"HH252","South","Female",32,"Secondary","No",100,7,29.9,134,"No",4.7,"Standard advice",131,"No",5,"No",2,12
+"HH253","West","Female",44,"Secondary","No",255,7,19.6,125,"No",,"Lifestyle programme",112,"No",3,"No",1,12
+"HH254","North","Male",45,"Tertiary","No",95,4,27.7,132,"No",2.4,"Standard advice",147,"Yes",5,"No",0,12
+"HH255","South","Male",42,"Secondary","No",385,7,26,135,"No",2.6,"Lifestyle programme",136,"No",4,"No",5,12
+"HH256","East","Male",50,"Secondary","No",510,7,20,118,"No",8.6,"Standard advice",116,"No",1,"No",5,12
+"HH257","East","Male",47,"Primary or less","Yes",50,4,27.4,135,"No",4,"Standard advice",131,"No",2,"No",6,12
+"HH258","West","Female",43,"Secondary","No",115,4,21.7,103,"No",0.5,"Lifestyle programme",99,"No",2,"No",0,12
+"HH259","North","Female",47,"Secondary","Yes",200,6,24.1,149,"Yes",1.7,"Lifestyle programme",157,"Yes",5,"No",4,12
+"HH260","South","Male",71,"Primary or less","No",20,1,34.8,151,"Yes",2,"Lifestyle programme",136,"No",4,"Yes",7,12
+"HH261","North","Female",37,"Secondary","No",25,3,32.4,133,"No",2.4,"Lifestyle programme",125,"No",4,"Yes",0,12
+"HH262","North","Female",64,"Primary or less","No",25,2,31.3,151,"Yes",1.8,"Standard advice",176,"Yes",4,"No",5,12
+"HH263","North","Male",64,"Primary or less","No",135,6,29.3,143,"Yes",2.4,"Standard advice",150,"Yes",4,"No",4,12
+"HH264","East","Male",66,"Secondary","No",250,8,,127,"No",2.6,"Lifestyle programme",129,"No",2,"No",2,12
+"HH265","West","Male",64,"Secondary","Yes",30,4,30.6,152,"Yes",2.7,"Lifestyle programme",154,"Yes",4,"No",2,12
+"HH266","South","Male",49,"Tertiary","No",210,8,25.2,162,"Yes",1.5,"Lifestyle programme",159,"Yes",4,"No",5,12
+"HH267","East","Female",43,"Secondary","No",190,8,22,102,"No",0.5,"Standard advice",113,"No",4,"No",1,12
+"HH268","South","Male",36,,"No",180,7,28.5,114,"No",7.1,"Standard advice",,,,"No",0,11
+"HH269","West","Female",61,"Tertiary","No",425,6,17.4,119,"No",0.9,"Standard advice",124,"No",5,"No",0,12
+"HH270","West","Male",30,"Tertiary","No",55,7,32.2,107,"No",1.4,"Standard advice",114,"No",1,"No",0,12
+"HH271","North","Male",66,"Primary or less","No",20,4,,138,"No",0.6,"Lifestyle programme",120,"No",3,"No",1,12
+"HH272","West","Male",52,"Tertiary","Yes",55,2,27,136,"No",8.4,"Standard advice",151,"Yes",3,"No",2,12
+"HH273","South","Male",31,"Secondary","Yes",185,6,30.5,141,"Yes",4.9,"Standard advice",125,"No",3,"No",0,12
+"HH274","South","Male",48,"Secondary","No",135,7,,144,"Yes",1.8,"Standard advice",155,"Yes",3,"No",4,12
+"HH275","North","Female",54,"Tertiary","No",345,10,26.5,118,"No",1.6,"Lifestyle programme",125,"No",1,"No",4,12
+"HH276","East","Male",49,"Secondary","No",30,5,28.6,133,"No",2.3,"Standard advice",116,"No",1,"No",1,12
+"HH277","North","Male",50,"Tertiary","No",460,8,19.6,136,"No",1.1,"Standard advice",130,"No",5,"No",4,12
+"HH278","South","Male",44,"Secondary","No",100,6,27,136,"No",2.7,"Lifestyle programme",126,"No",4,"No",4,12
+"HH279","West","Female",62,"Tertiary","No",40,4,30.9,123,"No",0.5,"Standard advice",136,"No",2,"No",1,12
+"HH280","West","Female",44,"Secondary","No",165,6,23.5,107,"No",4.1,"Standard advice",107,"No",5,"No",0,12
+"HH281","East","Female",69,"Tertiary","No",25,4,23.9,134,"No",4.4,"Lifestyle programme",144,"Yes",5,"No",2,12
+"HH282","South","Female",73,"Primary or less","No",105,4,26.3,144,"Yes",6.6,"Standard advice",134,"No",4,"No",4,12
+"HH283","East","Male",55,"Tertiary","No",170,7,23.9,136,"No",1.1,"Lifestyle programme",125,"No",2,"No",9,12
+"HH284","South","Male",57,"Secondary","Yes",95,5,27.7,175,"Yes",1.3,"Lifestyle programme",183,"Yes",1,"No",8,12
+"HH285","North","Male",38,"Tertiary","No",250,7,24.9,124,"No",0.9,"Standard advice",125,"No",3,"No",2,12
+"HH286","East","Male",52,"Primary or less","No",430,7,18,102,"No",2,"Standard advice",104,"No",2,"No",3,12
+"HH287","North","Female",53,"Primary or less","No",180,7,30.3,142,"Yes",2.9,"Standard advice",,,,"No",1,6
+"HH288","North","Female",67,"Primary or less","No",215,7,30.5,119,"No",5.4,"Lifestyle programme",112,"No",3,"No",3,12
+"HH289","East","Female",71,"Secondary","No",190,7,29.6,134,"No",1.8,"Standard advice",134,"No",3,"No",2,12
+"HH290","North","Female",35,"Tertiary","No",65,4,,126,"No",2.2,"Standard advice",106,"No",3,"No",3,12
+"HH291","West","Male",74,"Secondary","Yes",185,4,28.8,139,"No",2.2,"Lifestyle programme",123,"No",4,"No",1,12
+"HH292","South","Female",54,"Tertiary","No",280,7,26.5,94,"No",1.4,"Standard advice",,,,"No",1,11
+"HH293","West","Male",68,"Primary or less","No",115,6,29.2,135,"No",4.3,"Lifestyle programme",136,"No",5,"No",3,12
+"HH294","West","Female",50,"Primary or less","No",460,6,22.1,121,"No",3.2,"Lifestyle programme",105,"No",4,"No",0,12
+"HH295","South","Male",50,"Tertiary","No",90,3,28.9,155,"Yes",,"Lifestyle programme",150,"Yes",5,"No",4,12
+"HH296","West","Male",54,"Primary or less","No",100,6,24.9,133,"No",6.7,"Standard advice",131,"No",5,"No",3,12
+"HH297","North","Female",42,"Primary or less","No",160,4,26.3,116,"No",2.1,"Standard advice",109,"No",4,"No",4,12
+"HH298","West","Male",73,"Primary or less","Yes",90,6,34.7,149,"Yes",8.5,"Lifestyle programme",136,"No",3,"No",7,12
+"HH299","South","Female",40,"Tertiary","No",35,4,26.1,125,"No",0.7,"Lifestyle programme",117,"No",1,"No",4,12
+"HH300","South","Female",61,"Secondary","No",120,7,25.8,139,"No",4.7,"Standard advice",137,"No",3,"No",9,12
+"HH301","East","Male",31,"Secondary","No",110,5,25.2,106,"No",,"Standard advice",100,"No",4,"No",2,12
+"HH302","North","Male",58,"Tertiary","No",65,4,27.2,109,"No",0.6,"Standard advice",92,"No",1,"No",2,12
+"HH303","East","Male",66,"Secondary","No",35,6,29.4,132,"No",3,"Standard advice",129,"No",2,"No",11,12
+"HH304","West","Female",38,"Tertiary","No",190,5,23.9,125,"No",0.5,"Standard advice",123,"No",2,"No",2,12
+"HH305","South","Female",68,"Secondary","Yes",120,7,28.4,124,"No",6.3,"Lifestyle programme",131,"No",2,"No",12,12
+"HH306","West","Female",52,"Tertiary","No",130,3,21,109,"No",0.2,"Lifestyle programme",114,"No",2,"No",5,12
+"HH307","South","Male",54,"Secondary","No",135,7,24,132,"No",4.2,"Standard advice",131,"No",5,"No",1,12
+"HH308","East","Male",62,"Secondary","No",625,6,21.8,143,"Yes",0.6,"Standard advice",140,"Yes",2,"No",1,12
+"HH309","North","Female",33,"Tertiary","No",160,5,26.4,125,"No",5.6,"Standard advice",115,"No",4,"No",1,12
+"HH310","South","Female",58,"Secondary","No",455,5,25.5,128,"No",0.7,"Standard advice",123,"No",4,"No",2,12
+"HH311","East","Male",56,"Primary or less","No",30,2,25.6,132,"No",6.4,"Lifestyle programme",122,"No",4,"No",5,12
+"HH312","East","Male",70,"Primary or less","Yes",185,6,34.9,146,"Yes",9.4,"Standard advice",143,"Yes",4,"No",16,12
+"HH313","North","Male",34,"Tertiary","Yes",95,6,25.8,125,"No",1.2,"Standard advice",,,,"No",1,7
+"HH314","East","Female",46,"Secondary","No",260,7,18.7,128,"No",1,"Standard advice",135,"No",4,"No",5,12
+"HH315","North","Female",51,"Secondary","Yes",285,6,23.4,118,"No",2.2,"Lifestyle programme",90,"No",5,"No",6,12
+"HH316","East","Male",67,"Secondary","No",180,5,26.2,133,"No",5.2,"Standard advice",129,"No",2,"No",3,12
+"HH317","South","Male",63,"Secondary","No",75,3,30.7,141,"Yes",10.8,"Lifestyle programme",141,"Yes",4,"No",4,12
+"HH318","South","Male",65,"Secondary","Yes",410,8,22.7,132,"No",1.8,"Lifestyle programme",120,"No",2,"No",1,12
+"HH319","East","Male",55,"Primary or less","No",115,4,26.4,118,"No",0.7,"Lifestyle programme",116,"No",3,"No",1,12
+"HH320","North","Female",31,"Tertiary","No",55,5,22.1,101,"No",1.9,"Standard advice",109,"No",3,"No",2,12
+"HH321","North","Female",48,"Secondary","No",370,6,19.6,114,"No",1.4,"Lifestyle programme",97,"No",3,"No",0,12
+"HH322","South","Female",54,"Primary or less","No",50,4,30.2,139,"No",1.6,"Lifestyle programme",129,"No",4,"No",3,12
+"HH323","West","Female",54,"Secondary","No",80,5,28.3,122,"No",0.8,"Standard advice",117,"No",4,"No",6,12
+"HH324","West","Male",43,"Tertiary","No",95,3,23,126,"No",2.1,"Standard advice",140,"Yes",1,"No",0,12
+"HH325","North","Female",47,"Secondary","No",125,7,20.5,99,"No",1.7,"Lifestyle programme",95,"No",2,"No",6,12
+"HH326","North","Female",33,"Secondary","No",80,5,24.9,128,"No",1.4,"Lifestyle programme",136,"No",3,"No",3,12
+"HH327","East","Male",42,"Tertiary","No",55,4,26.3,117,"No",1.6,"Lifestyle programme",97,"No",5,"No",1,12
+"HH328","East","Male",33,"Tertiary","No",285,7,25.6,136,"No",9.4,"Standard advice",135,"No",4,"No",1,12
+"HH329","East","Male",48,"Primary or less","No",215,5,23,121,"No",1.9,"Standard advice",129,"No",3,"No",3,12
+"HH330","North","Male",32,"Primary or less","No",275,7,20.3,126,"No",0.3,"Lifestyle programme",115,"No",3,"No",4,12
+"HH331","East","Female",57,"Tertiary","No",150,7,23.2,116,"No",0.3,"Lifestyle programme",116,"No",3,"No",2,12
+"HH332","East","Male",50,"Tertiary","Yes",95,7,29.7,138,"No",1.2,"Lifestyle programme",120,"No",5,"No",9,12
+"HH333","East","Female",64,"Secondary","No",295,4,30.1,113,"No",1.6,"Lifestyle programme",105,"No",5,"No",1,12
+"HH334","South","Female",45,"Secondary","No",480,5,30.1,140,"Yes",2.3,"Standard advice",124,"No",3,"No",0,12
+"HH335","North","Female",42,"Secondary","No",150,6,27.4,135,"No",7.4,"Standard advice",,,,"No",1,3
+"HH336","East","Male",52,"Secondary","No",20,3,21.8,145,"Yes",,"Lifestyle programme",135,"No",2,"No",2,12
+"HH337","South","Male",44,"Tertiary","No",175,4,24.2,142,"Yes",1,"Lifestyle programme",144,"Yes",4,"No",1,12
+"HH338","East","Female",70,"Secondary","No",185,5,30.3,118,"No",1.1,"Lifestyle programme",112,"No",4,"No",7,12
+"HH339","South","Male",32,"Secondary","No",245,6,22.5,100,"No",1.6,"Lifestyle programme",88,"No",4,"No",0,12
+"HH340","South","Female",50,"Primary or less","No",120,5,24.2,134,"No",1.2,"Lifestyle programme",,,,"Yes",2,8
+"HH341","East","Female",51,"Secondary","No",140,5,21.3,125,"No",1.3,"Lifestyle programme",118,"No",3,"No",3,12
+"HH342","East","Female",53,"Secondary","No",110,5,24.1,149,"Yes",5.3,"Standard advice",154,"Yes",3,"No",0,12
+"HH343","South","Male",31,"Primary or less","No",135,6,26.4,133,"No",4.2,"Standard advice",129,"No",4,"No",0,12
+"HH344","North","Female",54,"Tertiary","No",75,5,23.4,115,"No",2.4,"Standard advice",104,"No",4,"No",4,12
+"HH345","East","Female",35,"Primary or less","No",180,5,26.1,115,"No",3.2,"Lifestyle programme",89,"No",3,"No",2,12
+"HH346","East","Male",71,"Tertiary","No",70,6,28.7,160,"Yes",1.2,"Standard advice",159,"Yes",2,"No",3,12
+"HH347","West","Male",70,"Secondary","Yes",30,1,35.9,147,"Yes",37.9,"Lifestyle programme",137,"No",4,"No",1,12
+"HH348","East","Female",48,"Secondary","Yes",105,4,27.5,152,"Yes",2,"Standard advice",139,"No",5,"No",4,12
+"HH349","East","Male",69,"Secondary","Yes",180,5,26.5,150,"Yes",5.5,"Standard advice",159,"Yes",3,"No",9,12
+"HH350","East","Male",43,"Tertiary","No",105,4,26.9,115,"No",1.8,"Standard advice",118,"No",5,"No",3,12
+"HH351","North","Male",47,"Secondary","No",315,10,22.1,134,"No",2,"Lifestyle programme",144,"Yes",3,"Yes",3,12
+"HH352","East","Male",56,"Tertiary","No",220,7,22.9,155,"Yes",0.5,"Standard advice",161,"Yes",5,"Yes",3,12
+"HH353","West","Male",56,"Secondary","No",95,3,28.5,144,"Yes",1,"Lifestyle programme",126,"No",5,"No",3,12
+"HH354","South","Female",42,"Primary or less","No",255,5,21.7,123,"No",4.7,"Lifestyle programme",116,"No",2,"No",3,12
+"HH355","West","Male",71,"Secondary","No",100,5,30.2,153,"Yes",2.1,"Standard advice",,,,"No",3,11
+"HH356","West","Female",66,"Primary or less","Yes",215,6,29.7,143,"Yes",2,"Standard advice",144,"Yes",4,"No",6,12
+"HH357","West","Male",69,"Secondary","No",60,2,27,133,"No",2.7,"Lifestyle programme",129,"No",3,"No",6,12
+"HH358","East","Female",48,"Secondary","No",360,8,25.7,123,"No",2.7,"Standard advice",,,,"No",1,11
+"HH359","West","Male",41,"Tertiary","No",95,5,29.5,139,"No",0.6,"Standard advice",141,"Yes",3,"No",0,12
+"HH360","West","Female",70,"Primary or less","No",90,4,32.3,154,"Yes",8.3,"Lifestyle programme",144,"Yes",2,"No",2,12
+"HH361","South","Male",73,"Primary or less","No",160,6,29.2,147,"Yes",1,"Standard advice",136,"No",2,"No",6,12
+"HH362","West","Female",46,"Primary or less","No",170,9,29.5,122,"No",9.2,"Lifestyle programme",130,"No",4,"No",1,12
+"HH363","West","Male",41,"Secondary","No",200,6,21.5,125,"No",2.4,"Lifestyle programme",121,"No",3,"Yes",1,12
+"HH364","North","Male",56,"Secondary","Yes",180,5,24.5,146,"Yes",4.5,"Standard advice",128,"No",3,"No",8,12
+"HH365","South","Male",48,"Secondary","Yes",210,5,23.2,126,"No",1.3,"Standard advice",114,"No",3,"No",1,12
+"HH366","South","Female",59,"Tertiary","No",275,6,26.1,135,"No",5.7,"Standard advice",,,,"No",5,11
+"HH367","North","Female",43,"Primary or less","No",30,4,28.7,129,"No",0.8,"Standard advice",146,"Yes",3,"No",2,12
+"HH368","West","Male",47,"Secondary","No",100,5,28.4,140,"Yes",2.4,"Standard advice",141,"Yes",2,"No",1,12
+"HH369","North","Male",70,"Primary or less","No",295,7,27.4,125,"No",6.7,"Standard advice",113,"No",2,"No",8,12
+"HH370","North","Female",51,"Secondary","No",160,5,25.9,114,"No",,"Standard advice",,,,"No",0,5
+"HH371","West","Male",48,"Secondary","No",45,5,24.9,110,"No",4.6,"Lifestyle programme",116,"No",5,"No",2,12
+"HH372","North","Male",57,"Tertiary","Yes",345,5,18,118,"No",2.8,"Standard advice",106,"No",2,"No",4,12
+"HH373","South","Female",47,"Primary or less","No",205,3,28.1,137,"No",1.9,"Standard advice",136,"No",4,"No",0,12
+"HH374","North","Female",62,"Primary or less","No",100,4,30.4,124,"No",3.3,"Standard advice",,,,"No",1,4
+"HH375","East","Female",62,"Primary or less","No",35,2,34,151,"Yes",1.1,"Lifestyle programme",154,"Yes",2,"Yes",2,12
+"HH376","South","Male",41,"Tertiary","No",185,6,28.1,127,"No",2.5,"Lifestyle programme",117,"No",2,"No",0,12
+"HH377","North","Male",34,"Secondary","No",300,6,25.3,122,"No",2.4,"Standard advice",127,"No",3,"No",2,12
+"HH378","West","Female",36,"Primary or less","No",205,7,23.5,117,"No",3.6,"Lifestyle programme",105,"No",3,"No",0,12
+"HH379","West","Male",73,"Primary or less","No",380,3,22.9,131,"No",1.7,"Standard advice",130,"No",1,"No",0,12
+"HH380","West","Female",63,"Secondary","No",,4,26.5,122,"No",1.1,"Standard advice",132,"No",3,"No",1,12
+"HH381","East","Female",73,"Secondary","No",40,4,30.7,139,"No",2,"Lifestyle programme",119,"No",3,"No",2,12
+"HH382","East","Female",48,,"No",360,6,24,118,"No",1.5,"Standard advice",126,"No",2,"No",0,12
+"HH383","West","Male",49,"Secondary","No",155,6,24.8,109,"No",2.5,"Lifestyle programme",102,"No",4,"No",2,12
+"HH384","East","Male",55,"Secondary","Yes",,5,31.2,134,"No",10.2,"Standard advice",,,,"No",3,5
+"HH385","North","Female",39,"Primary or less","No",170,3,20.5,112,"No",1.8,"Lifestyle programme",102,"No",3,"No",1,12
+"HH386","East","Male",46,"Tertiary","No",235,9,22.6,115,"No",1.3,"Standard advice",121,"No",3,"No",2,12
+"HH387","North","Female",46,"Secondary","No",170,3,31.6,130,"No",1,"Lifestyle programme",111,"No",4,"No",0,12
+"HH388","South","Male",47,"Primary or less","Yes",250,5,24.2,112,"No",1.9,"Standard advice",105,"No",5,"No",7,12
+"HH389","North","Male",51,"Primary or less","No",420,7,30.8,133,"No",5.8,"Lifestyle programme",122,"No",3,"No",0,12
+"HH390","East","Male",61,"Primary or less","No",125,5,25.1,158,"Yes",1.5,"Standard advice",153,"Yes",2,"No",3,12
+"HH391","West","Male",62,"Primary or less","No",140,3,28,137,"No",3.1,"Lifestyle programme",118,"No",3,"No",10,12
+"HH392","North","Female",48,"Tertiary","No",55,6,24.9,122,"No",0.9,"Lifestyle programme",125,"No",3,"No",5,12
+"HH393","East","Male",49,"Secondary","No",220,5,26.9,118,"No",1.8,"Standard advice",120,"No",3,"No",2,12
+"HH394","West","Female",70,"Secondary","No",305,7,29.4,142,"Yes",2.3,"Standard advice",147,"Yes",3,"No",18,12
+"HH395","West","Female",45,"Tertiary","No",60,3,25.6,111,"No",4.4,"Lifestyle programme",94,"No",4,"No",1,12
+"HH396","East","Female",57,"Tertiary","No",110,4,23.8,124,"No",0.6,"Lifestyle programme",130,"No",3,"No",1,12
+"HH397","South","Male",44,"Secondary","No",315,7,24.9,112,"No",4.7,"Standard advice",,,,"No",0,6
+"HH398","North","Male",32,"Tertiary","No",465,7,21.8,129,"No",,"Lifestyle programme",117,"No",4,"No",2,12
+"HH399","North","Female",62,"Tertiary","No",20,6,32.4,138,"No",1.3,"Standard advice",135,"No",3,"No",2,12
+"HH400","West","Male",45,"Tertiary","No",595,5,30,128,"No",1.9,"Lifestyle programme",135,"No",2,"No",5,12
+"HH401","West","Male",37,"Secondary","No",135,6,25.5,116,"No",3,"Lifestyle programme",104,"No",5,"No",0,12
+"HH402","North","Female",54,"Tertiary","No",,4,21.5,116,"No",2,"Lifestyle programme",115,"No",4,"No",2,12
+"HH403","East","Female",67,"Secondary","No",310,9,25.2,125,"No",3.3,"Lifestyle programme",127,"No",4,"No",1,12
+"HH404","West","Male",35,"Tertiary","No",30,4,27.9,129,"No",0.9,"Standard advice",,,,"No",2,10
+"HH405","South","Male",69,"Primary or less","Yes",65,4,29.1,161,"Yes",0.4,"Lifestyle programme",172,"Yes",4,"No",2,12
+"HH406","North","Male",44,"Secondary","Yes",30,3,30.5,139,"No",2.7,"Standard advice",123,"No",3,"No",4,12
+"HH407","East","Female",47,"Tertiary","No",100,3,17.4,111,"No",0.7,"Lifestyle programme",84,"No",5,"No",5,12
+"HH408","East","Male",36,"Tertiary","No",300,8,27.2,113,"No",1.3,"Standard advice",98,"No",2,"No",2,12
+"HH409","South","Female",48,"Tertiary","No",265,10,25.2,100,"No",0.4,"Standard advice",92,"No",3,"No",0,12
+"HH410","East","Female",30,"Secondary","No",45,5,25.3,97,"No",2.2,"Standard advice",95,"No",4,"No",4,12
+"HH411","North","Male",63,"Primary or less","No",95,5,26.4,136,"No",5.1,"Lifestyle programme",110,"No",5,"No",1,12
+"HH412","South","Male",66,"Tertiary","No",20,5,32.9,161,"Yes",4.5,"Lifestyle programme",156,"Yes",4,"No",8,12
+"HH413","North","Female",30,"Primary or less","No",65,5,23.2,102,"No",0.3,"Lifestyle programme",99,"No",4,"No",8,12
+"HH414","West","Male",31,"Secondary","No",435,7,31.8,130,"No",1.1,"Standard advice",138,"No",4,"No",1,12
+"HH415","North","Female",39,"Tertiary","No",170,8,24.5,114,"No",2.9,"Standard advice",112,"No",5,"No",3,12
+"HH416","South","Female",36,"Tertiary","No",260,6,25.7,92,"No",2.4,"Standard advice",93,"No",5,"No",3,12
+"HH417","South","Female",47,"Tertiary","No",35,3,24.2,115,"No",,"Lifestyle programme",117,"No",3,"No",4,12
+"HH418","North","Female",38,"Secondary","No",120,6,28.7,107,"No",1.8,"Standard advice",113,"No",2,"No",4,12
+"HH419","West","Female",36,"Tertiary","No",150,6,22.1,110,"No",3.1,"Lifestyle programme",102,"No",4,"No",4,12
+"HH420","South","Female",46,"Tertiary","No",405,8,30.1,128,"No",2.6,"Lifestyle programme",125,"No",2,"No",3,12
+"HH421","West","Male",57,"Tertiary","No",490,8,18.4,116,"No",0.7,"Standard advice",117,"No",4,"No",3,12
+"HH422","North","Female",49,"Tertiary","No",280,6,28.5,121,"No",0.1,"Lifestyle programme",123,"No",3,"No",2,12
+"HH423","West","Female",36,"Primary or less","No",445,6,19.4,90,"No",0.9,"Standard advice",77,"No",2,"No",2,12
+"HH424","North","Female",57,"Secondary","No",95,5,22.9,126,"No",2.1,"Standard advice",122,"No",1,"No",0,12
+"HH425","South","Male",47,"Tertiary","Yes",65,2,31.3,142,"Yes",2.4,"Standard advice",146,"Yes",3,"No",1,12
+"HH426","South","Male",71,"Secondary","Yes",95,5,35.2,166,"Yes",17.4,"Standard advice",166,"Yes",5,"No",0,12
+"HH427","North","Male",57,"Primary or less","No",180,7,24.9,116,"No",8.5,"Lifestyle programme",,,,"No",0,4
+"HH428","West","Female",43,"Secondary","No",80,6,23.4,99,"No",,"Lifestyle programme",88,"No",3,"No",1,12
+"HH429","West","Female",61,"Secondary","No",45,4,31,155,"Yes",4.6,"Standard advice",152,"Yes",2,"No",10,12
+"HH430","North","Female",33,"Secondary","No",190,6,23.5,113,"No",0.6,"Standard advice",104,"No",4,"No",0,12
+"HH431","West","Male",48,"Secondary","Yes",350,6,22.2,113,"No",0.5,"Standard advice",117,"No",2,"No",1,12
+"HH432","South","Male",59,"Secondary","No",170,5,24.7,143,"Yes",4.7,"Standard advice",,,,"No",2,7
+"HH433","South","Male",49,"Secondary","No",165,7,26.6,118,"No",1.1,"Standard advice",110,"No",3,"No",1,12
+"HH434","West","Male",53,,"Yes",325,9,24.4,107,"No",2.3,"Standard advice",119,"No",3,"No",2,12
+"HH435","West","Female",52,"Secondary","No",205,6,30,118,"No",6.9,"Lifestyle programme",,,,"No",0,11
+"HH436","East","Female",60,"Tertiary","No",390,3,26.8,120,"No",1.5,"Standard advice",133,"No",5,"No",2,12
+"HH437","North","Male",32,"Tertiary","No",200,8,31.2,135,"No",3.7,"Lifestyle programme",123,"No",5,"No",0,12
+"HH438","North","Female",48,"Primary or less","No",65,4,30,117,"No",0.6,"Standard advice",124,"No",1,"No",5,12
+"HH439","South","Female",66,"Secondary","No",60,6,23.8,127,"No",0.8,"Standard advice",140,"Yes",4,"No",8,12
+"HH440","West","Female",71,"Secondary","No",325,6,26.1,141,"Yes",,"Lifestyle programme",124,"No",5,"No",8,12
+"HH441","South","Male",66,"Tertiary","No",305,8,23.3,126,"No",0.9,"Lifestyle programme",120,"No",4,"No",1,12
+"HH442","West","Female",62,"Secondary","No",240,9,23,137,"No",3.1,"Standard advice",138,"No",2,"No",3,12
+"HH443","East","Female",39,"Primary or less","No",235,7,24.1,129,"No",1.2,"Lifestyle programme",125,"No",4,"No",2,12
+"HH444","West","Female",34,"Secondary","No",515,8,18.8,105,"No",1.3,"Lifestyle programme",103,"No",1,"Yes",0,12
+"HH445","East","Female",65,"Tertiary","No",40,6,33.8,149,"Yes",10.6,"Lifestyle programme",134,"No",1,"Yes",9,12
+"HH446","North","Male",69,"Secondary","No",50,3,,156,"Yes",1.6,"Lifestyle programme",153,"Yes",4,"Yes",2,12
+"HH447","South","Female",44,"Tertiary","No",50,4,25.9,120,"No",3.4,"Standard advice",110,"No",2,"No",6,12
+"HH448","North","Male",47,"Tertiary","No",25,3,33.8,127,"No",0.7,"Lifestyle programme",111,"No",3,"No",5,12
+"HH449","East","Male",46,"Secondary","No",65,6,22.3,143,"Yes",2.7,"Standard advice",138,"No",4,"No",2,12
+"HH450","East","Female",65,"Tertiary","No",20,2,31.1,115,"No",3.7,"Standard advice",109,"No",4,"No",3,12
+"HH451","North","Female",46,"Primary or less","Yes",205,8,22.4,137,"No",1.1,"Standard advice",137,"No",4,"No",3,12
+"HH452","South","Male",45,"Tertiary","No",580,8,25.7,115,"No",0.9,"Standard advice",111,"No",5,"No",1,12
+"HH453","East","Female",39,"Secondary","No",45,2,32.1,142,"Yes",10.2,"Lifestyle programme",129,"No",3,"No",0,12
+"HH454","South","Male",65,"Secondary","Yes",50,5,30.4,140,"Yes",2.6,"Lifestyle programme",130,"No",4,"No",3,12
+"HH455","East","Female",69,"Primary or less","No",315,7,23.3,120,"No",1.7,"Lifestyle programme",106,"No",3,"No",4,12
+"HH456","South","Female",43,"Secondary","No",160,2,29.5,126,"No",2.1,"Standard advice",122,"No",3,"No",7,12
+"HH457","East","Female",68,"Primary or less","No",65,3,28.8,141,"Yes",1.3,"Lifestyle programme",151,"Yes",3,"No",6,12
+"HH458","East","Female",48,"Secondary","No",20,5,35.7,140,"Yes",8.9,"Standard advice",132,"No",4,"No",5,12
+"HH459","West","Female",55,"Secondary","No",55,2,30.8,128,"No",1.4,"Lifestyle programme",123,"No",4,"No",2,12
+"HH460","North","Male",36,"Tertiary","No",330,6,24.1,126,"No",1.6,"Standard advice",127,"No",3,"No",0,12
+"HH461","West","Female",65,"Secondary","No",40,1,26.1,157,"Yes",0.7,"Standard advice",159,"Yes",4,"No",2,12
+"HH462","East","Male",54,"Primary or less","No",60,3,,131,"No",0.9,"Standard advice",120,"No",4,"No",1,12
+"HH463","North","Male",50,"Secondary","No",310,6,22.8,133,"No",1.1,"Lifestyle programme",126,"No",4,"No",3,12
+"HH464","East","Male",65,"Secondary","No",105,4,23.6,152,"Yes",1.9,"Lifestyle programme",145,"Yes",4,"No",1,12
+"HH465","North","Female",57,"Tertiary","No",55,5,26.9,130,"No",2,"Lifestyle programme",130,"No",3,"No",3,12
+"HH466","North","Female",42,"Secondary","No",310,9,,117,"No",0.8,"Lifestyle programme",112,"No",4,"No",1,12
+"HH467","North","Male",44,"Secondary","No",205,6,25.2,104,"No",11.2,"Standard advice",80,"No",4,"No",2,12
+"HH468","West","Male",67,"Tertiary","No",120,7,22.9,118,"No",0.2,"Standard advice",120,"No",2,"No",3,12
+"HH469","East","Female",44,"Secondary","No",420,8,25.3,126,"No",2.4,"Lifestyle programme",113,"No",4,"No",2,12
+"HH470","North","Female",46,"Primary or less","No",210,7,26.2,122,"No",3.3,"Standard advice",102,"No",3,"No",0,12
+"HH471","East","Male",41,"Tertiary","No",245,7,26.7,123,"No",0.5,"Lifestyle programme",105,"No",4,"No",6,12
+"HH472","West","Female",43,"Primary or less","No",105,4,20.5,117,"No",1.6,"Standard advice",114,"No",4,"No",1,12
+"HH473","South","Female",67,"Tertiary","No",245,3,26.7,159,"Yes",2,"Lifestyle programme",141,"Yes",5,"No",6,12
+"HH474","South","Female",55,"Secondary","No",45,4,31.6,124,"No",17,"Standard advice",114,"No",3,"No",4,12
+"HH475","East","Female",52,"Secondary","Yes",50,4,26,135,"No",5.6,"Standard advice",136,"No",3,"No",6,12
+"HH476","North","Male",50,"Primary or less","No",60,2,29.7,121,"No",1.6,"Lifestyle programme",116,"No",4,"No",4,12
+"HH477","West","Male",56,"Tertiary","No",140,7,25.5,145,"Yes",0.6,"Lifestyle programme",135,"No",1,"No",2,12
+"HH478","North","Male",51,"Primary or less","No",200,4,24,137,"No",2.2,"Lifestyle programme",146,"Yes",5,"No",1,12
+"HH479","North","Female",42,"Primary or less","No",155,6,23.5,106,"No",0.9,"Standard advice",109,"No",2,"No",0,12
+"HH480","East","Female",61,"Secondary","No",105,3,21.9,121,"No",2,"Lifestyle programme",121,"No",3,"No",2,12

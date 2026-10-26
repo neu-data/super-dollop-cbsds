@@ -1,0 +1,45 @@
+# Course data in data/ are simulated teaching data and ARE committed.
+# Never add real personal or patient-level data to this repository.
+
+# ---- Secrets ----
+.env
+.Renviron
+*.pem
+*.key
+credentials*
+
+# ---- R ----
+.Rproj.user/
+.Rhistory
+.RData
+.RDataTmp
+Rplots.pdf
+/outputs/
+data/my_*.rds
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+.ruff_cache/
+
+# ---- Build intermediates ----
+build/page_images/
+*.aux
+*.log
+!instructor/outputs/*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# ---- Office lock files ----
+~$*
+
+# ---- OS / editors ----
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

@@ -1,0 +1,63 @@
+\input{diagram_style}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[title] at (0,2.2) {D2. Comparing a continuous or ordinal outcome between groups};
+\node[subtitle] at (0,1.5) {Report the size of the difference with a 95\% CI. The test is only one part of the answer.};
+
+\node[q=11cm, anchor=north] (root) at (12.6,0.6) {\textbf{Continuous or ordinal outcome compared between groups}\\\footnotesize e.g.\ SBP, CRP or satisfaction by sex, smoking, district or time};
+\node[q=7cm, below=6mm of root] (design) {\textbf{Are the observations independent or paired?}};
+\draw[flow] (root) -- (design);
+
+% ---- independent branch
+\node[q=6cm, anchor=north] (ngroups) at ($(design.south)+(-4.3,-1.0)$) {\textbf{Independent groups: how many?}};
+\draw[flow] (design.south) -- ++(0,-0.45) -| node[lab, pos=0.25] {independent} (ngroups.north);
+
+\node[opt=4cm, anchor=north] (two) at ($(ngroups.south)+(-4.3,-0.9)$) {\textbf{Two groups}};
+\node[opt=4cm, anchor=north] (three) at ($(ngroups.south)+(4.3,-0.9)$) {\textbf{Three or more groups}};
+\draw[flow] (ngroups.south) -- ++(0,-0.4) -| (two.north);
+\draw[flow] (ngroups.south) -- ++(0,-0.4) -| (three.north);
+
+\node[m=7.6cm, below=6mm of two] (welch) {\textbf{Welch t-test} (sensible default)\\
+Report: difference in means, 95\% CI\\
+\rc{t.test(sbp\_0 \textasciitilde{} sex, data = hearts)}\\
+Student's t-test (\rc{var.equal = TRUE}) only if equal spread is justified.};
+\node[m=7.6cm, below=4mm of welch] (logt) {\textbf{Skewed, positive outcome: t-test on the log scale}\\
+Report: ratio of geometric means, 95\% CI\\
+\rc{t.test(log(crp) \textasciitilde{} smoker, data = hearts)}};
+\node[m=7.6cm, below=4mm of logt] (wrs) {\textbf{Wilcoxon rank-sum} (Mann-Whitney)\\
+For ordinal outcomes, or when ranks suit the question. Asks whether values in one group tend to be higher.\\
+\rc{wilcox.test(crp \textasciitilde{} smoker, data = hearts, conf.int = TRUE)}\\
+Estimate: Hodges-Lehmann shift, not a difference in medians.};
+
+\node[m=7.6cm, below=6mm of three] (anova) {\textbf{Welch ANOVA} (default) \textbf{or classical ANOVA}\\
+Report: group means with 95\% CIs\\
+\rc{oneway.test(sbp\_0 \textasciitilde{} district, data = hearts)}\\
+\rc{fit\_aov <- aov(sbp\_0 \textasciitilde{} district, data = hearts)}};
+\node[m=7.6cm, below=4mm of anova] (kw) {\textbf{Kruskal-Wallis test}\\
+Rank-based; ordinal outcomes or when ranks suit the question\\
+\rc{kruskal.test(crp \textasciitilde{} district, data = hearts)}};
+\node[warn=7.6cm, below=8mm of kw] (post) {\textbf{An overall test does not say which groups differ.}\\
+If needed, compare pairs and adjust for multiple comparisons:\\
+\rc{pairwise.t.test(..., pool.sd = FALSE,}\\
+\rc{\ \ p.adjust.method = "holm")}\quad or \quad\rc{TukeyHSD(fit\_aov)}};
+\draw[flow] (kw.south) -- (post.north);
+
+% ---- paired branch
+\node[q=6.6cm, anchor=north] (paired) at ($(design.south)+(8.7,-1.0)$) {\textbf{Paired: analyse the within-pair differences}\\\footnotesize same people measured twice, or matched pairs};
+\draw[flow] (design.south) -- ++(0,-0.45) -| node[lab, pos=0.25] {paired} (paired.north);
+\node[m=6.6cm, below=6mm of paired] (pt) {\textbf{Paired t-test}\\
+Report: mean difference, 95\% CI\\
+\rc{t.test(prog\$sbp\_12, prog\$sbp\_0,}\\\rc{\ \ \ \ \ \ \ paired = TRUE)}};
+\node[m=6.6cm, below=4mm of pt] (sr) {\textbf{Wilcoxon signed-rank test}\\
+Rank-based alternative for the differences\\
+\rc{wilcox.test(..., paired = TRUE)}};
+\node[warn=6.6cm, below=4mm of sr] (wrong) {\textbf{Do not use an independent-groups test on paired data.} It ignores that each person is compared with themselves (wider, wrong CI).};
+\node[further=6.6cm, below=4mm of wrong] (rep) {Three or more time points per person: see \dref{D6} (repeated measures).};
+
+% ---- assumptions box
+\node[warn=25.3cm, anchor=north west] at ($(wrs.south -| 0.2,0)+(0,-0.7)$) {\textbf{Assumptions and choices.}
+t-tests and ANOVA assume independent observations (from the design) and approximately normal sample means. In large groups this holds even with moderate skew; with small groups, strong skew or outliers matter more. Check residual plots.
+Rank-based tests are not assumption-free: they also need independent observations, and they are not in general tests of medians.
+Do not choose a test from sample size alone or from a normality-test p-value: look at the data and decide which summary answers your question.};
+\end{tikzpicture}
+\end{document}

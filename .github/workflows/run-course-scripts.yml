@@ -1,0 +1,30 @@
+# Neudata · checks that every course script still runs from a clean R installation
+name: Run course scripts
+
+on:
+  push:
+    branches: [main]
+    paths: ["R/**", "data/**", "instructor/solutions.R", ".github/workflows/run-course-scripts.yml"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - name: Install course packages and run the pre-course check
+        run: Rscript R/00_install_and_check.R
+      - name: Run scripts in teaching order
+        run: |
+          for f in R/0[1-8]_*.R instructor/solutions.R; do
+            echo "::group::$f"
+            Rscript -e "source('$f', echo = FALSE)"
+            echo "::endgroup::"
+          done

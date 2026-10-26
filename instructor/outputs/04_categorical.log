@@ -1,0 +1,292 @@
+
+> library(dplyr)
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+> library(ggplot2)
+
+> source("R/theme_neudata.R")
+
+> hearts <- readRDS("data/hearts.rds")
+
+> two_by_two <- function(exposure, outcome) {
++     tab <- table(exposure, outcome)
++     a <- tab[2, 2]
++     b <- tab[2, 1]
++     c <- tab[1, 2]
++     d <- tab[1, 1]
++     p1 <- a/(a + b)
++     p0 <- c/(c + d)
++     rr <- p1/p0
++     se_log_rr <- sqrt(1/a - 1/(a + b) + 1/c - 1/(c + d))
++     or <- (a * d)/(b * c)
++     se_log_or <- sqrt(1/a + 1/b + 1/c + 1/d)
++     print(addmargins(tab))
++     cat(sprintf("\nProportion with outcome, exposed:   %d / %d = %.3f", 
++         a, a + b, p1))
++     cat(sprintf("\nProportion with outcome, unexposed: %d / %d = %.3f", 
++         c, c + d, p0))
++     cat(sprintf("\nDifference in proportions: %.3f", p1 - p0))
++     cat(sprintf("\nOdds, exposed:   %d / %d = %.3f", a, b, a/b))
++     cat(sprintf("\nOdds, unexposed: %d / %d = %.3f", c, d, c/d))
++     cat(sprintf("\nRatio of proportions (RR or PR): %.2f (95%% CI %.2f to %.2f)", 
++         rr, exp(log(rr) - 1.96 * se_log_rr), exp(log(rr) + 1.96 * 
++             se_log_rr)))
++     cat(sprintf("\nOdds ratio (OR):                 %.2f (95%% CI %.2f to %.2f)\n", 
++         or, exp(log(or) - 1.96 * se_log_or), exp(log(or) + 1.96 * 
++             se_log_or)))
++     invisible(tab)
++ }
+
+> tab_smk <- table(hearts$smoker, hearts$high_bp_0, 
++     dnn = c("Smoker", "High BP (SBP >= 140)"))
+
+> tab_smk
+      High BP (SBP >= 140)
+Smoker  No Yes
+   No  315  86
+   Yes  41  38
+
+> addmargins(tab_smk)
+      High BP (SBP >= 140)
+Smoker  No Yes Sum
+   No  315  86 401
+   Yes  41  38  79
+   Sum 356 124 480
+
+> round(prop.table(tab_smk, margin = 1), 3)
+      High BP (SBP >= 140)
+Smoker    No   Yes
+   No  0.786 0.214
+   Yes 0.519 0.481
+
+> round(prop.table(tab_smk, margin = 2), 3)
+      High BP (SBP >= 140)
+Smoker    No   Yes
+   No  0.885 0.694
+   Yes 0.115 0.306
+
+> two_by_two(hearts$smoker, hearts$high_bp_0)
+        outcome
+exposure  No Yes Sum
+     No  315  86 401
+     Yes  41  38  79
+     Sum 356 124 480
+
+Proportion with outcome, exposed:   38 / 79 = 0.481
+Proportion with outcome, unexposed: 86 / 401 = 0.214
+Difference in proportions: 0.267
+Odds, exposed:   38 / 41 = 0.927
+Odds, unexposed: 86 / 315 = 0.273
+Ratio of proportions (RR or PR): 2.24 (95% CI 1.67 to 3.02)
+Odds ratio (OR):                 3.39 (95% CI 2.06 to 5.61)
+
+> ggplot(filter(mutate(group_by(count(hearts, smoker, 
++     high_bp_0), smoker), prop = n/sum(n)), high_bp_0 == "Yes"), 
++     aes(x = smoker, y = prop)) + geom_col(fill = neudata_cols[["teal"]], 
++     width = 0.5) + scale_y_continuous(labels = scales::percent, 
++     limits = c(0, 0.5)) + labs(x = "Smoker", y = "Proportion with high BP", 
++     title = "Prevalence of high BP by smoking status")
+
+> chisq.test(tab_smk)
+
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  tab_smk
+X-squared = 23.102, df = 1, p-value = 1.536e-06
+
+
+> chisq.test(tab_smk)$expected
+      High BP (SBP >= 140)
+Smoker        No       Yes
+   No  297.40833 103.59167
+   Yes  58.59167  20.40833
+
+> tab_ae <- table(hearts$programme, hearts$adverse_event, 
++     dnn = c("Group", "Adverse event"))
+
+> addmargins(tab_ae)
+                     Adverse event
+Group                  No Yes Sum
+  Standard advice     237   3 240
+  Lifestyle programme 226  14 240
+  Sum                 463  17 480
+
+> chisq.test(tab_ae)$expected
+                     Adverse event
+Group                    No Yes
+  Standard advice     231.5 8.5
+  Lifestyle programme 231.5 8.5
+
+> fisher.test(tab_ae)
+
+	Fisher's Exact Test for Count Data
+
+data:  tab_ae
+p-value = 0.01125
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+  1.337106 26.831063
+sample estimates:
+odds ratio 
+  4.879526 
+
+
+> two_by_two(hearts$programme, hearts$adverse_event)
+                     outcome
+exposure               No Yes Sum
+  Standard advice     237   3 240
+  Lifestyle programme 226  14 240
+  Sum                 463  17 480
+
+Proportion with outcome, exposed:   14 / 240 = 0.058
+Proportion with outcome, unexposed: 3 / 240 = 0.012
+Difference in proportions: 0.046
+Odds, exposed:   14 / 226 = 0.062
+Odds, unexposed: 3 / 237 = 0.013
+Ratio of proportions (RR or PR): 4.67 (95% CI 1.36 to 16.03)
+Odds ratio (OR):                 4.89 (95% CI 1.39 to 17.26)
+
+> older <- filter(hearts, age >= 65)
+
+> tab_ae_older <- table(older$programme, older$adverse_event)
+
+> addmargins(tab_ae_older)
+                     
+                      No Yes Sum
+  Standard advice     36   1  37
+  Lifestyle programme 50   4  54
+  Sum                 86   5  91
+
+> chisq.test(tab_ae_older)$expected
+                     
+                            No      Yes
+  Standard advice     34.96703 2.032967
+  Lifestyle programme 51.03297 2.967033
+
+> fisher.test(tab_ae_older)
+
+	Fisher's Exact Test for Count Data
+
+data:  tab_ae_older
+p-value = 0.6448
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+   0.2673458 145.6012101
+sample estimates:
+odds ratio 
+  2.851165 
+
+
+> tab_edu <- table(hearts$education, hearts$smoker, 
++     dnn = c("Education", "Smoker"))
+
+> addmargins(tab_edu)
+                 Smoker
+Education          No Yes Sum
+  Primary or less  98  19 117
+  Secondary       174  49 223
+  Tertiary        124  10 134
+  Sum             396  78 474
+
+> round(prop.table(tab_edu, margin = 1), 3)
+                 Smoker
+Education            No   Yes
+  Primary or less 0.838 0.162
+  Secondary       0.780 0.220
+  Tertiary        0.925 0.075
+
+> chisq.test(tab_edu)
+
+	Pearson's Chi-squared test
+
+data:  tab_edu
+X-squared = 12.825, df = 2, p-value = 0.001641
+
+
+> round(prop.table(table(hearts$sex, hearts$smoker), 
++     1), 3)
+        
+            No   Yes
+  Female 0.887 0.113
+  Male   0.780 0.220
+
+> for (s in levels(hearts$sex)) {
++     cat("\n=====", s, "=====\n")
++     with(filter(hearts, sex == s), two_by_two(smoker, high_bp_0))
++ }
+
+===== Female =====
+        outcome
+exposure  No Yes Sum
+     No  183  37 220
+     Yes  18  10  28
+     Sum 201  47 248
+
+Proportion with outcome, exposed:   10 / 28 = 0.357
+Proportion with outcome, unexposed: 37 / 220 = 0.168
+Difference in proportions: 0.189
+Odds, exposed:   10 / 18 = 0.556
+Odds, unexposed: 37 / 183 = 0.202
+Ratio of proportions (RR or PR): 2.12 (95% CI 1.19 to 3.78)
+Odds ratio (OR):                 2.75 (95% CI 1.17 to 6.43)
+
+===== Male =====
+        outcome
+exposure  No Yes Sum
+     No  132  49 181
+     Yes  23  28  51
+     Sum 155  77 232
+
+Proportion with outcome, exposed:   28 / 51 = 0.549
+Proportion with outcome, unexposed: 49 / 181 = 0.271
+Difference in proportions: 0.278
+Odds, exposed:   28 / 23 = 1.217
+Odds, unexposed: 49 / 132 = 0.371
+Ratio of proportions (RR or PR): 2.03 (95% CI 1.44 to 2.86)
+Odds ratio (OR):                 3.28 (95% CI 1.73 to 6.23)
+
+> mantelhaen.test(table(hearts$smoker, hearts$high_bp_0, 
++     hearts$sex))
+
+	Mantel-Haenszel chi-squared test with continuity correction
+
+data:  table(hearts$smoker, hearts$high_bp_0, hearts$sex)
+Mantel-Haenszel X-squared = 18.364, df = 1, p-value = 1.824e-05
+alternative hypothesis: true common odds ratio is not equal to 1
+95 percent confidence interval:
+ 1.853214 5.152825
+sample estimates:
+common odds ratio 
+         3.090192 
+
+
+> prog <- filter(hearts, programme == "Lifestyle programme", 
++     !is.na(high_bp_12))
+
+> tab_paired <- table(Baseline = prog$high_bp_0, Month12 = prog$high_bp_12)
+
+> tab_paired
+        Month12
+Baseline  No Yes
+     No  161   6
+     Yes  28  29
+
+> mcnemar.test(tab_paired)
+
+	McNemar's Chi-squared test with continuity correction
+
+data:  tab_paired
+McNemar's chi-squared = 12.971, df = 1, p-value = 0.0003164
+
+Warning message:
+In chisq.test(tab_ae_older) : Chi-squared approximation may be incorrect

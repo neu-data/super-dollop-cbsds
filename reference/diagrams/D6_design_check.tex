@@ -1,0 +1,37 @@
+\input{diagram_style}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[title] at (0,2.2) {D6. Design check: are basic independent-observation methods appropriate?};
+\node[subtitle] at (0,1.5) {The t-tests, chi-square tests and regression models in this course assume each observation is independent of the others.};
+
+\node[q=12cm, anchor=north] (root) at (16.3,0.6) {\textbf{Is each unit measured once, and are the units unrelated to each other?}\\\footnotesize ``Unit'' is usually a person, but could be an eye, a tooth, a visit or a household};
+\node[m=7cm, anchor=north west] (yes) at (0,0.6) {\textbf{Yes: independent observations}\\
+The methods in \dref{D2} to \dref{D4} apply, provided their other assumptions hold.};
+\draw[flow] (root.west) -- node[lab] {yes} (root.west -| yes.east);
+\node[q=7cm, anchor=north] (no) at (16.3,-1.5) {\textbf{No: which structure do the data have?}};
+\draw[flow] (root.south -| no.north) -- node[lab] {no} (no.north);
+
+\def\cw{5.9cm}
+\foreach \i/\n/\t/\d in {
+  0/pa/Paired/{Two measurements per person (before and after), or matched pairs (case and matched control)},
+  1/re/Repeated/{Three or more measurements per person over time, e.g.\ SBP at 0, 3, 6 and 12 months},
+  2/cl/Clustered/{People grouped within clinics, districts, households or schools; people in the same cluster tend to be alike},
+  3/te/Time-to-event/{Time until an event, with some people not yet having the event when follow-up ends (censored)}}{
+  \node[opt=\cw, anchor=north, minimum height=2.3cm] (\n) at (3.05+\i*6.6,-3.4) {\textbf{\t}\\[2pt]{\footnotesize\d}};
+}
+\foreach \n in {pa,re,cl,te}{ \draw[flow] (no.south) -- ++(0,-0.4) -| (\n.north); }
+
+\node[m=\cw, below=5mm of pa] (pa1) {\textbf{Covered in this course}\\
+Continuous: paired t-test, Wilcoxon signed-rank (\dref{D2})\\
+Binary: McNemar's test (\dref{D3})\\
+Analyse the within-pair differences.};
+\node[warn=\cw, below=5mm of re] (re1) {\textbf{Do not} run a separate test at each time point, or treat the measurements as independent people.};
+\node[further=\cw, below=4mm of re1] (re2) {Simple summary measures per person (change, slope, average) analysed with basic methods; or mixed-effects models or GEE.};
+\node[warn=\cw, below=5mm of cl] (cl1) {Ignoring clustering makes standard errors too small, so CIs are too narrow and p-values too small.};
+\node[further=\cw, below=4mm of cl1] (cl2) {Mixed-effects (multilevel) models, GEE, or cluster-robust standard errors. Analyse cluster summaries if there are few clusters.};
+\node[warn=\cw, below=5mm of te] (te1) {Do not drop censored people or analyse ``event yes/no'' when follow-up time differs.};
+\node[further=\cw, below=4mm of te1] (te2) {Survival analysis: Kaplan-Meier curves, log-rank test, Cox proportional hazards regression (hazard ratio).};
+
+\node[note=25.5cm, anchor=north west, text=cgrey] at (0,-10.6) {Solid teal box: methods practised in the course. Orange-brown: common mistakes. Dashed grey: further learning beyond this course. A count over different follow-up times is handled in the course with a Poisson offset (\dref{D4}).};
+\end{tikzpicture}
+\end{document}

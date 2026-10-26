@@ -1,0 +1,20 @@
+variable,description,type,units_or_coding,missing_values,notes
+id,Participant identifier,Identifier,HH001 to HH480,0,One row per participant
+district,District of residence,Nominal (4 categories),North; South; East; West,0,Reference level North
+sex,Sex,Binary,Female; Male,0,Reference level Female
+age,Age at baseline,Continuous,Years (30 to 74),0,Rescaled as age10 = age / 10 in Day 2 scripts
+education,Highest education level,Ordinal (3 categories),Primary or less; Secondary; Tertiary,6,Blank in raw file
+smoker,Current smoker at baseline,Binary,No; Yes,0,
+activity_min,Moderate physical activity,Continuous (right-skewed),Minutes per week,7,Coded -99 in hearts_raw.csv; activity_hr = activity_min / 60 in scripts
+diet_score,Healthy eating score,Discrete score (treated as continuous),0 (least healthy) to 10 (most healthy),0,
+bmi,Body mass index at baseline,Continuous,kg/m2,10,
+sbp_0,Systolic blood pressure at baseline,Continuous,mmHg,0,
+high_bp_0,High blood pressure at baseline,Binary,Yes if sbp_0 >= 140 mmHg; otherwise No,0,Derived from sbp_0 (cross-sectional)
+crp,C-reactive protein at baseline,Continuous (right-skewed),mg/L,14,Analyse on log scale or with rank-based methods
+programme,Randomised group,Binary,Standard advice; Lifestyle programme,0,Allocated 1:1 at random; reference level Standard advice
+sbp_12,Systolic blood pressure at 12 months,Continuous,mmHg,41,Missing for participants who left the study early
+high_bp_12,High blood pressure at 12 months,Binary,Yes if sbp_12 >= 140 mmHg; otherwise No,41,Paired with high_bp_0
+satisfaction,Satisfaction with care at 12 months,Ordinal (5 levels),1 = very dissatisfied to 5 = very satisfied,41,Stored as numbers but ordinal
+adverse_event,Minor injury reported during follow-up,Binary,No; Yes,0,Rare outcome (17 events)
+clinic_visits,Unplanned clinic visits during follow-up,Count,Number of visits,0,Overdispersed relative to Poisson
+followup_months,Months of follow-up,Continuous (exposure time),Months (2 to 12),0,12 unless the participant left early; use log(followup_months) as an offset
